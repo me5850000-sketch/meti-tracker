@@ -560,15 +560,21 @@ function renderAC(q){
     var li=document.createElement("li"),sp=document.createElement("span"),dl=document.createElement("button");
     sp.textContent=name;dl.className="delbtn";dl.type="button";dl.textContent="✕";
     li.appendChild(sp);li.appendChild(dl);
-    sp.addEventListener("mousedown",function(e){e.preventDefault();labIn.value=name;acL.classList.remove("open");});
-    dl.addEventListener("mousedown",function(e){e.preventDefault();e.stopPropagation();delN(name);renderAC(labIn.value);});
+    function selectName(e){e.preventDefault();e.stopPropagation();labIn.value=name;acL.classList.remove("open");}
+    sp.addEventListener("mousedown",selectName);
+    sp.addEventListener("touchstart",selectName,{passive:false});
+    sp.addEventListener("click",selectName);
+    function deleteName(e){e.preventDefault();e.stopPropagation();delN(name);renderAC(labIn.value);}
+    dl.addEventListener("mousedown",deleteName);
+    dl.addEventListener("touchstart",deleteName,{passive:false});
+    dl.addEventListener("click",deleteName);
     acL.appendChild(li);
   });
   acL.classList.add("open");
 }
 labIn.addEventListener("input",function(){renderAC(this.value);});
 labIn.addEventListener("focus",function(){renderAC(this.value);});
-labIn.addEventListener("blur",function(){setTimeout(function(){acL.classList.remove("open");},160);});
+labIn.addEventListener("blur",function(){setTimeout(function(){acL.classList.remove("open");},200);});
 
 // Action toggle
 function setAction(val){
