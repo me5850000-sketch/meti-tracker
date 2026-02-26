@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>METI Task Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#020812; --surface:rgba(5,15,45,0.88); --border:rgba(0,180,255,0.22);
+  --bf:rgba(0,160,255,0.7); --blue1:#1aa3ff; --blue2:#00ddff;
+  --text:#d6eaff; --muted:#4a7aaa; --error:#ff4d6d; --success:#00e5a0;
+  --ibg:rgba(4,14,38,0.85); --orange:#ff8c00; --obg:rgba(255,140,0,0.18);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Exo 2',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;overflow-x:hidden}
+#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+.bgtext{position:fixed;inset:0;z-index:1;pointer-events:none;display:flex;align-items:center;justify-content:center}
+.bgtext span{font-family:'Orbitron',sans-serif;font-size:clamp(120px,22vw,280px);font-weight:900;color:transparent;-webkit-text-stroke:1px rgba(0,144,255,0.07);user-select:none}
+.page{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;padding:0 20px 60px}
+header{width:100%;max-width:900px;margin-bottom:36px}
+.logo-banner{background:linear-gradient(135deg,#020c1e,#041530,#061a3a,#030e22);border-radius:12px 12px 0 0;padding:28px 36px;display:flex;align-items:center;gap:22px;position:relative;overflow:hidden;border:1px solid rgba(0,160,255,0.15);border-bottom:none;box-shadow:0 8px 40px rgba(0,160,255,0.2)}
+.logo-banner::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(0,160,255,0.15) 1px,transparent 1px);background-size:30px 30px;opacity:0.4}
+.logo-text{position:relative;z-index:2;display:flex;flex-direction:column;gap:2px}
+.logo-meti{font-family:'Orbitron',sans-serif;font-size:2.6rem;font-weight:900;letter-spacing:6px;line-height:1;background:linear-gradient(180deg,#fff 40%,#a0d4ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 14px rgba(80,180,255,0.5))}
+.logo-sub{font-size:.62rem;font-weight:500;letter-spacing:4px;color:rgba(180,220,255,.55);text-transform:uppercase;margin-top:4px}
+.logo-q{display:flex;align-items:center;gap:10px;margin-top:8px}
+.logo-qbar{width:28px;height:1px;background:linear-gradient(90deg,rgba(0,200,255,.8),transparent)}
+.logo-qtxt{font-size:.72rem;font-weight:600;letter-spacing:3px;color:rgba(0,210,255,.75);text-transform:uppercase}
+.form-title{font-family:'Orbitron',sans-serif;font-size:1rem;letter-spacing:6px;color:rgba(0,220,255,.75);text-transform:uppercase;text-align:center;padding:18px 0;border:1px solid rgba(0,160,255,.15);border-top:none;border-radius:0 0 12px 12px;background:linear-gradient(135deg,#020c1e,#041530)}
+.card{width:100%;max-width:900px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:36px 40px 42px;backdrop-filter:blur(18px);box-shadow:0 0 80px rgba(0,130,255,.18),0 20px 80px rgba(0,0,0,.65),inset 0 1px 0 rgba(0,200,255,.08);animation:slideUp .5s ease both}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
+.slabel{font-size:.68rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#1aa3ff;border-left:2px solid #00ddff;padding-left:10px;margin:28px 0 18px;text-shadow:0 0 12px rgba(0,200,255,.5)}
+.slabel:first-child{margin-top:0}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;align-items:start}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:18px;align-items:start}
+.full{margin-bottom:18px}
+.field label{display:block;font-size:.78rem;font-weight:600;letter-spacing:.5px;color:var(--text);margin-bottom:7px}
+.field label .req{color:var(--error);margin-left:3px}
+.field label .sub{display:block;font-size:.7rem;font-weight:400;color:var(--blue1);margin-top:1px}
+input,select,textarea{width:100%;background:var(--ibg);border:1px solid var(--border);border-radius:8px;padding:11px 14px;color:var(--text);font-family:'Exo 2',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s,box-shadow .2s,color .2s;appearance:none;-webkit-appearance:none}
+input::placeholder,textarea::placeholder{color:var(--muted)}
+input:focus,select:focus,textarea:focus{border-color:var(--bf);box-shadow:0 0 0 3px rgba(0,144,255,.12)}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+input[type=number]{-moz-appearance:textfield}
+input[readonly]{color:var(--muted);cursor:default}
+.sw{position:relative}
+.sw::after{content:'▾';position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--blue1);pointer-events:none;font-size:.8rem}
+.sw select{padding-right:34px}
+select option{background:#071228;color:var(--text)}
+.hl{color:#fff;font-weight:800;background:var(--obg);border-radius:3px;padding:1px 5px;border-bottom:2px solid var(--orange);box-shadow:0 0 8px rgba(255,140,0,.25);text-shadow:0 0 6px rgba(255,140,0,.4)}
+.csw{position:relative}
+.csb{width:100%;background:var(--ibg);border:1px solid var(--border);border-radius:8px;padding:11px 34px 11px 14px;color:var(--text);font-family:'Exo 2',sans-serif;font-size:.9rem;text-align:left;cursor:pointer;outline:none;transition:border-color .2s,box-shadow .2s;display:flex;align-items:center;justify-content:space-between}
+.csb.open,.csb:focus{border-color:var(--bf);box-shadow:0 0 0 3px rgba(0,144,255,.12)}
+.csb .ca{color:var(--blue1);font-size:.8rem}
+.csl{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#0a1630;border:1px solid var(--bf);border-radius:8px;z-index:300;list-style:none;box-shadow:0 8px 30px rgba(0,0,0,.55);display:none;overflow:hidden}
+.csl.open{display:block}
+.csl li{padding:12px 16px;cursor:pointer;font-size:.82rem;color:var(--text);border-bottom:1px solid rgba(0,160,255,.06);transition:background .15s;word-break:break-all;line-height:1.5}
+.csl li:last-child{border-bottom:none}
+.csl li:hover{background:rgba(0,144,255,.12);color:#fff}
+.csl li.sel{background:rgba(0,144,255,.18);color:var(--blue2)}
+.acw{position:relative}
+.acl{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#0a1630;border:1px solid var(--bf);border-radius:8px;max-height:200px;overflow-y:auto;z-index:200;box-shadow:0 8px 30px rgba(0,0,0,.5);display:none}
+.acl.open{display:block}
+.acl li{padding:10px 14px;cursor:pointer;font-size:.88rem;color:var(--text);list-style:none;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(0,160,255,.06);transition:background .15s}
+.acl li:last-child{border-bottom:none}
+.acl li:hover{background:rgba(0,144,255,.15);color:var(--blue2)}
+.delbtn{font-size:.7rem;color:transparent;padding:2px 7px;border-radius:4px;border:none;background:none;cursor:pointer;transition:color .15s}
+.acl li:hover .delbtn{color:var(--muted)}
+.delbtn:hover{color:var(--error)!important}
+.fi{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.ff label{font-size:.72rem;font-weight:600;color:var(--blue2);display:block;margin-bottom:6px}
+.atog{display:flex;gap:12px;margin-top:4px}
+.abtn{flex:1;padding:14px 10px;background:var(--ibg);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'Exo 2',sans-serif;font-size:1rem;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .2s}
+.abtn:hover{border-color:var(--bf);color:var(--text)}
+.abtn.asubmit{background:rgba(0,229,160,.12);border-color:var(--success);color:var(--success);box-shadow:0 0 16px rgba(0,229,160,.2)}
+.abtn.askip{background:rgba(0,180,255,.12);border-color:var(--blue1);color:var(--blue2);box-shadow:0 0 16px rgba(0,180,255,.2)}
+.branch{border:1px solid var(--border);border-radius:12px;padding:22px;margin-bottom:18px;background:rgba(0,20,60,.4);animation:fadeIn .3s ease}
+.subbtn{width:100%;padding:16px;background:linear-gradient(90deg,#0080ff,#00ccff,#0080ff);background-size:200% auto;border:none;border-radius:10px;color:#fff;font-family:'Exo 2',sans-serif;font-size:1rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:background-position .4s,transform .1s;box-shadow:0 4px 30px rgba(0,180,255,.5)}
+.subbtn:hover{background-position:right center}
+.subbtn:active{transform:scale(.99)}
+.subbtn:disabled{opacity:.6;cursor:not-allowed}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(16px);padding:13px 28px;border-radius:10px;font-size:.88rem;font-weight:600;letter-spacing:.5px;opacity:0;pointer-events:none;transition:all .3s;z-index:999;backdrop-filter:blur(12px)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.ok{background:rgba(0,229,160,.12);border:1px solid var(--success);color:var(--success)}
+.toast.err{background:rgba(255,77,109,.12);border:1px solid var(--error);color:var(--error)}
+.err-field{border-color:var(--error)!important;box-shadow:0 0 0 3px rgba(255,77,109,0.15)!important;animation:shake .3s ease}
+@media(max-width:640px){.card{padding:24px 18px 32px}.g2,.g3,.fi{grid-template-columns:1fr}.atog{flex-direction:column}}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+<div class="bgtext"><span>METI</span></div>
+<div class="page">
+  <header>
+    <div class="logo-banner">
+      <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.25;pointer-events:none" viewBox="0 0 900 200" preserveAspectRatio="xMidYMid slice">
+        <line x1="0" y1="80" x2="200" y2="30" stroke="#00aaff" stroke-width=".6" opacity=".5"/>
+        <line x1="200" y1="30" x2="420" y2="110" stroke="#00aaff" stroke-width=".6" opacity=".4"/>
+        <line x1="420" y1="110" x2="650" y2="20" stroke="#0066ff" stroke-width=".6" opacity=".35"/>
+        <line x1="650" y1="20" x2="900" y2="90" stroke="#00aaff" stroke-width=".6" opacity=".3"/>
+        <circle cx="200" cy="30" r="2.5" fill="#00aaff" opacity=".7"/>
+        <circle cx="420" cy="110" r="2" fill="#00ccff" opacity=".6"/>
+        <circle cx="650" cy="20" r="3" fill="#0088ff" opacity=".7"/>
+      </svg>
+      <div class="logo-text">
+        <div class="logo-meti">METI</div>
+        <div class="logo-sub">Micro Engineering Tech Inc.</div>
+        <div class="logo-q"><div class="logo-qbar"></div><div class="logo-qtxt">Quality Training</div></div>
+      </div>
+    </div>
+    <p class="form-title">Task Tracker</p>
+  </header>
+
+  <div class="card">
+    <form id="F" autocomplete="off">
+
+      <div class="slabel">Session Info</div>
+
+      <div class="full field">
+        <label>Timestamp</label>
+        <input type="text" id="ts" readonly>
+      </div>
+
+      <div class="g3">
+        <div class="field">
+          <label>Shift <span class="req">*</span></label>
+          <div class="sw"><select id="shift" required>
+            <option value="" disabled selected>Select Shift...</option>
+            <option>Morning</option><option>Night</option><option>Over Night</option>
+            <option>Morning 12 H</option><option>Over Night 12 H</option>
+          </select></div>
+        </div>
+        <div class="field">
+          <label>Unit <span class="req">*</span></label>
+          <div class="sw"><select id="unit" required>
+            <option value="" disabled selected>Select Unit...</option>
+            <option>NC Room 102</option><option>NC Room 106</option><option>NC Room 108</option>
+            <option>2nd Floor</option><option>4th Floor</option>
+          </select></div>
+        </div>
+        <div class="field">
+          <label>PC No. <span class="req">*</span></label>
+          <input type="number" id="pcNo" placeholder="e.g. 7 or 30" min="1" max="999" required>
+        </div>
+      </div>
+
+      <div class="full field">
+        <label>Labeler Name <span class="req">*</span></label>
+        <div class="acw">
+          <input type="text" id="labName" placeholder="Start typing a name..." required autocomplete="off" data-lpignore="true">
+          <ul class="acl" id="acList"></ul>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 2fr;gap:18px;margin-bottom:18px;align-items:end">
+        <div class="field">
+          <label>QTC Name <span class="req">*</span></label>
+          <input type="text" id="qtcName" placeholder="Enter QTC name" required autocomplete="off">
+        </div>
+        <div class="field">
+          <label>Yubikey Email <span class="req">*</span>
+            <span class="sub" id="ykHint">e.g. 123456 or me123456@meti.ai</span>
+          </label>
+          <input type="text" id="yk" placeholder="123456  or  me123456@meti.ai" required autocomplete="off" data-lpignore="true">
+        </div>
+      </div>
+
+      <div class="slabel">Task Details</div>
+
+      <div class="g2">
+        <div class="field">
+          <label>Modality <span class="req">*</span></label>
+          <div class="sw"><select id="modality" required>
+            <option value="" disabled selected>Select Modality...</option>
+            <option>Lane Line</option><option>Lidar</option><option>Image</option><option>Relabeling</option>
+          </select></div>
+        </div>
+        <div class="field">
+          <label>Queue Name <span class="req">*</span></label>
+          <div class="csw">
+            <button type="button" class="csb" id="qBtn"><span id="qDisp">Select Queue...</span><span class="ca">▾</span></button>
+            <ul class="csl" id="qList">
+              <li data-v="sc3_full_scene_highway_mapless_filtered_3d_lanes">sc3_full_scene_highway_mapless_<span class="hl">filtered</span>_3d_lanes</li>
+              <li data-v="sc3_full_scene_highway_lanes_first_lidar_labeling">sc3_full_scene_highway_lanes_<span class="hl">first_lidar</span>_labeling</li>
+              <li data-v="sc3_full_scene_highway_lidar_only_labeling">sc3_full_scene_highway_<span class="hl">lidar_only</span>_labeling</li>
+            </ul>
+            <input type="hidden" id="qName" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="full field">
+        <label>Task Link <span class="req">*</span>
+          <span class="sub" id="linkHint">Must start with: https://labeling.robot.car/#</span>
+        </label>
+        <input type="text" id="taskLink" placeholder="https://labeling.robot.car/#..." required autocomplete="off">
+      </div>
+
+      <div class="g2">
+        <div class="field">
+          <label>Task ID <span class="req">*</span></label>
+          <div style="position:relative">
+            <input type="text" id="taskId" placeholder="Auto-filled from link" required readonly
+              style="background:rgba(0,144,255,.06);cursor:default;padding-right:38px">
+            <span id="idIcon" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:.8rem;opacity:.5">—</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Pass <span class="req">*</span></label>
+          <div class="sw"><select id="pass" required>
+            <option value="" disabled selected>Auto-filled from link</option>
+            <option value="FP">FP</option><option value="QA">QA</option>
+          </select></div>
+        </div>
+      </div>
+
+      <div class="slabel">Task Action</div>
+
+      <div class="full field">
+        <label>What would you like to do with this task? <span class="req">*</span></label>
+        <div class="atog">
+          <button type="button" class="abtn" id="btnSubmit">&#10004; &nbsp;Submit</button>
+          <button type="button" class="abtn" id="btnSkip">&#9193; &nbsp;Skip</button>
+        </div>
+        <input type="hidden" id="action">
+      </div>
+
+      <div id="brSubmit" class="branch" style="display:none">
+        <div class="field" style="margin-bottom:0">
+          <label>How Many Objects? <span class="req">*</span></label>
+          <input type="number" id="objCount" placeholder="Enter number of objects" min="0">
+        </div>
+      </div>
+
+      <div id="brSkip" class="branch" style="display:none">
+        <div class="field" style="margin-bottom:0">
+          <label>Reason <span class="req">*</span></label>
+          <div class="sw"><select id="reason">
+            <option value="" disabled selected>Select an issue...</option>
+            <option>Edge Case</option>
+            <option>Not a freeway</option>
+            <option>Camera projection issue</option>
+            <option>Lidar points shifting vertically</option>
+            <option>Degraded lidar returns</option>
+            <option>Tool Issue</option>
+            <option>Other</option>
+          </select></div>
+        </div>
+        <div id="framesRow" style="display:none;margin-top:18px">
+          <p style="font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:10px">Issued Frames <span style="color:var(--error)">*</span></p>
+          <div class="fi">
+            <div class="ff field" style="margin-bottom:0"><label>From Frame</label><input type="number" id="fromFrame" placeholder="e.g. 100"></div>
+            <div class="ff field" style="margin-bottom:0"><label>To Frame</label><input type="number" id="toFrame" placeholder="e.g. 150"></div>
+          </div>
+        </div>
+        <div id="notesRow" style="display:none;margin-top:18px" class="field">
+          <label>Notes <span class="req">*</span></label>
+          <textarea id="notes" rows="3" placeholder="عربي أو إنجليزي..." style="resize:vertical;line-height:1.6"></textarea>
+        </div>
+      </div>
+
+      <div id="finalWrap" style="display:none">
+        <button type="submit" class="subbtn" id="subBtn">&#9193; &nbsp;Skip Task</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var SHEET_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+var NK = "meti_labeler_names";
+var FRAME_R = ["Lidar points shifting vertically"];
+
+// Particles
+(function(){
+  var cv=document.getElementById("bgCanvas"),cx=cv.getContext("2d"),W,H,nodes=[];
+  function rsz(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
+  rsz();addEventListener("resize",rsz);
+  for(var i=0;i<90;i++)nodes.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.5+.5});
+  function draw(){
+    cx.clearRect(0,0,W,H);
+    for(var i=0;i<nodes.length;i++)for(var j=i+1;j<nodes.length;j++){
+      var d=Math.hypot(nodes[i].x-nodes[j].x,nodes[i].y-nodes[j].y);
+      if(d<130){var a=(1-d/130)*.18;cx.beginPath();cx.moveTo(nodes[i].x,nodes[i].y);cx.lineTo(nodes[j].x,nodes[j].y);cx.strokeStyle=(i+j)%5===0?"rgba(200,0,255,"+a+")":"rgba(0,144,255,"+a+")";cx.lineWidth=.8;cx.stroke();}
+    }
+    nodes.forEach(function(n){cx.beginPath();cx.arc(n.x,n.y,n.r,0,Math.PI*2);cx.fillStyle="rgba(0,180,255,0.55)";cx.fill();n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>W)n.vx*=-1;if(n.y<0||n.y>H)n.vy*=-1;});
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// Timestamp
+function tick(){var el=document.getElementById("ts");if(el)el.value=new Date().toLocaleString("en-US",{month:"2-digit",day:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:true});}
+tick();setInterval(tick,1000);
+
+// Toast
+function toast(msg,type){var t=document.getElementById("toast");t.textContent=msg;t.className="toast "+(type||"ok")+" show";setTimeout(function(){t.className="toast";},4200);}
+
+// markError / clearError
+function me(id){var el=document.getElementById(id);if(!el)return;el.classList.add("err-field");}
+function ce(id){var el=document.getElementById(id);if(!el)return;el.classList.remove("err-field");}
+
+// Task Link
+document.getElementById("taskLink").addEventListener("input",function(){
+  var url=this.value.trim(),P="https://labeling.robot.car/#";
+  var hint=document.getElementById("linkHint"),idEl=document.getElementById("taskId"),icon=document.getElementById("idIcon"),passEl=document.getElementById("pass");
+  if(url.length>0&&!url.startsWith(P)){this.style.borderColor="var(--error)";hint.textContent="Must start with: https://labeling.robot.car/#";hint.style.color="var(--error)";}
+  else{this.style.borderColor=url.length>0?"rgba(0,229,160,0.5)":"";hint.textContent="Must start with: https://labeling.robot.car/#";hint.style.color="var(--blue1)";}
+  var idM=url.match(/\/id\/(\d+)/);
+  if(idM){idEl.value=idM[1];idEl.style.borderColor="rgba(0,229,160,0.5)";idEl.style.color="var(--text)";icon.textContent="✓";icon.style.color="var(--success)";icon.style.opacity="1";}
+  else{idEl.value="";idEl.style.borderColor="";idEl.style.color="";icon.textContent="—";icon.style.color="";icon.style.opacity=".5";}
+  var dM=url.match(/\/do\/([^\/]+)\//);
+  if(dM){passEl.value=dM[1].toUpperCase().endsWith("QA")?"QA":"FP";passEl.style.borderColor="rgba(0,229,160,0.5)";}
+  else{passEl.value="";passEl.style.borderColor="";}
+});
+
+// Yubikey
+document.getElementById("yk").addEventListener("input",function(){
+  var r=this.value.trim().toLowerCase(),h=document.getElementById("ykHint");
+  if(/^\d{6}$/.test(r)){h.textContent="will save as: me"+r+"@meti.ai";h.style.color="var(--success)";}
+  else if(/^me\d{6}@meti\.ai$/.test(r)){h.textContent="valid email format";h.style.color="var(--success)";}
+  else if(r.length>0){h.textContent="must be 6 digits or me123456@meti.ai";h.style.color="var(--error)";}
+  else{h.textContent="e.g. 123456 or me123456@meti.ai";h.style.color="var(--blue1)";}
+});
+
+// English only
+["labName","qtcName"].forEach(function(id){
+  document.getElementById(id).addEventListener("input",function(){
+    this.style.borderColor=(this.value.length>0&&!/^[a-zA-Z\s]+$/.test(this.value))?"var(--error)":"";
+  });
+});
+
+// Queue dropdown
+(function(){
+  var btn=document.getElementById("qBtn"),list=document.getElementById("qList"),inp=document.getElementById("qName"),disp=document.getElementById("qDisp");
+  btn.addEventListener("click",function(e){e.stopPropagation();var o=list.classList.toggle("open");btn.classList.toggle("open",o);});
+  list.querySelectorAll("li").forEach(function(li){
+    li.addEventListener("click",function(){inp.value=this.dataset.v;disp.innerHTML=this.innerHTML;list.querySelectorAll("li").forEach(function(x){x.classList.remove("sel");});this.classList.add("sel");list.classList.remove("open");btn.classList.remove("open");});
+  });
+  document.addEventListener("click",function(){list.classList.remove("open");btn.classList.remove("open");});
+  list.addEventListener("click",function(e){e.stopPropagation();});
+})();
+
+// Autocomplete
+function getN(){try{return JSON.parse(localStorage.getItem(NK))||[];}catch(e){return[];}}
+function saveN(n){if(!n.trim())return;var a=getN();if(a.indexOf(n)===-1){a.unshift(n);localStorage.setItem(NK,JSON.stringify(a.slice(0,60)));}}
+function delN(n){localStorage.setItem(NK,JSON.stringify(getN().filter(function(x){return x!==n;})));}
+var labIn=document.getElementById("labName"),acL=document.getElementById("acList");
+function renderAC(q){
+  var hits=q?getN().filter(function(n){return n.toLowerCase().indexOf(q.toLowerCase())>-1;}):getN();
+  if(!hits.length){acL.classList.remove("open");return;}
+  acL.innerHTML="";
+  hits.forEach(function(name){
+    var li=document.createElement("li"),sp=document.createElement("span"),dl=document.createElement("button");
+    sp.textContent=name;dl.className="delbtn";dl.type="button";dl.textContent="✕";
+    li.appendChild(sp);li.appendChild(dl);
+    sp.addEventListener("mousedown",function(e){e.preventDefault();labIn.value=name;acL.classList.remove("open");});
+    dl.addEventListener("mousedown",function(e){e.preventDefault();e.stopPropagation();delN(name);renderAC(labIn.value);});
+    acL.appendChild(li);
+  });
+  acL.classList.add("open");
+}
+labIn.addEventListener("input",function(){renderAC(this.value);});
+labIn.addEventListener("focus",function(){renderAC(this.value);});
+labIn.addEventListener("blur",function(){setTimeout(function(){acL.classList.remove("open");},160);});
+
+// Action toggle
+function setAction(val){
+  document.getElementById("action").value=val;
+  var bs=document.getElementById("brSubmit"),bk=document.getElementById("brSkip"),fw=document.getElementById("finalWrap"),btn=document.getElementById("subBtn");
+  document.getElementById("btnSubmit").classList.toggle("asubmit",val==="Submit");
+  document.getElementById("btnSkip").classList.toggle("askip",val==="Skip");
+  document.getElementById("framesRow").style.display="none";
+  document.getElementById("notesRow").style.display="none";
+  document.getElementById("fromFrame").required=false;
+  document.getElementById("toFrame").required=false;
+  document.getElementById("notes").required=false;
+  document.getElementById("reason").value="";
+  if(val==="Submit"){
+    bs.style.display="block";bk.style.display="none";
+    document.getElementById("reason").required=false;
+    document.getElementById("objCount").required=true;
+    btn.textContent="✔  Submit Task";
+    btn.style.background="linear-gradient(90deg,#00b060,#00e5a0,#00b060)";
+    btn.style.backgroundSize="200% auto";
+    btn.style.boxShadow="0 4px 30px rgba(0,229,160,0.4)";
+  } else {
+    bs.style.display="none";bk.style.display="block";
+    document.getElementById("reason").required=true;
+    document.getElementById("objCount").required=false;
+    btn.textContent="⏭  Skip Task";
+    btn.style.background="linear-gradient(90deg,#0080ff,#00ccff,#0080ff)";
+    btn.style.backgroundSize="200% auto";
+    btn.style.boxShadow="0 4px 30px rgba(0,180,255,0.5)";
+  }
+  fw.style.display="block";
+}
+document.getElementById("btnSubmit").addEventListener("click",function(){setAction("Submit");});
+document.getElementById("btnSkip").addEventListener("click",function(){setAction("Skip");});
+
+// Reason change
+document.getElementById("reason").addEventListener("change",function(){
+  var sf=FRAME_R.indexOf(this.value)>-1,sn=this.value==="Other";
+  document.getElementById("framesRow").style.display=sf?"block":"none";
+  document.getElementById("fromFrame").required=sf;
+  document.getElementById("toFrame").required=sf;
+  document.getElementById("notesRow").style.display=sn?"block":"none";
+  document.getElementById("notes").required=sn;
+});
+
+// Normalize yubikey
+function normYK(r){r=r.trim().toLowerCase();if(/^\d{6}$/.test(r))return"me"+r+"@meti.ai";if(/^me\d{6}@meti\.ai$/.test(r))return r;return r;}
+
+// Submit
+document.getElementById("F").addEventListener("submit",function(e){
+  e.preventDefault();
+  var err=false;
+  function chk(id,val){if(!val){me(id);err=true;}else ce(id);}
+
+  var lab=document.getElementById("labName").value.trim();
+  var qtc=document.getElementById("qtcName").value.trim();
+  var lnk=document.getElementById("taskLink").value.trim();
+  var yk=document.getElementById("yk").value.trim().toLowerCase();
+  var act=document.getElementById("action").value;
+
+  chk("shift",document.getElementById("shift").value);
+  chk("unit",document.getElementById("unit").value);
+  chk("pcNo",document.getElementById("pcNo").value);
+
+  if(!lab){me("labName");err=true;}
+  else if(!/^[a-zA-Z\s]+$/.test(lab)){me("labName");err=true;toast("Labeler Name: English letters only","err");return;}
+  else ce("labName");
+
+  if(!qtc){me("qtcName");err=true;}
+  else if(!/^[a-zA-Z\s]+$/.test(qtc)){me("qtcName");err=true;toast("QTC Name: English letters only","err");return;}
+  else ce("qtcName");
+
+  if(!/^\d{6}$/.test(yk)&&!/^me\d{6}@meti\.ai$/.test(yk)){me("yk");err=true;toast("Yubikey: 6 digits or me123456@meti.ai","err");return;}
+  else ce("yk");
+
+  chk("modality",document.getElementById("modality").value);
+
+  if(!document.getElementById("qName").value){
+    var qb=document.getElementById("qBtn");qb.style.borderColor="var(--error)";qb.style.boxShadow="0 0 0 3px rgba(255,77,109,0.15)";err=true;
+  } else {
+    var qb=document.getElementById("qBtn");qb.style.borderColor="";qb.style.boxShadow="";
+  }
+
+  if(!lnk.startsWith("https://labeling.robot.car/#")){
+    me("taskLink");err=true;toast("Task Link must start with: https://labeling.robot.car/#","err");return;
+  } else ce("taskLink");
+
+  chk("taskId",document.getElementById("taskId").value);
+  chk("pass",document.getElementById("pass").value);
+
+  if(!act){
+    document.getElementById("btnSubmit").style.borderColor="var(--error)";
+    document.getElementById("btnSkip").style.borderColor="var(--error)";
+    err=true;toast("Please select Submit or Skip","err");
+  } else {
+    document.getElementById("btnSubmit").style.borderColor="";
+    document.getElementById("btnSkip").style.borderColor="";
+  }
+
+  if(act==="Skip"){
+    chk("reason",document.getElementById("reason").value);
+    if(document.getElementById("reason").value==="Other"&&!document.getElementById("notes").value.trim()){
+      me("notes");err=true;toast("Please write a note","err");return;
+    }
+  }
+
+  var obj=document.getElementById("objCount").value;
+  if(act==="Submit"&&obj===""){me("objCount");err=true;toast("Please enter number of objects","err");return;}
+
+  if(err){toast("Please fill all required fields","err");return;}
+
+  saveN(lab);
+
+  var payload={
+    sheet:act,
+    timestamp:document.getElementById("ts").value,
+    shift:document.getElementById("shift").value,
+    unit:document.getElementById("unit").value,
+    labelerName:lab,
+    qtcName:qtc,
+    yubikeyEmail:normYK(document.getElementById("yk").value),
+    pcNo:document.getElementById("pcNo").value,
+    modality:document.getElementById("modality").value,
+    queueName:document.getElementById("qName").value,
+    taskLink:lnk,
+    taskId:document.getElementById("taskId").value,
+    pass:document.getElementById("pass").value,
+    action:act,
+    reason:act==="Skip"?document.getElementById("reason").value:"",
+    otherNotes:(act==="Skip"&&document.getElementById("reason").value==="Other")?document.getElementById("notes").value.trim():"",
+    fromFrame:act==="Skip"?(document.getElementById("fromFrame").value||""):"",
+    toFrame:act==="Skip"?(document.getElementById("toFrame").value||""):"",
+    objectCount:act==="Submit"?obj:""
+  };
+
+  var btn=document.getElementById("subBtn");
+  btn.disabled=true;btn.textContent="Submitting...";
+
+  fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
+  .then(function(){
+    toast("✓ Finished","ok");
+    document.getElementById("F").reset();
+    tick();
+    ["brSubmit","brSkip","framesRow","notesRow","finalWrap"].forEach(function(id){document.getElementById(id).style.display="none";});
+    document.getElementById("btnSubmit").classList.remove("asubmit");
+    document.getElementById("btnSkip").classList.remove("askip");
+    document.getElementById("action").value="";
+    document.getElementById("taskId").value="";
+    document.getElementById("taskId").style.borderColor="";
+    document.getElementById("taskId").style.color="";
+    document.getElementById("idIcon").textContent="—";
+    document.getElementById("idIcon").style.color="";
+    document.getElementById("pass").style.borderColor="";
+    document.getElementById("qDisp").innerHTML="Select Queue...";
+    document.getElementById("qName").value="";
+    document.querySelectorAll("#qList li").forEach(function(x){x.classList.remove("sel");});
+    document.getElementById("ykHint").textContent="e.g. 123456 or me123456@meti.ai";
+    document.getElementById("ykHint").style.color="var(--blue1)";
+    document.getElementById("linkHint").textContent="Must start with: https://labeling.robot.car/#";
+    document.getElementById("linkHint").style.color="var(--blue1)";
+    document.getElementById("taskLink").style.borderColor="";
+    ["shift","unit","pcNo","labName","qtcName","yk","modality","taskLink","taskId","pass","reason","objCount","notes"]
+      .forEach(function(id){var el=document.getElementById(id);if(el){el.classList.remove("err-field");el.style.borderColor="";el.style.boxShadow="";}});
+    btn.textContent="⏭  Skip Task";
+    btn.style.background="linear-gradient(90deg,#0080ff,#00ccff,#0080ff)";
+    btn.disabled=false;
+  })
+  .catch(function(){
+    toast("Submission failed. Check SHEET_URL.","err");
+    btn.disabled=false;btn.textContent=act==="Submit"?"✔  Submit Task":"⏭  Skip Task";
+  });
+});
+</script>
+</body>
+</html>
