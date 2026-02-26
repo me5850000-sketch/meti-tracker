@@ -190,7 +190,7 @@ select option{background:#071228;color:var(--text)}
       <!-- QTC NAME PICKER -->
       <div class="full field">
         <label>QTC Name <span class="req">*</span></label>
-        <div id="qtcShiftMsg" class="qtc-shift-msg">⚠ Select QTC Shift first to see names</div>
+        <div id="qtcShiftMsg" class="qtc-shift-msg">&#9888; Select QTC Shift first to see names</div>
         <div id="qtcPickerWrap" style="display:none">
           <div class="qtc-hint">Click on a name to select</div>
           <div class="qtc-grid" id="qtcGrid"></div>
@@ -219,7 +219,7 @@ select option{background:#071228;color:var(--text)}
         <div class="field">
           <label>Queue Name <span class="req">*</span></label>
           <div class="csw">
-            <button type="button" class="csb" id="qBtn"><span id="qDisp">Select Queue...</span><span class="ca">▾</span></button>
+            <button type="button" class="csb" id="qBtn"><span id="qDisp">Select Queue...</span><span class="ca">&#9662;</span></button>
             <ul class="csl" id="qList">
               <li data-v="sc3_full_scene_highway_mapless_filtered_3d_lanes">sc3_full_scene_highway_mapless_<span class="hl">filtered</span>_3d_lanes</li>
               <li data-v="sc3_full_scene_highway_lanes_first_lidar_labeling">sc3_full_scene_highway_lanes_<span class="hl">first_lidar</span>_labeling</li>
@@ -243,7 +243,7 @@ select option{background:#071228;color:var(--text)}
           <div style="position:relative">
             <input type="text" id="taskId" placeholder="Auto-filled from link" required readonly
               style="background:rgba(0,144,255,.06);cursor:default;padding-right:38px">
-            <span id="idIcon" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:.8rem;opacity:.5">—</span>
+            <span id="idIcon" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:.8rem;opacity:.5">&#8212;</span>
           </div>
         </div>
         <div class="field">
@@ -296,7 +296,7 @@ select option{background:#071228;color:var(--text)}
         </div>
         <div id="notesRow" style="display:none;margin-top:18px" class="field">
           <label>Notes <span class="req">*</span></label>
-          <textarea id="notes" rows="3" placeholder="عربي أو إنجليزي..." style="resize:vertical;line-height:1.6"></textarea>
+          <textarea id="notes" rows="3" placeholder="&#1593;&#1585;&#1576;&#1610; &#1571;&#1608; &#1573;&#1606;&#1580;&#1604;&#1610;&#1586;&#1610;..." style="resize:vertical;line-height:1.6"></textarea>
         </div>
       </div>
 
@@ -440,13 +440,13 @@ function buildQTCGrid(shift) {
     card.addEventListener("click", function() {
       grid.querySelectorAll(".qtc-card.selected").forEach(function(c){c.classList.remove("selected");c.querySelector(".qtc-check").textContent="";});
       card.classList.add("selected");
-      card.querySelector(".qtc-check").textContent="✓";
+      card.querySelector(".qtc-check").textContent="\u2713";
       selectedQTC = p.name+(p.role?" "+p.role:"");
       hidInp.value = selectedQTC;
       disp.innerHTML='';
       var tag=document.createElement("div");
       tag.className="qtc-tag";
-      tag.innerHTML=selectedQTC+'<button type="button" title="Clear">✕</button>';
+      tag.innerHTML=selectedQTC+'<button type="button" title="Clear">\u2715</button>';
       tag.querySelector("button").addEventListener("click",function(){
         selectedQTC=null; hidInp.value=""; disp.innerHTML="";
         card.classList.remove("selected"); card.querySelector(".qtc-check").textContent="";
@@ -457,12 +457,10 @@ function buildQTCGrid(shift) {
   });
 }
 
-// QTC shift selector → rebuild QTC grid
 document.getElementById("qtcShiftSel").addEventListener("change", function(){
   buildQTCGrid(this.value);
 });
 
-// show msg on load
 document.getElementById("qtcShiftMsg").style.display = "block";
 
 // Particles
@@ -490,7 +488,6 @@ tick();setInterval(tick,1000);
 // Toast
 function toast(msg,type){var t=document.getElementById("toast");t.textContent=msg;t.className="toast "+(type||"ok")+" show";setTimeout(function(){t.className="toast";},4200);}
 
-// markError / clearError
 function me(id){var el=document.getElementById(id);if(!el)return;el.classList.add("err-field");}
 function ce(id){var el=document.getElementById(id);if(!el)return;el.classList.remove("err-field");}
 
@@ -501,8 +498,8 @@ document.getElementById("taskLink").addEventListener("input",function(){
   if(url.length>0&&!url.startsWith(P)){this.style.borderColor="var(--error)";hint.textContent="Must start with: https://labeling.robot.car/#";hint.style.color="var(--error)";}
   else{this.style.borderColor=url.length>0?"rgba(0,229,160,0.5)":"";hint.textContent="Must start with: https://labeling.robot.car/#";hint.style.color="var(--blue1)";}
   var idM=url.match(/\/id\/(\d+)/);
-  if(idM){idEl.value=idM[1];idEl.style.borderColor="rgba(0,229,160,0.5)";idEl.style.color="var(--text)";icon.textContent="✓";icon.style.color="var(--success)";icon.style.opacity="1";}
-  else{idEl.value="";idEl.style.borderColor="";idEl.style.color="";icon.textContent="—";icon.style.color="";icon.style.opacity=".5";}
+  if(idM){idEl.value=idM[1];idEl.style.borderColor="rgba(0,229,160,0.5)";idEl.style.color="var(--text)";icon.textContent="\u2713";icon.style.color="var(--success)";icon.style.opacity="1";}
+  else{idEl.value="";idEl.style.borderColor="";idEl.style.color="";icon.textContent="\u2014";icon.style.color="";icon.style.opacity=".5";}
   var dM=url.match(/\/do\/([^\/]+)\//);
   if(dM){passEl.value=dM[1].toUpperCase().endsWith("QA")?"QA":"FP";passEl.style.borderColor="rgba(0,229,160,0.5)";}
   else{passEl.value="";passEl.style.borderColor="";}
@@ -517,20 +514,15 @@ document.getElementById("yk").addEventListener("input",function(){
   else{h.textContent="e.g. 123456 or me123456@meti.ai";h.style.color="var(--blue1)";}
 });
 
-// PC No - accepts number or QTC
+// PC No
 document.getElementById("pcNo").addEventListener("input",function(){
   var v=this.value.trim();
   var isNum=/^\d+$/.test(v);
   var isQTC=/^qtc$/i.test(v);
   if(v.length===0){this.style.borderColor="";}
-  else if(isNum||isQTC){
-    this.value=isQTC?"QTC":v;
-    this.style.borderColor="rgba(0,229,160,0.5)";
-  } else {
-    this.style.borderColor="var(--error)";
-  }
+  else if(isNum||isQTC){this.value=isQTC?"QTC":v;this.style.borderColor="rgba(0,229,160,0.5)";}
+  else{this.style.borderColor="var(--error)";}
 });
-
 
 document.getElementById("labName").addEventListener("input",function(){
   this.style.borderColor=(this.value.length>0&&!/^[a-zA-Z\s]+$/.test(this.value))?"var(--error)":"";
@@ -547,34 +539,69 @@ document.getElementById("labName").addEventListener("input",function(){
   list.addEventListener("click",function(e){e.stopPropagation();});
 })();
 
-// Autocomplete
+// ===== AUTOCOMPLETE - FIXED =====
 function getN(){try{return JSON.parse(localStorage.getItem(NK))||[];}catch(e){return[];}}
 function saveN(n){if(!n.trim())return;var a=getN();if(a.indexOf(n)===-1){a.unshift(n);localStorage.setItem(NK,JSON.stringify(a.slice(0,60)));}}
 function delN(n){localStorage.setItem(NK,JSON.stringify(getN().filter(function(x){return x!==n;})));}
+
 var labIn=document.getElementById("labName"),acL=document.getElementById("acList");
+var acMouseDown=false; // FIX: track if mouse is pressed inside list
+
+// FIX: prevent blur from closing list when clicking on items
+acL.addEventListener("mousedown",function(e){
+  acMouseDown=true;
+});
+acL.addEventListener("mouseup",function(e){
+  acMouseDown=false;
+});
+
 function renderAC(q){
   var hits=q?getN().filter(function(n){return n.toLowerCase().indexOf(q.toLowerCase())>-1;}):getN();
   if(!hits.length){acL.classList.remove("open");return;}
   acL.innerHTML="";
   hits.forEach(function(name){
     var li=document.createElement("li"),sp=document.createElement("span"),dl=document.createElement("button");
-    sp.textContent=name;dl.className="delbtn";dl.type="button";dl.textContent="✕";
+    sp.textContent=name;dl.className="delbtn";dl.type="button";dl.textContent="\u2715";
     li.appendChild(sp);li.appendChild(dl);
-    function selectName(e){e.preventDefault();e.stopPropagation();labIn.value=name;acL.classList.remove("open");}
-    sp.addEventListener("mousedown",selectName);
-    sp.addEventListener("touchstart",selectName,{passive:false});
-    sp.addEventListener("click",selectName);
-    function deleteName(e){e.preventDefault();e.stopPropagation();delN(name);renderAC(labIn.value);}
-    dl.addEventListener("mousedown",deleteName);
-    dl.addEventListener("touchstart",deleteName,{passive:false});
-    dl.addEventListener("click",deleteName);
+
+    // FIX: use mousedown+preventDefault so blur doesn't fire first
+    sp.addEventListener("mousedown",function(e){
+      e.preventDefault();
+      labIn.value=name;
+      acL.classList.remove("open");
+      labIn.focus();
+    });
+    sp.addEventListener("touchstart",function(e){
+      e.preventDefault();
+      labIn.value=name;
+      acL.classList.remove("open");
+    },{passive:false});
+
+    dl.addEventListener("mousedown",function(e){
+      e.preventDefault();
+      delN(name);
+      renderAC(labIn.value);
+    });
+    dl.addEventListener("touchstart",function(e){
+      e.preventDefault();
+      delN(name);
+      renderAC(labIn.value);
+    },{passive:false});
+
     acL.appendChild(li);
   });
   acL.classList.add("open");
 }
+
 labIn.addEventListener("input",function(){renderAC(this.value);});
 labIn.addEventListener("focus",function(){renderAC(this.value);});
-labIn.addEventListener("blur",function(){setTimeout(function(){acL.classList.remove("open");},200);});
+labIn.addEventListener("blur",function(){
+  // FIX: only close if mouse is NOT pressed inside the list
+  if(!acMouseDown){
+    setTimeout(function(){acL.classList.remove("open");},150);
+  }
+});
+// ===== END AUTOCOMPLETE FIX =====
 
 // Action toggle
 function setAction(val){
@@ -592,7 +619,7 @@ function setAction(val){
     bs.style.display="block";bk.style.display="none";
     document.getElementById("reason").required=false;
     document.getElementById("objCount").required=true;
-    btn.textContent="✔  Submit Task";
+    btn.textContent="\u2714  Submit Task";
     btn.style.background="linear-gradient(90deg,#00b060,#00e5a0,#00b060)";
     btn.style.backgroundSize="200% auto";
     btn.style.boxShadow="0 4px 30px rgba(0,229,160,0.4)";
@@ -600,7 +627,7 @@ function setAction(val){
     bs.style.display="none";bk.style.display="block";
     document.getElementById("reason").required=true;
     document.getElementById("objCount").required=false;
-    btn.textContent="⏭  Skip Task";
+    btn.textContent="\u23ed  Skip Task";
     btn.style.background="linear-gradient(90deg,#0080ff,#00ccff,#0080ff)";
     btn.style.backgroundSize="200% auto";
     btn.style.boxShadow="0 4px 30px rgba(0,180,255,0.5)";
@@ -620,7 +647,6 @@ document.getElementById("reason").addEventListener("change",function(){
   document.getElementById("notes").required=sn;
 });
 
-// Normalize yubikey
 function normYK(r){r=r.trim().toLowerCase();if(/^\d{6}$/.test(r))return"me"+r+"@meti.ai";if(/^me\d{6}@meti\.ai$/.test(r))return r;return r;}
 
 // Submit
@@ -638,7 +664,7 @@ document.getElementById("F").addEventListener("submit",function(e){
   chk("unit",document.getElementById("unit").value);
   var pcVal=document.getElementById("pcNo").value.trim();
   if(!pcVal){me("pcNo");err=true;}
-  else if(!/^\d+$/.test(pcVal)&&!/^qtc$/i.test(pcVal)){me("pcNo");err=true;toast("PC No: رقم أو QTC بس","err");return;}
+  else if(!/^\d+$/.test(pcVal)&&!/^qtc$/i.test(pcVal)){me("pcNo");err=true;toast("PC No: \u0631\u0642\u0645 \u0623\u0648 QTC \u0628\u0633","err");return;}
   else{ce("pcNo");document.getElementById("pcNo").value=/^qtc$/i.test(pcVal)?"QTC":pcVal;}
 
   if(!lab){me("labName");err=true;}
@@ -723,10 +749,9 @@ document.getElementById("F").addEventListener("submit",function(e){
 
   fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
   .then(function(){
-    toast("✓ Finished","ok");
+    toast("\u2713 Finished","ok");
     document.getElementById("F").reset();
     tick();
-    // reset QTC
     selectedQTC=null;
     document.getElementById("qtcName").value="";
     document.getElementById("qtcShiftSel").value="";
@@ -743,7 +768,7 @@ document.getElementById("F").addEventListener("submit",function(e){
     document.getElementById("taskId").value="";
     document.getElementById("taskId").style.borderColor="";
     document.getElementById("taskId").style.color="";
-    document.getElementById("idIcon").textContent="—";
+    document.getElementById("idIcon").textContent="\u2014";
     document.getElementById("idIcon").style.color="";
     document.getElementById("pass").style.borderColor="";
     document.getElementById("qDisp").innerHTML="Select Queue...";
@@ -756,13 +781,13 @@ document.getElementById("F").addEventListener("submit",function(e){
     document.getElementById("taskLink").style.borderColor="";
     ["shift","unit","pcNo","labName","yk","modality","taskLink","taskId","pass","reason","objCount","notes"]
       .forEach(function(id){var el=document.getElementById(id);if(el){el.classList.remove("err-field");el.style.borderColor="";el.style.boxShadow="";}});
-    btn.textContent="⏭  Skip Task";
+    btn.textContent="\u23ed  Skip Task";
     btn.style.background="linear-gradient(90deg,#0080ff,#00ccff,#0080ff)";
     btn.disabled=false;
   })
   .catch(function(){
     toast("Submission failed. Check SHEET_URL.","err");
-    btn.disabled=false;btn.textContent=act==="Submit"?"✔  Submit Task":"⏭  Skip Task";
+    btn.disabled=false;btn.textContent=act==="Submit"?"\u2714  Submit Task":"\u23ed  Skip Task";
   });
 });
 </script>
