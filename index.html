@@ -87,7 +87,28 @@ select option{background:#071228;color:var(--text)}
 .toast.ok{background:rgba(0,229,160,.12);border:1px solid var(--success);color:var(--success)}
 .toast.err{background:rgba(255,77,109,.12);border:1px solid var(--error);color:var(--error)}
 .err-field{border-color:var(--error)!important;box-shadow:0 0 0 3px rgba(255,77,109,0.15)!important;animation:shake .3s ease}
-@media(max-width:640px){.card{padding:24px 18px 32px}.g2,.g3,.fi{grid-template-columns:1fr}.atog{flex-direction:column}}
+
+/* ===== QTC PICKER ===== */
+.qtc-hint{font-size:.72rem;color:var(--muted);margin-bottom:10px;font-style:italic}
+.qtc-shift-msg{font-size:.8rem;color:var(--orange);padding:12px 14px;background:var(--obg);border-radius:8px;border:1px solid rgba(255,140,0,.25);display:none}
+.qtc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;max-height:320px;overflow-y:auto;padding:4px 2px}
+.qtc-grid::-webkit-scrollbar{width:5px}
+.qtc-grid::-webkit-scrollbar-track{background:rgba(0,0,0,.2);border-radius:4px}
+.qtc-grid::-webkit-scrollbar-thumb{background:rgba(0,144,255,.4);border-radius:4px}
+.qtc-card{background:var(--ibg);border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:10px;user-select:none}
+.qtc-card:hover{border-color:rgba(0,180,255,.5);background:rgba(0,40,100,.5)}
+.qtc-card.selected{border-color:var(--success);background:rgba(0,229,160,.1);box-shadow:0 0 12px rgba(0,229,160,.2)}
+.qtc-card .qtc-check{width:18px;height:18px;border-radius:50%;border:2px solid var(--muted);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .18s;font-size:.7rem}
+.qtc-card.selected .qtc-check{border-color:var(--success);background:var(--success);color:#000}
+.qtc-card .qtc-name{font-size:1rem;font-weight:600;color:var(--text);line-height:1.3}
+.qtc-card .qtc-role{font-size:.78rem;color:var(--blue1);margin-top:2px}
+.qtc-card.selected .qtc-name{color:var(--success)}
+.qtc-selected-display{margin-top:10px;min-height:36px;display:flex;flex-wrap:wrap;gap:6px}
+.qtc-tag{background:rgba(0,229,160,.12);border:1px solid rgba(0,229,160,.4);color:var(--success);border-radius:20px;padding:4px 12px;font-size:.75rem;font-weight:600;display:flex;align-items:center;gap:6px}
+.qtc-tag button{background:none;border:none;color:var(--success);cursor:pointer;font-size:.8rem;padding:0;line-height:1;opacity:.7}
+.qtc-tag button:hover{opacity:1}
+
+@media(max-width:640px){.card{padding:24px 18px 32px}.g2,.g3,.fi{grid-template-columns:1fr}.atog{flex-direction:column}.qtc-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -155,17 +176,34 @@ select option{background:#071228;color:var(--text)}
         </div>
       </div>
 
-      <div style="display:grid;grid-template-columns:1fr 2fr;gap:18px;margin-bottom:18px;align-items:end">
-        <div class="field">
-          <label>QTC Name <span class="req">*</span></label>
-          <input type="text" id="qtcName" placeholder="Enter QTC name" required autocomplete="off">
+      <!-- QTC SHIFT SELECT -->
+      <div class="full field">
+        <label>QTC Shift <span class="req">*</span></label>
+        <div class="sw"><select id="qtcShiftSel" required>
+          <option value="" disabled selected>Select QTC Shift...</option>
+          <option>Morning</option>
+          <option>Night</option>
+          <option>Over Night</option>
+        </select></div>
+      </div>
+
+      <!-- QTC NAME PICKER -->
+      <div class="full field">
+        <label>QTC Name <span class="req">*</span></label>
+        <div id="qtcShiftMsg" class="qtc-shift-msg">⚠ Select QTC Shift first to see names</div>
+        <div id="qtcPickerWrap" style="display:none">
+          <div class="qtc-hint">Click on a name to select</div>
+          <div class="qtc-grid" id="qtcGrid"></div>
+          <div class="qtc-selected-display" id="qtcSelectedDisplay"></div>
         </div>
-        <div class="field">
-          <label>Yubikey Email <span class="req">*</span>
-            <span class="sub" id="ykHint">e.g. 123456 or me123456@meti.ai</span>
-          </label>
-          <input type="text" id="yk" placeholder="123456  or  me123456@meti.ai" required autocomplete="off" data-lpignore="true">
-        </div>
+        <input type="hidden" id="qtcName" required>
+      </div>
+
+      <div class="full field">
+        <label>Yubikey Email <span class="req">*</span>
+          <span class="sub" id="ykHint">e.g. 123456 or me123456@meti.ai</span>
+        </label>
+        <input type="text" id="yk" placeholder="123456  or  me123456@meti.ai" required autocomplete="off" data-lpignore="true">
       </div>
 
       <div class="slabel">Task Details</div>
@@ -276,6 +314,157 @@ var SHEET_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
 var NK = "meti_labeler_names";
 var FRAME_R = ["Lidar points shifting vertically"];
 
+// ===== QTC DATA PER SHIFT =====
+var QTC_DATA = {
+  "Morning": [
+    {name:"Abdulrahman Refaat",role:"QT"},{name:"Hassan Mohamed",role:"QT"},
+    {name:"Abdelmonsef",role:"QT"},{name:"Adel Ashraf",role:"QT"},
+    {name:"Youssef Abass",role:"QT"},{name:"Ahmed Taha",role:"QT"},
+    {name:"Bassant Sherif",role:"QT"},{name:"Amr Salah",role:""},
+    {name:"Mazen Ehab",role:""},{name:"Hagar Fawzy",role:""},
+    {name:"Roqia Wael",role:""},{name:"Eman Gamal",role:""},
+    {name:"Kirollos Ibrahem",role:""},{name:"Rawan Elmahdy",role:""},
+    {name:"Shimaa Nasser",role:""},{name:"Aya Mamdouh",role:""},
+    {name:"Sara Atef",role:""},{name:"Nada Wagih",role:""},
+    {name:"Nadien Mohey",role:""},{name:"Aya Yousry",role:""},
+    {name:"Rahma Sayed",role:""},{name:"Hossam Hassan",role:""},
+    {name:"Mira Samir",role:""},{name:"Asmaa Mohamed",role:""},
+    {name:"Nesma Mustafa",role:""},{name:"Hagar Atef",role:""},
+    {name:"Ahmed Adel",role:""},{name:"Asmaa Medhat",role:""},
+    {name:"Moataz Ahmed",role:""},{name:"Wafaa Fathy",role:""},
+    {name:"Omnia Mohamed",role:""},{name:"Eslam Ali",role:""},
+    {name:"Asmaa Khaled",role:""},{name:"Donia El Said",role:""},
+    {name:"Mayada Adel",role:""},{name:"Reem Samir",role:""},
+    {name:"Ashiry",role:""},{name:"Yasmeen Nasser",role:"SV"},
+    {name:"Mohamed Khaled",role:"SV"},{name:"Muhammad Abdel Azim",role:"SV"},
+    {name:"Abdelmonsef",role:"SV"}
+  ],
+  "Morning 12 H": [
+    {name:"Abdulrahman Refaat",role:"QT"},{name:"Hassan Mohamed",role:"QT"},
+    {name:"Abdelmonsef",role:"QT"},{name:"Adel Ashraf",role:"QT"},
+    {name:"Youssef Abass",role:"QT"},{name:"Ahmed Taha",role:"QT"},
+    {name:"Bassant Sherif",role:"QT"},{name:"Amr Salah",role:""},
+    {name:"Mazen Ehab",role:""},{name:"Hagar Fawzy",role:""},
+    {name:"Roqia Wael",role:""},{name:"Eman Gamal",role:""},
+    {name:"Kirollos Ibrahem",role:""},{name:"Rawan Elmahdy",role:""},
+    {name:"Shimaa Nasser",role:""},{name:"Aya Mamdouh",role:""},
+    {name:"Sara Atef",role:""},{name:"Nada Wagih",role:""},
+    {name:"Nadien Mohey",role:""},{name:"Aya Yousry",role:""},
+    {name:"Rahma Sayed",role:""},{name:"Hossam Hassan",role:""},
+    {name:"Mira Samir",role:""},{name:"Asmaa Mohamed",role:""},
+    {name:"Nesma Mustafa",role:""},{name:"Hagar Atef",role:""},
+    {name:"Ahmed Adel",role:""},{name:"Asmaa Medhat",role:""},
+    {name:"Moataz Ahmed",role:""},{name:"Wafaa Fathy",role:""},
+    {name:"Omnia Mohamed",role:""},{name:"Eslam Ali",role:""},
+    {name:"Asmaa Khaled",role:""},{name:"Donia El Said",role:""},
+    {name:"Mayada Adel",role:""},{name:"Reem Samir",role:""},
+    {name:"Ashiry",role:""},{name:"Yasmeen Nasser",role:"SV"},
+    {name:"Mohamed Khaled",role:"SV"},{name:"Muhammad Abdel Azim",role:"SV"},
+    {name:"Abdelmonsef",role:"SV"}
+  ],
+  "Night": [
+    {name:"Hazem Nader",role:"QT"},{name:"Mohamed Sayed",role:"QT"},
+    {name:"Abdulrahman Adel",role:"QT"},{name:"Mohamed Kamal",role:"QT"},
+    {name:"Mahmoud Khaled",role:""},{name:"Ibrahim Mohamed Ibrahim",role:""},
+    {name:"Kerolos Emil Shawky",role:""},{name:"Hussien Ali",role:""},
+    {name:"Ahmed Nagy",role:""},{name:"Ali Suliman",role:""},
+    {name:"Mostafa Helal",role:""},{name:"Osama Ashraf",role:""},
+    {name:"Marwan Mohamed",role:""},{name:"Tony Emad",role:""},
+    {name:"Hesham Hassan",role:""},{name:"Mahmoud Adel",role:""},
+    {name:"Abdelrahman Omar",role:""},{name:"Abdelrahman Tarek Abdo",role:""},
+    {name:"Youssef Mohamed Abdelfatah",role:""},{name:"Mark Ashraf",role:""},
+    {name:"Ahmed Ashraf",role:""},{name:"Awad Wagdy",role:""},
+    {name:"Youssef Ramdan",role:""},{name:"Ibrahim Khaled",role:""},
+    {name:"Abdelrahman Ahmed",role:""},{name:"Mohamed Salem",role:"SV"},
+    {name:"Yousef  Eliwa",role:"SV"},{name:"Amr Essam",role:"SV"},
+    {name:"Shehab Ayman",role:"SV"},{name:"Eslam Salah",role:"SV"}
+  ],
+  "Over Night": [
+    {name:"Omar Sharawy",role:"QT"},{name:"Mohamed Fahmy",role:"QT"},
+    {name:"Hesham Nasser",role:"QT"},{name:"Ahmed Selim",role:"QT"},
+    {name:"Islam Yasser",role:"QT"},{name:"El Noby",role:""},
+    {name:"Ahmed Nagia",role:""},{name:"Abdalla Barbary",role:""},
+    {name:"Mohamed Zakaria",role:""},{name:"Samer Neseim",role:""},
+    {name:"Mohamed Ibrahim",role:""},{name:"Eyad Mohamed",role:""},
+    {name:"Seif Waled",role:""},{name:"Bahi Hussin",role:""},
+    {name:"Mohamed Nasr",role:""},{name:"Shreif Hossam",role:""},
+    {name:"Mohamed Emam",role:""},{name:"Mahmoud Khaled Hussien",role:""},
+    {name:"Karim Gaber",role:""},{name:"Youssef Fathy",role:""},
+    {name:"Youssef Mohamed Saad",role:""},{name:"Ahmed Alsheikh",role:""},
+    {name:"Mohamed Fathy",role:""},{name:"Youssef Ashraf Shaaban",role:""},
+    {name:"Ahmed Sobhy",role:""},{name:"Hossam Taha",role:""},
+    {name:"Shehab Alaa",role:""},{name:"Youssef Saber",role:""},
+    {name:"Eslam Khaled",role:"SV"},{name:"Moustfa Atito",role:"SV"},
+    {name:"Mahmoud Mohamed Mousa",role:"SV"}
+  ],
+  "Over Night 12 H": [
+    {name:"Omar Sharawy",role:"QT"},{name:"Mohamed Fahmy",role:"QT"},
+    {name:"Hesham Nasser",role:"QT"},{name:"Ahmed Selim",role:"QT"},
+    {name:"Islam Yasser",role:"QT"},{name:"El Noby",role:""},
+    {name:"Ahmed Nagia",role:""},{name:"Abdalla Barbary",role:""},
+    {name:"Mohamed Zakaria",role:""},{name:"Samer Neseim",role:""},
+    {name:"Mohamed Ibrahim",role:""},{name:"Eyad Mohamed",role:""},
+    {name:"Seif Waled",role:""},{name:"Bahi Hussin",role:""},
+    {name:"Mohamed Nasr",role:""},{name:"Shreif Hossam",role:""},
+    {name:"Mohamed Emam",role:""},{name:"Mahmoud Khaled Hussien",role:""},
+    {name:"Karim Gaber",role:""},{name:"Youssef Fathy",role:""},
+    {name:"Youssef Mohamed Saad",role:""},{name:"Ahmed Alsheikh",role:""},
+    {name:"Mohamed Fathy",role:""},{name:"Youssef Ashraf Shaaban",role:""},
+    {name:"Ahmed Sobhy",role:""},{name:"Hossam Taha",role:""},
+    {name:"Shehab Alaa",role:""},{name:"Youssef Saber",role:""},
+    {name:"Eslam Khaled",role:"SV"},{name:"Moustfa Atito",role:"SV"},
+    {name:"Mahmoud Mohamed Mousa",role:"SV"}
+  ]
+};
+
+var selectedQTC = null;
+
+function buildQTCGrid(shift) {
+  var grid = document.getElementById("qtcGrid");
+  var disp = document.getElementById("qtcSelectedDisplay");
+  var wrap = document.getElementById("qtcPickerWrap");
+  var msg  = document.getElementById("qtcShiftMsg");
+  var hidInp = document.getElementById("qtcName");
+  selectedQTC = null;
+  hidInp.value = "";
+  disp.innerHTML = "";
+  grid.innerHTML = "";
+  var list = QTC_DATA[shift];
+  if (!list) { wrap.style.display="none"; msg.style.display="block"; return; }
+  msg.style.display = "none";
+  wrap.style.display = "block";
+  list.forEach(function(p) {
+    var card = document.createElement("div");
+    card.className = "qtc-card";
+    card.innerHTML = '<div class="qtc-check"></div><div><div class="qtc-name">'+p.name+'</div>'+(p.role?'<div class="qtc-role">'+p.role+'</div>':'')+'</div>';
+    card.addEventListener("click", function() {
+      grid.querySelectorAll(".qtc-card.selected").forEach(function(c){c.classList.remove("selected");c.querySelector(".qtc-check").textContent="";});
+      card.classList.add("selected");
+      card.querySelector(".qtc-check").textContent="✓";
+      selectedQTC = p.name+(p.role?" "+p.role:"");
+      hidInp.value = selectedQTC;
+      disp.innerHTML='';
+      var tag=document.createElement("div");
+      tag.className="qtc-tag";
+      tag.innerHTML=selectedQTC+'<button type="button" title="Clear">✕</button>';
+      tag.querySelector("button").addEventListener("click",function(){
+        selectedQTC=null; hidInp.value=""; disp.innerHTML="";
+        card.classList.remove("selected"); card.querySelector(".qtc-check").textContent="";
+      });
+      disp.appendChild(tag);
+    });
+    grid.appendChild(card);
+  });
+}
+
+// QTC shift selector → rebuild QTC grid
+document.getElementById("qtcShiftSel").addEventListener("change", function(){
+  buildQTCGrid(this.value);
+});
+
+// show msg on load
+document.getElementById("qtcShiftMsg").style.display = "block";
+
 // Particles
 (function(){
   var cv=document.getElementById("bgCanvas"),cx=cv.getContext("2d"),W,H,nodes=[];
@@ -328,11 +517,9 @@ document.getElementById("yk").addEventListener("input",function(){
   else{h.textContent="e.g. 123456 or me123456@meti.ai";h.style.color="var(--blue1)";}
 });
 
-// English only
-["labName","qtcName"].forEach(function(id){
-  document.getElementById(id).addEventListener("input",function(){
-    this.style.borderColor=(this.value.length>0&&!/^[a-zA-Z\s]+$/.test(this.value))?"var(--error)":"";
-  });
+// English only for labName
+document.getElementById("labName").addEventListener("input",function(){
+  this.style.borderColor=(this.value.length>0&&!/^[a-zA-Z\s]+$/.test(this.value))?"var(--error)":"";
 });
 
 // Queue dropdown
@@ -423,7 +610,6 @@ document.getElementById("F").addEventListener("submit",function(e){
   function chk(id,val){if(!val){me(id);err=true;}else ce(id);}
 
   var lab=document.getElementById("labName").value.trim();
-  var qtc=document.getElementById("qtcName").value.trim();
   var lnk=document.getElementById("taskLink").value.trim();
   var yk=document.getElementById("yk").value.trim().toLowerCase();
   var act=document.getElementById("action").value;
@@ -436,9 +622,15 @@ document.getElementById("F").addEventListener("submit",function(e){
   else if(!/^[a-zA-Z\s]+$/.test(lab)){me("labName");err=true;toast("Labeler Name: English letters only","err");return;}
   else ce("labName");
 
-  if(!qtc){me("qtcName");err=true;}
-  else if(!/^[a-zA-Z\s]+$/.test(qtc)){me("qtcName");err=true;toast("QTC Name: English letters only","err");return;}
-  else ce("qtcName");
+  if(!document.getElementById("qtcName").value){
+    document.getElementById("qtcPickerWrap").style.border="1px solid var(--error)";
+    document.getElementById("qtcPickerWrap").style.borderRadius="8px";
+    document.getElementById("qtcPickerWrap").style.padding="8px";
+    err=true;toast("Please select a QTC Name","err");
+  } else {
+    document.getElementById("qtcPickerWrap").style.border="";
+    document.getElementById("qtcPickerWrap").style.padding="";
+  }
 
   if(!/^\d{6}$/.test(yk)&&!/^me\d{6}@meti\.ai$/.test(yk)){me("yk");err=true;toast("Yubikey: 6 digits or me123456@meti.ai","err");return;}
   else ce("yk");
@@ -487,7 +679,7 @@ document.getElementById("F").addEventListener("submit",function(e){
     shift:document.getElementById("shift").value,
     unit:document.getElementById("unit").value,
     labelerName:lab,
-    qtcName:qtc,
+    qtcName:document.getElementById("qtcName").value,
     yubikeyEmail:normYK(document.getElementById("yk").value),
     pcNo:document.getElementById("pcNo").value,
     modality:document.getElementById("modality").value,
@@ -511,6 +703,16 @@ document.getElementById("F").addEventListener("submit",function(e){
     toast("✓ Finished","ok");
     document.getElementById("F").reset();
     tick();
+    // reset QTC
+    selectedQTC=null;
+    document.getElementById("qtcName").value="";
+    document.getElementById("qtcShiftSel").value="";
+    document.getElementById("qtcGrid").innerHTML="";
+    document.getElementById("qtcSelectedDisplay").innerHTML="";
+    document.getElementById("qtcPickerWrap").style.display="none";
+    document.getElementById("qtcShiftMsg").style.display="block";
+    document.getElementById("qtcPickerWrap").style.border="";
+    document.getElementById("qtcPickerWrap").style.padding="";
     ["brSubmit","brSkip","framesRow","notesRow","finalWrap"].forEach(function(id){document.getElementById(id).style.display="none";});
     document.getElementById("btnSubmit").classList.remove("asubmit");
     document.getElementById("btnSkip").classList.remove("askip");
@@ -529,7 +731,7 @@ document.getElementById("F").addEventListener("submit",function(e){
     document.getElementById("linkHint").textContent="Must start with: https://labeling.robot.car/#";
     document.getElementById("linkHint").style.color="var(--blue1)";
     document.getElementById("taskLink").style.borderColor="";
-    ["shift","unit","pcNo","labName","qtcName","yk","modality","taskLink","taskId","pass","reason","objCount","notes"]
+    ["shift","unit","pcNo","labName","yk","modality","taskLink","taskId","pass","reason","objCount","notes"]
       .forEach(function(id){var el=document.getElementById(id);if(el){el.classList.remove("err-field");el.style.borderColor="";el.style.boxShadow="";}});
     btn.textContent="⏭  Skip Task";
     btn.style.background="linear-gradient(90deg,#0080ff,#00ccff,#0080ff)";
