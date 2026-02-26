@@ -164,7 +164,7 @@ select option{background:#071228;color:var(--text)}
         </div>
         <div class="field">
           <label>PC No. <span class="req">*</span></label>
-          <input type="number" id="pcNo" placeholder="e.g. 7 or 30" min="1" max="999" required>
+          <input type="text" id="pcNo" placeholder="e.g. 7, 30 or QTC" required autocomplete="off">
         </div>
       </div>
 
@@ -376,7 +376,7 @@ var QTC_DATA = {
     {name:"Ahmed Ashraf",role:""},{name:"Awad Wagdy",role:""},
     {name:"Youssef Ramdan",role:""},{name:"Ibrahim Khaled",role:""},
     {name:"Abdelrahman Ahmed",role:""},{name:"Mohamed Salem",role:"SV"},
-    {name:"Yousef  Eliwa",role:"SV"},{name:"Amr Essam",role:"SV"},
+    {name:"Yousef Ahmed Eliwa",role:"SV"},{name:"Amr Essam",role:"SV"},
     {name:"Shehab Ayman",role:"SV"},{name:"Eslam Salah",role:"SV"}
   ],
   "Over Night": [
@@ -517,7 +517,21 @@ document.getElementById("yk").addEventListener("input",function(){
   else{h.textContent="e.g. 123456 or me123456@meti.ai";h.style.color="var(--blue1)";}
 });
 
-// English only for labName
+// PC No - accepts number or QTC
+document.getElementById("pcNo").addEventListener("input",function(){
+  var v=this.value.trim();
+  var isNum=/^\d+$/.test(v);
+  var isQTC=/^qtc$/i.test(v);
+  if(v.length===0){this.style.borderColor="";}
+  else if(isNum||isQTC){
+    this.value=isQTC?"QTC":v;
+    this.style.borderColor="rgba(0,229,160,0.5)";
+  } else {
+    this.style.borderColor="var(--error)";
+  }
+});
+
+
 document.getElementById("labName").addEventListener("input",function(){
   this.style.borderColor=(this.value.length>0&&!/^[a-zA-Z\s]+$/.test(this.value))?"var(--error)":"";
 });
@@ -616,7 +630,10 @@ document.getElementById("F").addEventListener("submit",function(e){
 
   chk("shift",document.getElementById("shift").value);
   chk("unit",document.getElementById("unit").value);
-  chk("pcNo",document.getElementById("pcNo").value);
+  var pcVal=document.getElementById("pcNo").value.trim();
+  if(!pcVal){me("pcNo");err=true;}
+  else if(!/^\d+$/.test(pcVal)&&!/^qtc$/i.test(pcVal)){me("pcNo");err=true;toast("PC No: رقم أو QTC بس","err");return;}
+  else{ce("pcNo");document.getElementById("pcNo").value=/^qtc$/i.test(pcVal)?"QTC":pcVal;}
 
   if(!lab){me("labName");err=true;}
   else if(!/^[a-zA-Z\s]+$/.test(lab)){me("labName");err=true;toast("Labeler Name: English letters only","err");return;}
