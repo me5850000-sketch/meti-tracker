@@ -56,7 +56,6 @@ select option{background:#071228;color:var(--text)}
 .csl li:last-child{border-bottom:none}
 .csl li:hover{background:rgba(0,144,255,.12);color:#fff}
 .csl li.sel{background:rgba(0,144,255,.18);color:var(--blue2)}
-/* AUTOCOMPLETE */
 .acw{position:relative}
 .acl{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#0a1630;border:1px solid var(--bf);border-radius:8px;max-height:220px;overflow-y:auto;z-index:500;box-shadow:0 8px 30px rgba(0,0,0,.6);display:none}
 .acl.open{display:block}
@@ -66,7 +65,6 @@ select option{background:#071228;color:var(--text)}
 .delbtn{font-size:.7rem;color:transparent;padding:2px 8px;border-radius:4px;border:none;background:none;cursor:pointer;transition:color .15s;flex-shrink:0}
 .acl li:hover .delbtn,.acl li.ac-hover .delbtn{color:var(--muted)}
 .delbtn:hover{color:var(--error)!important}
-/* FRAMES MERGED */
 .frames-merged{display:flex;align-items:center;gap:10px}
 .frames-merged input{flex:1}
 .frames-sep{color:var(--muted);font-size:1.1rem;font-weight:700;flex-shrink:0}
@@ -192,7 +190,6 @@ select option{background:#071228;color:var(--text)}
         <input type="hidden" id="qtcName" required>
       </div>
 
-      <!-- YUBIKEY - label only, no validation -->
       <div class="full field">
         <label>Yubikey <span class="req">*</span></label>
         <input type="text" id="yk" placeholder="Enter your Yubikey..." required autocomplete="off" data-lpignore="true">
@@ -279,7 +276,6 @@ select option{background:#071228;color:var(--text)}
           </select></div>
         </div>
 
-        <!-- MERGED FRAMES FIELD -->
         <div id="framesRow" style="display:none;margin-top:18px" class="field">
           <label>Issued Frames <span class="req">*</span>
             <span class="sub">Format: 100-150</span>
@@ -316,7 +312,7 @@ var QTC_DATA={
     {name:"Abdulrahman Refaat",role:"QT"},{name:"Hassan Mohamed",role:"QT"},
     {name:"Youssef Abass",role:"QT"},{name:"Adel Ashraf",role:"QT"},
     {name:"Bassant Sherif",role:"QT"},{name:"Ahmed Taha",role:"QT"},
-    {name:"Ashiry",role:""},,{name:"Amr Salah",role:""},
+    {name:"Ashiry",role:""},{name:"Amr Salah",role:""},
     {name:"Mazen Ehab",role:""},{name:"Hagar Fawzy",role:""},
     {name:"Roqia Wael",role:""},{name:"Eman Gamal",role:""},
     {name:"Kirollos Ibrahem",role:""},{name:"Rawan Elmahdy",role:""},
@@ -331,15 +327,32 @@ var QTC_DATA={
     {name:"Omnia Mohamed",role:""},{name:"Eslam Ali",role:""},
     {name:"Asmaa Khaled",role:""},{name:"Donia El Said",role:""},
     {name:"Mayada Adel",role:""},{name:"Reem Samir",role:""},
-    {name:"Yasmeen Nasser",role:"SV"},{name:"Abdelmonsef",role:"SV"}
-    {name:"Mohamed Khaled",role:"SV"},{name:"Muhammad Abdel Azim",role:"SV"},
-    {name:"Abdelmonsef",role:"SV"}
+    {name:"Yasmeen Nasser",role:"SV"},{name:"Abdelmonsef",role:"SV"},
+    {name:"Mohamed Khaled",role:"SV"},{name:"Muhammad Abdel Azim",role:"SV"}
+  ],
+  "Night":[
+    {name:"Hazem Nader",role:"QT"},{name:"Mohamed Sayed",role:"QT"},
+    {name:"Abdulrahman Adel",role:"QT"},{name:"Mohamed Kamal",role:"QT"},
+    {name:"Mahmoud Khaled",role:""},{name:"Ibrahim Mohamed Ibrahim",role:""},
+    {name:"Kerolos Emil Shawky",role:""},{name:"Hussien Ali",role:""},
+    {name:"Ahmed Nagy",role:""},{name:"Ali Suliman",role:""},
+    {name:"Mostafa Helal",role:""},{name:"Osama Ashraf",role:""},
+    {name:"Marwan Mohamed",role:""},{name:"Tony Emad",role:""},
+    {name:"Hesham Hassan",role:""},{name:"Mahmoud Adel",role:""},
+    {name:"Abdelrahman Omar",role:""},{name:"Abdelrahman Tarek Abdo",role:""},
+    {name:"Youssef Mohamed Abdelfatah",role:""},{name:"Mark Ashraf",role:""},
+    {name:"Ahmed Ashraf",role:""},{name:"Awad Wagdy",role:""},
+    {name:"Youssef Ramdan",role:""},{name:"Ibrahim Khaled",role:""},
+    {name:"Abdelrahman Ahmed",role:""},
+    {name:"Mohamed Salem",role:"SV"},{name:"Yousef Ahmed Eliwa",role:"SV"},
+    {name:"Amr Essam",role:"SV"},{name:"Shehab Ayman",role:"SV"},
+    {name:"Eslam Salah",role:"SV"}
   ],
   "Morning 12 H":[
-        {name:"Abdulrahman Refaat",role:"QT"},{name:"Hassan Mohamed",role:"QT"},
+    {name:"Abdulrahman Refaat",role:"QT"},{name:"Hassan Mohamed",role:"QT"},
     {name:"Youssef Abass",role:"QT"},{name:"Adel Ashraf",role:"QT"},
     {name:"Bassant Sherif",role:"QT"},{name:"Ahmed Taha",role:"QT"},
-    {name:"Ashiry",role:""},,{name:"Amr Salah",role:""},
+    {name:"Ashiry",role:""},{name:"Amr Salah",role:""},
     {name:"Mazen Ehab",role:""},{name:"Hagar Fawzy",role:""},
     {name:"Roqia Wael",role:""},{name:"Eman Gamal",role:""},
     {name:"Kirollos Ibrahem",role:""},{name:"Rawan Elmahdy",role:""},
@@ -354,9 +367,8 @@ var QTC_DATA={
     {name:"Omnia Mohamed",role:""},{name:"Eslam Ali",role:""},
     {name:"Asmaa Khaled",role:""},{name:"Donia El Said",role:""},
     {name:"Mayada Adel",role:""},{name:"Reem Samir",role:""},
-    {name:"Yasmeen Nasser",role:"SV"},{name:"Abdelmonsef",role:"SV"}
-    {name:"Mohamed Khaled",role:"SV"},{name:"Muhammad Abdel Azim",role:"SV"},
-    {name:"Abdelmonsef",role:"SV"}
+    {name:"Yasmeen Nasser",role:"SV"},{name:"Abdelmonsef",role:"SV"},
+    {name:"Mohamed Khaled",role:"SV"},{name:"Muhammad Abdel Azim",role:"SV"}
   ],
   "Over Night":[
     {name:"Omar Sharawy",role:"QT"},{name:"Mohamed Fahmy",role:"QT"},
@@ -407,6 +419,7 @@ function buildQTCGrid(shift){
   if(!list){wrap.style.display="none";msg.style.display="block";return;}
   msg.style.display="none";wrap.style.display="block";
   list.forEach(function(p){
+    if(!p)return;
     var card=document.createElement("div");
     card.className="qtc-card";
     card.innerHTML='<div class="qtc-check"></div><div><div class="qtc-name">'+p.name+'</div>'+(p.role?'<div class="qtc-role">'+p.role+'</div>':'')+'</div>';
@@ -490,58 +503,35 @@ document.getElementById("labName").addEventListener("input",function(){
   list.addEventListener("click",function(e){e.stopPropagation();});
 })();
 
-// ===== AUTOCOMPLETE FIXED =====
+// AUTOCOMPLETE
 function getN(){try{return JSON.parse(localStorage.getItem(NK))||[];}catch(e){return[];}}
 function saveN(n){if(!n.trim())return;var a=getN();if(a.indexOf(n)===-1){a.unshift(n);localStorage.setItem(NK,JSON.stringify(a.slice(0,60)));}}
 function delN(n){localStorage.setItem(NK,JSON.stringify(getN().filter(function(x){return x!==n;})));}
 
 var labIn=document.getElementById("labName");
 var acL=document.getElementById("acList");
-var acActive=-1; // keyboard nav index
+var acActive=-1;
 
 function renderAC(q){
   var hits=q?getN().filter(function(n){return n.toLowerCase().indexOf(q.toLowerCase())>-1;}):getN();
   acActive=-1;
   if(!hits.length){acL.innerHTML="";acL.classList.remove("open");return;}
   acL.innerHTML="";
-  hits.forEach(function(name,idx){
+  hits.forEach(function(name){
     var li=document.createElement("li");
     var sp=document.createElement("span");
     var dl=document.createElement("button");
     sp.textContent=name;
     dl.className="delbtn";dl.type="button";dl.textContent="\u2715";
     li.appendChild(sp);li.appendChild(dl);
-    li.dataset.idx=idx;
-
-    // FIX: mousedown+preventDefault stops blur from firing
     li.addEventListener("mousedown",function(e){
-      // if clicking delete button
-      if(e.target===dl){
-        e.preventDefault();
-        delN(name);
-        renderAC(labIn.value);
-        return;
-      }
-      e.preventDefault();
-      labIn.value=name;
-      acL.classList.remove("open");
-      acActive=-1;
+      if(e.target===dl){e.preventDefault();delN(name);renderAC(labIn.value);return;}
+      e.preventDefault();labIn.value=name;acL.classList.remove("open");acActive=-1;
     });
-
-    // touch support
     li.addEventListener("touchstart",function(e){
-      if(e.target===dl){
-        e.preventDefault();
-        delN(name);
-        renderAC(labIn.value);
-        return;
-      }
-      e.preventDefault();
-      labIn.value=name;
-      acL.classList.remove("open");
-      acActive=-1;
+      if(e.target===dl){e.preventDefault();delN(name);renderAC(labIn.value);return;}
+      e.preventDefault();labIn.value=name;acL.classList.remove("open");acActive=-1;
     },{passive:false});
-
     acL.appendChild(li);
   });
   acL.classList.add("open");
@@ -549,12 +539,7 @@ function renderAC(q){
 
 labIn.addEventListener("input",function(){renderAC(this.value);});
 labIn.addEventListener("focus",function(){renderAC(this.value);});
-labIn.addEventListener("blur",function(){
-  // small delay only for cases where mousedown didn't fire (e.g. tab key)
-  setTimeout(function(){acL.classList.remove("open");acActive=-1;},180);
-});
-
-// keyboard navigation
+labIn.addEventListener("blur",function(){setTimeout(function(){acL.classList.remove("open");acActive=-1;},180);});
 labIn.addEventListener("keydown",function(e){
   var items=acL.querySelectorAll("li");
   if(!items.length)return;
@@ -563,7 +548,6 @@ labIn.addEventListener("keydown",function(e){
   else if(e.key==="Enter"&&acActive>=0){e.preventDefault();labIn.value=items[acActive].querySelector("span").textContent;acL.classList.remove("open");acActive=-1;}
   else if(e.key==="Escape"){acL.classList.remove("open");acActive=-1;}
 });
-// ===== END AUTOCOMPLETE =====
 
 function setAction(val){
   document.getElementById("action").value=val;
@@ -622,7 +606,7 @@ document.getElementById("F").addEventListener("submit",function(e){
 
   var pcVal=document.getElementById("pcNo").value.trim();
   if(!pcVal){me("pcNo");err=true;}
-  else if(!/^\d+$/.test(pcVal)&&!/^qtc$/i.test(pcVal)){me("pcNo");err=true;toast("PC No: \u0631\u0642\u0645 \u0623\u0648 QTC \u0628\u0633","err");return;}
+  else if(!/^\d+$/.test(pcVal)&&!/^qtc$/i.test(pcVal)){me("pcNo");err=true;toast("PC No: رقم أو QTC بس","err");return;}
   else{ce("pcNo");document.getElementById("pcNo").value=/^qtc$/i.test(pcVal)?"QTC":pcVal;}
 
   if(!lab){me("labName");err=true;}
@@ -643,10 +627,11 @@ document.getElementById("F").addEventListener("submit",function(e){
 
   chk("modality",document.getElementById("modality").value);
 
+  var qb=document.getElementById("qBtn");
   if(!document.getElementById("qName").value){
-    var qb=document.getElementById("qBtn");qb.style.borderColor="var(--error)";qb.style.boxShadow="0 0 0 3px rgba(255,77,109,0.15)";err=true;
+    qb.style.borderColor="var(--error)";qb.style.boxShadow="0 0 0 3px rgba(255,77,109,0.15)";err=true;
   } else {
-    var qb=document.getElementById("qBtn");qb.style.borderColor="";qb.style.boxShadow="";
+    qb.style.borderColor="";qb.style.boxShadow="";
   }
 
   if(!lnk.startsWith("https://labeling.robot.car/#")){me("taskLink");err=true;}else ce("taskLink");
@@ -667,7 +652,6 @@ document.getElementById("F").addEventListener("submit",function(e){
     if(document.getElementById("reason").value==="Other"&&!document.getElementById("notes").value.trim()){
       me("notes");err=true;toast("Please write a note","err");return;
     }
-    // validate frames
     if(FRAME_R.indexOf(document.getElementById("reason").value)>-1){
       var ff=document.getElementById("fromFrame").value;
       var tf=document.getElementById("toFrame").value;
@@ -686,7 +670,6 @@ document.getElementById("F").addEventListener("submit",function(e){
 
   saveN(lab);
 
-  // Build frames string: "100-150"
   var fromF=document.getElementById("fromFrame").value;
   var toF=document.getElementById("toFrame").value;
   var framesVal=(fromF&&toF)?(fromF+"-"+toF):"";
