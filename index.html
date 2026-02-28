@@ -396,16 +396,23 @@ input[type=number]{-moz-appearance:textfield}
           <div id="brSkip" class="branch" style="display:none">
             <div class="field" style="margin-bottom:0">
               <label>Reason <span class="req">*</span></label>
-              <div class="sw"><select id="reason">
-                <option value="" disabled selected>Select an issue...</option>
-                <option>Edge Case</option>
-                <option>Not a freeway</option>
-                <option>Camera projection issue</option>
-                <option>Lidar points shifting vertically</option>
-                <option>Degraded lidar returns</option>
-                <option>Tool Issue</option>
-                <option>Other</option>
-              </select></div>
+              <!-- SEARCHABLE DROPDOWN FOR REASON -->
+              <div class="sdw">
+                <div class="sdb" id="reasonBtn" tabindex="0">
+                  <input class="sd-input" id="reasonInput" placeholder="Select an issue..." autocomplete="off" data-lpignore="true">
+                  <span class="sd-arrow">&#9660;</span>
+                </div>
+                <ul class="sdl" id="reasonList">
+                  <li data-v="Edge Case">Edge Case</li>
+                  <li data-v="Not a freeway">Not a freeway</li>
+                  <li data-v="Camera projection issue">Camera projection issue</li>
+                  <li data-v="Lidar points shifting vertically">Lidar points shifting vertically</li>
+                  <li data-v="Degraded lidar returns">Degraded lidar returns</li>
+                  <li data-v="Tool Issue">Tool Issue</li>
+                  <li data-v="Other">Other</li>
+                </ul>
+                <input type="hidden" id="reason">
+              </div>
             </div>
             <div id="framesRow" style="display:none;margin-top:18px" class="field">
               <label>Issued Frames <span class="req">*</span><span class="sub">Format: 100&ndash;150</span></label>
@@ -562,7 +569,7 @@ document.querySelectorAll("input,select,textarea").forEach(function(el){
   el.addEventListener("input",updateProgress);el.addEventListener("change",updateProgress);
 });
 
-// ===== PC NO — validation only, no auto-fill on page load =====
+// PC NO validation
 document.getElementById("pcNo").addEventListener("input",function(){
   var v=this.value.trim();
   if(!v){this.style.borderColor="";return;}
@@ -603,8 +610,18 @@ var qtcShiftDD=makeSearchableDropdown({btnId:"qtcShiftBtn",inputId:"qtcShiftInpu
 var modalityDD=makeSearchableDropdown({btnId:"modalityBtn",inputId:"modalityInput",listId:"modalityList",hiddenId:"modality"});
 var queueDD=makeSearchableDropdown({btnId:"queueBtn",inputId:"queueInput",listId:"queueList",hiddenId:"qName",displayId:"queueDisplay"});
 var passDD=makeSearchableDropdown({btnId:"passBtn",inputId:"passInput",listId:"passList",hiddenId:"pass"});
+var reasonDD=makeSearchableDropdown({btnId:"reasonBtn",inputId:"reasonInput",listId:"reasonList",hiddenId:"reason",onSelect:function(val){
+  var sf=FRAME_R.indexOf(val)>-1,sn=(val==="Other"||val==="Edge Case");
+  document.getElementById("framesRow").style.display=sf?"block":"none";
+  document.getElementById("fromFrame").required=sf;
+  document.getElementById("toFrame").required=sf;
+  document.getElementById("notesRow").style.display=sn?"block":"none";
+  document.getElementById("notes").required=(val==="Other");
+  var lbl=document.getElementById("notesLabel");
+  if(lbl){lbl.innerHTML=val==="Other"?'Notes <span class="req">*</span>':'Notes <span style="font-size:.72rem;color:var(--text-muted);font-weight:400">(optional)</span>';}
+}});
 
-document.addEventListener("click",function(e){["shiftBtn","unitBtn","qtcShiftBtn","modalityBtn","queueBtn","passBtn"].forEach(function(id){var b=document.getElementById(id);var lid=id.replace("Btn","List");var l=document.getElementById(lid);if(b&&!b.contains(e.target)){b.classList.remove("open");if(l)l.classList.remove("open");}});});
+document.addEventListener("click",function(e){["shiftBtn","unitBtn","qtcShiftBtn","modalityBtn","queueBtn","passBtn","reasonBtn"].forEach(function(id){var b=document.getElementById(id);var lid=id.replace("Btn","List");var l=document.getElementById(lid);if(b&&!b.contains(e.target)){b.classList.remove("open");if(l)l.classList.remove("open");}});});
 
 var labIn=document.getElementById("labName"),acL=document.getElementById("acList"),acActive=-1;
 function renderAC(q){var hits=q?getN().filter(function(n){return n.toLowerCase().indexOf(q.toLowerCase())>-1;}):getN();acActive=-1;if(!hits.length){acL.innerHTML="";acL.classList.remove("open");return;}acL.innerHTML="";hits.forEach(function(name){var li=document.createElement("li");var sp=document.createElement("span");sp.textContent=name;var dl=document.createElement("button");dl.className="delbtn";dl.type="button";dl.textContent="\u2715";li.appendChild(sp);li.appendChild(dl);li.addEventListener("mousedown",function(e){if(e.target===dl){e.preventDefault();delN(name);renderAC(labIn.value);if(document.getElementById("storageBody").style.display!=="none")renderStorageManager();return;}e.preventDefault();labIn.value=name;acL.classList.remove("open");acActive=-1;});acL.appendChild(li);});acL.classList.add("open");}
@@ -671,7 +688,7 @@ function setAction(val){
   document.getElementById("fromFrame").required=false;
   document.getElementById("toFrame").required=false;
   document.getElementById("notes").required=false;
-  document.getElementById("reason").value="";
+  reasonDD.reset();
   if(val==="Submit"){bs.style.display="block";bk.style.display="none";document.getElementById("reason").required=false;document.getElementById("objCount").required=true;btn.textContent="\u2714  Submit Task";btn.style.background="var(--success)";btn.style.boxShadow="0 3px 12px rgba(26,138,90,.3)";}
   else{bs.style.display="none";bk.style.display="block";document.getElementById("reason").required=true;document.getElementById("objCount").required=false;btn.textContent="\u23ed  Skip Task";btn.style.background="var(--primary)";btn.style.boxShadow="0 3px 12px rgba(30,108,147,.3)";}
   fw.style.display="block";
@@ -679,18 +696,6 @@ function setAction(val){
 }
 document.getElementById("btnSubmit").addEventListener("click",function(){setAction("Submit");});
 document.getElementById("btnSkip").addEventListener("click",function(){setAction("Skip");});
-
-document.getElementById("reason").addEventListener("change",function(){
-  var val=this.value;
-  var sf=FRAME_R.indexOf(val)>-1,sn=(val==="Other"||val==="Edge Case");
-  document.getElementById("framesRow").style.display=sf?"block":"none";
-  document.getElementById("fromFrame").required=sf;
-  document.getElementById("toFrame").required=sf;
-  document.getElementById("notesRow").style.display=sn?"block":"none";
-  document.getElementById("notes").required=(val==="Other");
-  var lbl=document.getElementById("notesLabel");
-  if(lbl){lbl.innerHTML=val==="Other"?'Notes <span class="req">*</span>':'Notes <span style="font-size:.72rem;color:var(--text-muted);font-weight:400">(optional)</span>';}
-});
 
 document.getElementById("F").addEventListener("submit",function(e){
   e.preventDefault();
@@ -735,7 +740,7 @@ document.getElementById("F").addEventListener("submit",function(e){
   else{document.getElementById("btnSubmit").style.borderColor="";document.getElementById("btnSkip").style.borderColor="";}
 
   if(act==="Skip"){
-    chk("reason",document.getElementById("reason").value);
+    chkDD("reason","reasonBtn");
     if(document.getElementById("reason").value==="Other"&&!document.getElementById("notes").value.trim()){me("notes");err=true;toast("Please write a note","err");return;}
     if(FRAME_R.indexOf(document.getElementById("reason").value)>-1){var ff=document.getElementById("fromFrame").value,tf=document.getElementById("toFrame").value;if(!ff||!tf){if(!ff)me("fromFrame");if(!tf)me("toFrame");err=true;toast("Please enter both frame numbers","err");return;}}
   }
@@ -798,9 +803,8 @@ document.getElementById("F").addEventListener("submit",function(e){
     document.getElementById("idIcon").style.color="";
     document.getElementById("linkHint").style.color="";
     document.getElementById("taskLink").style.borderColor="";
-    shiftDD.reset();unitDD.reset();qtcShiftDD.reset();modalityDD.reset();queueDD.reset();passDD.reset();
-    // ===== PC No. يتمسح زي Labeler Name بدون رجوع =====
-    ["labName","yk","pcNo","taskLink","taskId","reason","objCount","notes","fromFrame","toFrame"]
+    shiftDD.reset();unitDD.reset();qtcShiftDD.reset();modalityDD.reset();queueDD.reset();passDD.reset();reasonDD.reset();
+    ["labName","yk","pcNo","taskLink","taskId","objCount","notes","fromFrame","toFrame"]
       .forEach(function(id){var el=document.getElementById(id);if(el){el.classList.remove("err-field");el.style.borderColor="";el.style.boxShadow="";}});
     document.getElementById("progressBar").style.width="0%";
     var ykHint=document.getElementById("ykHint");
