@@ -23,16 +23,12 @@
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle at 20% 20%,rgba(30,108,147,.04) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(15,163,212,.04) 0%,transparent 50%);pointer-events:none;z-index:0}
 .page{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;min-height:100vh}
-
-/* TOPBAR */
 .topbar{width:100%;background:var(--primary-dark);padding:0 40px;height:52px;display:flex;align-items:center;justify-content:space-between}
 .topbar-brand{display:flex;align-items:center;gap:12px}
 .topbar-logo-box{width:32px;height:32px;background:rgba(255,255,255,.15);border-radius:6px;display:flex;align-items:center;justify-content:center}
 .topbar-logo-box svg{width:18px;height:18px}
 .topbar-company{font-family:'Plus Jakarta Sans',sans-serif;font-size:.75rem;font-weight:600;color:rgba(255,255,255,.7);letter-spacing:2px;text-transform:uppercase}
 .topbar-time{font-size:.78rem;color:rgba(255,255,255,.55);font-weight:500;letter-spacing:.5px}
-
-/* HEADER */
 header.main-header{width:100%;background:var(--primary);padding:28px 48px 32px;display:flex;align-items:flex-end;gap:24px;box-shadow:0 2px 12px rgba(30,108,147,.25)}
 .header-meti{font-family:'Plus Jakarta Sans',sans-serif;font-size:3rem;font-weight:800;color:#fff;letter-spacing:-1px;line-height:1}
 .header-divider{width:1px;height:44px;background:rgba(255,255,255,.25);flex-shrink:0;margin-bottom:2px}
@@ -41,15 +37,9 @@ header.main-header{width:100%;background:var(--primary);padding:28px 48px 32px;d
 .header-dept{font-size:.75rem;color:rgba(255,255,255,.5);font-weight:400;letter-spacing:.5px}
 .header-badge{margin-left:auto;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:8px 18px;text-align:center;margin-bottom:2px}
 .header-badge-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.05rem;font-weight:700;color:#fff;letter-spacing:.5px;display:block}
-
-/* PROGRESS */
 .progress-bar-track{width:100%;height:4px;background:rgba(30,108,147,.12)}
 .progress-bar-fill{height:100%;width:0%;background:var(--accent);transition:width .4s ease}
-
-/* CONTENT */
 .content{width:100%;max-width:1480px;padding:36px 32px 24px}
-
-/* CARD */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);overflow:hidden;animation:slideUp .4s ease both}
 @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .card-section{border-bottom:1px solid #edf2f6;padding:36px 48px}
@@ -58,18 +48,12 @@ header.main-header{width:100%;background:var(--primary);padding:28px 48px 32px;d
 .section-icon{width:30px;height:30px;background:var(--primary-xlight);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .section-icon svg{width:15px;height:15px;color:var(--primary)}
 .section-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--primary)}
-
-/* GRID */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:22px}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px;margin-bottom:22px}
 .full{margin-bottom:22px}
-
-/* FIELD */
 .field label{display:block;font-size:1.15rem;font-weight:600;color:var(--text-secondary);margin-bottom:8px;letter-spacing:.2px}
 .field label .req{color:var(--error);margin-left:2px}
 .field label .sub{display:block;font-size:.7rem;font-weight:400;color:var(--text-muted);margin-top:2px}
-
-/* INPUTS */
 input,select,textarea{width:100%;background:var(--input-bg);border:1.5px solid var(--border);border-radius:var(--radius);padding:12px 16px;color:var(--text);font-family:'Inter',sans-serif;font-size:1.05rem;outline:none;transition:border-color .18s,box-shadow .18s,background .18s;appearance:none;-webkit-appearance:none}
 input::placeholder,textarea::placeholder{color:var(--text-muted)}
 input:focus,select:focus,textarea:focus{border-color:var(--border-focus);box-shadow:0 0 0 3px rgba(30,108,147,.1);background:#fff}
@@ -77,14 +61,16 @@ input[readonly]{background:#f2f6f9;color:var(--text-muted);cursor:default}
 input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
 input[type=number]{-moz-appearance:textfield}
 
-/* SEARCHABLE DROPDOWN (replaces native select for Shift, Unit, Queue) */
+/* SEARCHABLE DROPDOWN */
 .sdw{position:relative}
-.sdb{width:100%;background:var(--input-bg);border:1.5px solid var(--border);border-radius:var(--radius);padding:12px 34px 12px 16px;color:var(--text);font-family:'Inter',sans-serif;font-size:1.05rem;text-align:left;cursor:pointer;outline:none;transition:border-color .18s,box-shadow .18s,background .18s;display:flex;align-items:center;position:relative}
+.sdb{width:100%;background:var(--input-bg);border:1.5px solid var(--border);border-radius:var(--radius);padding:12px 34px 12px 16px;color:var(--text);font-family:'Inter',sans-serif;font-size:1.05rem;text-align:left;cursor:pointer;outline:none;transition:border-color .18s,box-shadow .18s,background .18s;display:flex;align-items:center;position:relative;min-height:48px}
 .sdb input.sd-input{flex:1;border:none;background:transparent;padding:0;font-size:1.05rem;color:var(--text);outline:none;cursor:text;font-family:'Inter',sans-serif;min-width:0}
 .sdb input.sd-input::placeholder{color:var(--text-muted)}
 .sdb .sd-arrow{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--primary);pointer-events:none;font-size:.8rem;transition:transform .2s}
 .sdb.open{border-color:var(--border-focus);box-shadow:0 0 0 3px rgba(30,108,147,.1);background:#fff}
 .sdb.open .sd-arrow{transform:translateY(-50%) rotate(180deg)}
+/* display span for HTML content (queue highlights) */
+.sd-display{flex:1;min-width:0;font-size:1.05rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:none;cursor:pointer}
 .sdl{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1.5px solid var(--border-focus);border-radius:var(--radius);z-index:300;list-style:none;box-shadow:var(--shadow-lg);display:none;overflow:hidden;max-height:280px;overflow-y:auto}
 .sdl.open{display:block}
 .sdl li{padding:11px 14px;cursor:pointer;font-size:.95rem;color:var(--text);border-bottom:1px solid #f0f4f7;transition:background .15s;line-height:1.5}
@@ -93,10 +79,8 @@ input[type=number]{-moz-appearance:textfield}
 .sdl li.sel{background:var(--primary-xlight);color:var(--primary);font-weight:600}
 .sdl li.sd-empty{color:var(--text-muted);font-style:italic;cursor:default;font-size:.88rem}
 .sdl li.sd-empty:hover{background:transparent;color:var(--text-muted)}
-.sd-clear{position:absolute;right:32px;top:50%;transform:translateY(-50%);color:var(--text-muted);background:none;border:none;cursor:pointer;font-size:.85rem;padding:2px 4px;line-height:1;display:none}
-.sd-clear:hover{color:var(--error)}
 
-/* HIGHLIGHT in queue dropdown */
+/* HIGHLIGHT */
 .hl{color:#e07b00;font-weight:700;background:rgba(224,123,0,.1);border:1px solid rgba(224,123,0,.3);border-radius:5px;padding:1px 7px;margin:0 1px;display:inline-block;letter-spacing:.2px}
 
 /* AUTOCOMPLETE */
@@ -144,7 +128,7 @@ input[type=number]{-moz-appearance:textfield}
 .branch{border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:18px;background:#fafcfe;animation:fadeIn .25s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
 
-/* SUBMIT BTN */
+/* SUBMIT */
 .subbtn{width:100%;padding:14px;background:var(--primary);border:none;border-radius:var(--radius);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:.95rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:background .2s,transform .1s,box-shadow .2s;box-shadow:0 3px 12px rgba(30,108,147,.3)}
 .subbtn:hover{background:var(--primary-light);box-shadow:0 4px 20px rgba(30,108,147,.4)}
 .subbtn:active{transform:scale(.99)}
@@ -167,7 +151,7 @@ input[type=number]{-moz-appearance:textfield}
 #linkHint{color:var(--text-muted)}
 .form-footer{background:#f7fbfd;border-top:1px solid var(--border);padding:20px 32px}
 
-/* STORAGE PANEL */
+/* STORAGE */
 .storage-panel{width:100%;max-width:1480px;margin:16px 0 40px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);box-shadow:var(--shadow-sm);overflow:hidden}
 .storage-toggle{width:100%;padding:14px 20px;background:#f7fbfd;border:none;cursor:pointer;display:flex;align-items:center;gap:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;font-weight:700;color:var(--primary);letter-spacing:.5px;transition:background .15s}
 .storage-toggle:hover{background:var(--primary-xlight)}
@@ -245,10 +229,9 @@ input[type=number]{-moz-appearance:textfield}
           </div>
 
           <div class="g3">
-            <!-- SHIFT - searchable -->
             <div class="field">
               <label>Shift <span class="req">*</span></label>
-              <div class="sdw" id="shiftWrap">
+              <div class="sdw">
                 <div class="sdb" id="shiftBtn" tabindex="0">
                   <input class="sd-input" id="shiftInput" placeholder="Select Shift..." autocomplete="off" data-lpignore="true">
                   <span class="sd-arrow">&#9660;</span>
@@ -260,14 +243,13 @@ input[type=number]{-moz-appearance:textfield}
                   <li data-v="Morning 12 H">Morning 12 H</li>
                   <li data-v="Over Night 12 H">Over Night 12 H</li>
                 </ul>
-                <input type="hidden" id="shift" required>
+                <input type="hidden" id="shift">
               </div>
             </div>
 
-            <!-- UNIT - searchable -->
             <div class="field">
               <label>Unit <span class="req">*</span></label>
-              <div class="sdw" id="unitWrap">
+              <div class="sdw">
                 <div class="sdb" id="unitBtn" tabindex="0">
                   <input class="sd-input" id="unitInput" placeholder="Select Unit..." autocomplete="off" data-lpignore="true">
                   <span class="sd-arrow">&#9660;</span>
@@ -279,7 +261,7 @@ input[type=number]{-moz-appearance:textfield}
                   <li data-v="2nd Floor">2nd Floor</li>
                   <li data-v="4th Floor">4th Floor</li>
                 </ul>
-                <input type="hidden" id="unit" required>
+                <input type="hidden" id="unit">
               </div>
             </div>
 
@@ -300,14 +282,22 @@ input[type=number]{-moz-appearance:textfield}
           <div class="g2">
             <div class="field">
               <label>QTC Shift <span class="req">*</span></label>
-              <div class="sw"><select id="qtcShiftSel" required>
-                <option value="" disabled selected>Select QTC Shift...</option>
-                <option>Morning</option><option>Night</option><option>Over Night</option>
-              </select></div>
+              <div class="sdw">
+                <div class="sdb" id="qtcShiftBtn" tabindex="0">
+                  <input class="sd-input" id="qtcShiftInput" placeholder="Select QTC Shift..." autocomplete="off" data-lpignore="true">
+                  <span class="sd-arrow">&#9660;</span>
+                </div>
+                <ul class="sdl" id="qtcShiftList">
+                  <li data-v="Morning">Morning</li>
+                  <li data-v="Night">Night</li>
+                  <li data-v="Over Night">Over Night</li>
+                </ul>
+                <input type="hidden" id="qtcShiftSel">
+              </div>
             </div>
             <div class="field">
               <label>Yubikey <span class="req">*</span></label>
-              <div class="acw" style="position:relative">
+              <div class="acw">
                 <input type="text" id="yk" placeholder="e.g. 123456 or ME123456@meti.ai" required autocomplete="off" data-lpignore="true">
                 <ul class="acl" id="ykAcList"></ul>
               </div>
@@ -324,7 +314,7 @@ input[type=number]{-moz-appearance:textfield}
               <div class="qtc-grid" id="qtcGrid"></div>
               <div class="qtc-selected-display" id="qtcSelectedDisplay"></div>
             </div>
-            <input type="hidden" id="qtcName" required>
+            <input type="hidden" id="qtcName">
           </div>
         </div>
 
@@ -340,17 +330,26 @@ input[type=number]{-moz-appearance:textfield}
           <div class="g2">
             <div class="field">
               <label>Modality <span class="req">*</span></label>
-              <div class="sw"><select id="modality" required>
-                <option value="" disabled selected>Select Modality...</option>
-                <option>Lane Line</option><option>Lidar</option><option>Image</option><option>Relabeling</option>
-              </select></div>
+              <div class="sdw">
+                <div class="sdb" id="modalityBtn" tabindex="0">
+                  <input class="sd-input" id="modalityInput" placeholder="Select Modality..." autocomplete="off" data-lpignore="true">
+                  <span class="sd-arrow">&#9660;</span>
+                </div>
+                <ul class="sdl" id="modalityList">
+                  <li data-v="Lane Line">Lane Line</li>
+                  <li data-v="Lidar">Lidar</li>
+                  <li data-v="Image">Image</li>
+                  <li data-v="Relabeling">Relabeling</li>
+                </ul>
+                <input type="hidden" id="modality">
+              </div>
             </div>
 
-            <!-- QUEUE NAME - searchable (no inner search bar) -->
             <div class="field">
               <label>Queue Name <span class="req">*</span></label>
-              <div class="sdw" id="queueWrap">
+              <div class="sdw">
                 <div class="sdb" id="queueBtn" tabindex="0">
+                  <span class="sd-display" id="queueDisplay"></span>
                   <input class="sd-input" id="queueInput" placeholder="Select Queue..." autocomplete="off" data-lpignore="true">
                   <span class="sd-arrow">&#9660;</span>
                 </div>
@@ -359,7 +358,7 @@ input[type=number]{-moz-appearance:textfield}
                   <li data-v="sc3_full_scene_highway_lanes_first_lidar_labeling">sc3_full_scene_highway_lanes_<span class="hl">first_lidar</span>_labeling</li>
                   <li data-v="sc3_full_scene_highway_lidar_only_labeling">sc3_full_scene_highway_<span class="hl">lidar_only</span>_labeling</li>
                 </ul>
-                <input type="hidden" id="qName" required>
+                <input type="hidden" id="qName">
               </div>
             </div>
           </div>
@@ -375,7 +374,7 @@ input[type=number]{-moz-appearance:textfield}
             <div class="field">
               <label>Task ID <span class="req">*</span></label>
               <div class="task-id-wrap">
-                <input type="text" id="taskId" placeholder="Auto-filled or type manually" required>
+                <input type="text" id="taskId" placeholder="Auto-filled" required>
                 <span id="idIcon">&#8212;</span>
               </div>
               <div id="taskIdWarn" style="display:none;margin-top:6px;align-items:center;gap:6px;font-size:.75rem;color:#b45309;background:#fffbeb;border:1px solid #fcd34d;border-radius:6px;padding:6px 10px;">
@@ -385,10 +384,17 @@ input[type=number]{-moz-appearance:textfield}
             </div>
             <div class="field">
               <label>Pass <span class="req">*</span></label>
-              <div class="sw"><select id="pass" required>
-                <option value="" disabled selected>Auto-filled from link</option>
-                <option value="FP">FP</option><option value="QA">QA</option>
-              </select></div>
+              <div class="sdw">
+                <div class="sdb" id="passBtn" tabindex="0">
+                  <input class="sd-input" id="passInput" placeholder="Auto-filled from link..." autocomplete="off" data-lpignore="true">
+                  <span class="sd-arrow">&#9660;</span>
+                </div>
+                <ul class="sdl" id="passList">
+                  <li data-v="FP">FP</li>
+                  <li data-v="QA">QA</li>
+                </ul>
+                <input type="hidden" id="pass">
+              </div>
             </div>
           </div>
         </div>
@@ -485,14 +491,12 @@ input[type=number]{-moz-appearance:textfield}
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ===== CONFIG =====
 var SHEET_URL = "https://script.google.com/macros/s/AKfycbxuivQCvNlK6RthWic_lfj-Ngqv9yQpud6q6N-9hXFpBAWekXSIdv-80ccREaOusfz8bw/exec";
 var NK = "meti_labeler_names";
 var NK_YK = "meti_yk_history";
@@ -501,7 +505,6 @@ var FRAME_R = ["Lidar points shifting vertically"];
 var selectedQTC = null;
 var linkTaskId = "";
 
-// ===== QTC DATA =====
 var QTC_DATA = {
   "Morning": [
     {name:"Abdelrahman Refaat",role:"QT"},{name:"Hassan Mohamed",role:"QT"},
@@ -562,12 +565,12 @@ var QTC_DATA = {
   ]
 };
 
-// ===== HELPERS =====
+// HELPERS
 function toast(msg,type){var t=document.getElementById("toast");t.textContent=msg;t.className="toast "+(type||"ok")+" show";setTimeout(function(){t.className="toast";},4200);}
 function me(id){var el=document.getElementById(id);if(el)el.classList.add("err-field");}
 function ce(id){var el=document.getElementById(id);if(el)el.classList.remove("err-field");}
 
-// ===== LOCALSTORAGE =====
+// LOCALSTORAGE
 function getN(){try{return JSON.parse(localStorage.getItem(NK))||[];}catch(e){return[];}}
 function saveN(n){if(!n.trim())return;var a=getN();if(a.indexOf(n)===-1){a.unshift(n);localStorage.setItem(NK,JSON.stringify(a.slice(0,60)));}}
 function delN(n){localStorage.setItem(NK,JSON.stringify(getN().filter(function(x){return x!==n;})));}
@@ -575,7 +578,7 @@ function getYK(){try{return JSON.parse(localStorage.getItem(NK_YK))||[];}catch(e
 function saveYK(v){if(!v.trim())return;var a=getYK();if(a.indexOf(v)===-1){a.unshift(v);localStorage.setItem(NK_YK,JSON.stringify(a.slice(0,20)));}}
 function delYK(v){localStorage.setItem(NK_YK,JSON.stringify(getYK().filter(function(x){return x!==v;})));}
 
-// ===== TIMESTAMP =====
+// TIMESTAMP
 function tick(){
   var d=new Date();
   var el=document.getElementById("ts");
@@ -585,7 +588,7 @@ function tick(){
 }
 tick(); setInterval(tick,1000);
 
-// ===== PROGRESS =====
+// PROGRESS
 function updateProgress(){
   var fields=["shift","unit","pcNo","labName","yk","modality","taskLink","taskId","pass","qtcName","action"];
   var filled=fields.filter(function(id){var el=document.getElementById(id);return el&&el.value&&el.value.trim();}).length;
@@ -595,7 +598,7 @@ document.querySelectorAll("input,select,textarea").forEach(function(el){
   el.addEventListener("input",updateProgress);el.addEventListener("change",updateProgress);
 });
 
-// ===== PC NO =====
+// PC NO
 (function(){
   var saved=localStorage.getItem(NK_PC);
   if(saved){var el=document.getElementById("pcNo");el.value=saved;el.style.borderColor="#1a8a5a";}
@@ -609,11 +612,11 @@ document.getElementById("pcNo").addEventListener("input",function(){
 
 // ===== SEARCHABLE DROPDOWN FACTORY =====
 function makeSearchableDropdown(opts) {
-  // opts: { btnId, inputId, listId, hiddenId, wrapId, onSelect }
-  var btn = document.getElementById(opts.btnId);
-  var inp = document.getElementById(opts.inputId);
-  var list = document.getElementById(opts.listId);
+  var btn    = document.getElementById(opts.btnId);
+  var inp    = document.getElementById(opts.inputId);
+  var list   = document.getElementById(opts.listId);
   var hidden = document.getElementById(opts.hiddenId);
+  var dispEl = opts.displayId ? document.getElementById(opts.displayId) : null;
   var allItems = Array.from(list.querySelectorAll("li[data-v]"));
   var activeIdx = -1;
   var selectedVal = "";
@@ -621,20 +624,30 @@ function makeSearchableDropdown(opts) {
   function open() {
     btn.classList.add("open");
     list.classList.add("open");
-    filterItems(inp.value);
+    // hide display span, show input for typing
+    if (dispEl) { dispEl.style.display = "none"; }
+    inp.style.display = "";
+    inp.value = "";
+    filterItems("");
     activeIdx = -1;
+    setTimeout(function(){ inp.focus(); }, 0);
   }
 
   function close() {
     btn.classList.remove("open");
     list.classList.remove("open");
-    // If nothing selected or input cleared, restore display
     if (!hidden.value) {
       inp.value = "";
+      inp.style.display = "";
+      if (dispEl) { dispEl.innerHTML = ""; dispEl.style.display = "none"; }
     } else {
-      // Restore the label for the selected value
-      var found = allItems.find(function(li){ return li.dataset.v === hidden.value; });
-      if (found) inp.value = found.dataset.v;
+      if (dispEl) {
+        var found = allItems.find(function(li){ return li.dataset.v === hidden.value; });
+        if (found) { dispEl.innerHTML = found.innerHTML; dispEl.style.display = "block"; }
+        inp.style.display = "none";
+      } else {
+        inp.value = hidden.value;
+      }
     }
     activeIdx = -1;
   }
@@ -642,12 +655,11 @@ function makeSearchableDropdown(opts) {
   function filterItems(q) {
     var count = 0;
     allItems.forEach(function(li) {
-      var text = li.dataset.v.toLowerCase();
+      var text = (li.dataset.v + " " + li.textContent).toLowerCase();
       var match = !q || text.indexOf(q.toLowerCase()) > -1;
       li.style.display = match ? "" : "none";
       if (match) count++;
     });
-    // Remove old empty msg
     var empty = list.querySelector(".sd-empty");
     if (empty) empty.remove();
     if (count === 0) {
@@ -668,33 +680,49 @@ function makeSearchableDropdown(opts) {
   function selectItem(li) {
     selectedVal = li.dataset.v;
     hidden.value = selectedVal;
-    inp.value = selectedVal;
     allItems.forEach(function(x){ x.classList.remove("sel"); });
     li.classList.add("sel");
-    inp.style.color = "var(--text)";
     btn.style.borderColor = "#1a8a5a";
-    close();
+    if (dispEl) {
+      dispEl.innerHTML = li.innerHTML;
+      dispEl.style.display = "block";
+      inp.style.display = "none";
+      inp.value = selectedVal;
+    } else {
+      inp.value = selectedVal;
+    }
+    btn.classList.remove("open");
+    list.classList.remove("open");
+    activeIdx = -1;
     updateProgress();
     if (opts.onSelect) opts.onSelect(selectedVal);
   }
 
-  // Click on button area to open
   btn.addEventListener("mousedown", function(e) {
-    if (e.target === inp) return; // let input handle itself
+    if (e.target === inp) return;
     e.preventDefault();
-    if (list.classList.contains("open")) close(); else open();
+    if (list.classList.contains("open")) { close(); } else { open(); }
   });
 
-  // Click on input opens dropdown
+  // clicking the display span re-opens
+  if (dispEl) {
+    dispEl.addEventListener("mousedown", function(e) {
+      e.preventDefault();
+      open();
+    });
+    dispEl.style.cursor = "pointer";
+  }
+
   inp.addEventListener("focus", function() {
-    open();
+    if (!list.classList.contains("open")) open();
   });
 
   inp.addEventListener("input", function() {
     filterItems(this.value);
-    hidden.value = ""; // clear selection while typing
+    hidden.value = "";
     btn.style.borderColor = "";
     selectedVal = "";
+    if (dispEl) { dispEl.innerHTML = ""; dispEl.style.display = "none"; }
   });
 
   inp.addEventListener("blur", function() {
@@ -728,45 +756,46 @@ function makeSearchableDropdown(opts) {
     });
   });
 
-  // Public reset
   return {
     reset: function() {
-      hidden.value = "";
-      inp.value = "";
-      selectedVal = "";
-      btn.style.borderColor = "";
+      hidden.value = ""; inp.value = ""; inp.style.display = "";
+      selectedVal = ""; btn.style.borderColor = "";
       allItems.forEach(function(x){ x.classList.remove("sel"); });
+      if (dispEl) { dispEl.innerHTML = ""; dispEl.style.display = "none"; }
       filterItems("");
+    },
+    setValue: function(val) {
+      var li = allItems.find(function(x){ return x.dataset.v === val; });
+      if (li) selectItem(li);
     },
     getValue: function() { return hidden.value; }
   };
 }
 
-// Init searchable dropdowns
-var shiftDD = makeSearchableDropdown({
-  btnId:"shiftBtn", inputId:"shiftInput", listId:"shiftList", hiddenId:"shift"
+// Init all dropdowns
+var shiftDD    = makeSearchableDropdown({btnId:"shiftBtn",    inputId:"shiftInput",    listId:"shiftList",    hiddenId:"shift"});
+var unitDD     = makeSearchableDropdown({btnId:"unitBtn",     inputId:"unitInput",     listId:"unitList",     hiddenId:"unit"});
+var qtcShiftDD = makeSearchableDropdown({btnId:"qtcShiftBtn", inputId:"qtcShiftInput", listId:"qtcShiftList", hiddenId:"qtcShiftSel",
+  onSelect: function(val){ buildQTCGrid(val); var s=document.getElementById("qtcSearch");if(s)s.value=""; }
 });
-var unitDD = makeSearchableDropdown({
-  btnId:"unitBtn", inputId:"unitInput", listId:"unitList", hiddenId:"unit"
-});
-var queueDD = makeSearchableDropdown({
-  btnId:"queueBtn", inputId:"queueInput", listId:"queueList", hiddenId:"qName"
-});
+var modalityDD = makeSearchableDropdown({btnId:"modalityBtn", inputId:"modalityInput", listId:"modalityList", hiddenId:"modality"});
+var queueDD    = makeSearchableDropdown({btnId:"queueBtn",    inputId:"queueInput",    listId:"queueList",    hiddenId:"qName", displayId:"queueDisplay"});
+var passDD     = makeSearchableDropdown({btnId:"passBtn",     inputId:"passInput",     listId:"passList",     hiddenId:"pass"});
 
-// Close all dropdowns when clicking outside
+// Close on outside click
 document.addEventListener("click", function(e) {
-  ["shiftBtn","unitBtn","queueBtn"].forEach(function(id) {
-    var btn = document.getElementById(id);
-    var wrapId = id.replace("Btn","List");
-    var list = document.getElementById(wrapId) || document.getElementById(id.replace("Btn","List"));
-    if (btn && !btn.contains(e.target)) {
-      btn.classList.remove("open");
-      if (list) list.classList.remove("open");
+  ["shiftBtn","unitBtn","qtcShiftBtn","modalityBtn","queueBtn","passBtn"].forEach(function(id) {
+    var b = document.getElementById(id);
+    var lid = id.replace("Btn","List");
+    var l = document.getElementById(lid);
+    if (b && !b.contains(e.target)) {
+      b.classList.remove("open");
+      if (l) l.classList.remove("open");
     }
   });
 });
 
-// ===== LABELER AUTOCOMPLETE =====
+// LABELER AUTOCOMPLETE
 var labIn=document.getElementById("labName");
 var acL=document.getElementById("acList");
 var acActive=-1;
@@ -799,7 +828,7 @@ labIn.addEventListener("keydown",function(e){
   else if(e.key==="Escape"){acL.classList.remove("open");acActive=-1;}
 });
 
-// ===== YUBIKEY AUTOCOMPLETE =====
+// YUBIKEY AUTOCOMPLETE
 var ykIn=document.getElementById("yk");
 var ykAcL=document.getElementById("ykAcList");
 var ykActive=-1;
@@ -839,7 +868,7 @@ ykIn.addEventListener("keydown",function(e){
   else if(e.key==="Escape"){ykAcL.classList.remove("open");ykActive=-1;}
 });
 
-// ===== QTC GRID =====
+// QTC GRID
 function buildQTCGrid(shift){
   var grid=document.getElementById("qtcGrid"),disp=document.getElementById("qtcSelectedDisplay"),
       wrap=document.getElementById("qtcPickerWrap"),msg=document.getElementById("qtcShiftMsg"),
@@ -867,10 +896,6 @@ function buildQTCGrid(shift){
     grid.appendChild(card);
   });
 }
-document.getElementById("qtcShiftSel").addEventListener("change",function(){
-  buildQTCGrid(this.value);
-  var s=document.getElementById("qtcSearch");if(s)s.value="";
-});
 document.getElementById("qtcShiftMsg").style.display="block";
 document.getElementById("qtcSearch").addEventListener("input",function(){
   var q=this.value.toLowerCase().trim();
@@ -880,11 +905,10 @@ document.getElementById("qtcSearch").addEventListener("input",function(){
   });
 });
 
-// ===== TASK LINK =====
+// TASK LINK
 document.getElementById("taskLink").addEventListener("input",function(){
   var url=this.value.trim(),P="https://labeling.robot.car/#";
-  var hint=document.getElementById("linkHint"),idEl=document.getElementById("taskId"),
-      icon=document.getElementById("idIcon"),passEl=document.getElementById("pass");
+  var hint=document.getElementById("linkHint"),idEl=document.getElementById("taskId"),icon=document.getElementById("idIcon");
   if(url.length>0&&!url.startsWith(P)){this.style.borderColor="var(--error)";hint.style.color="var(--error)";}
   else{this.style.borderColor=url.length>0?"#1a8a5a":"";hint.style.color="";}
   var idM=url.match(/\/id\/(\d+)/);
@@ -898,12 +922,16 @@ document.getElementById("taskLink").addEventListener("input",function(){
     document.getElementById("taskIdWarn").style.display="none";
   }
   var dM=url.match(/\/do\/([^\/]+)\//);
-  if(dM){passEl.value=dM[1].toUpperCase().endsWith("QA")?"QA":"FP";passEl.style.borderColor="#1a8a5a";}
-  else{passEl.value="";passEl.style.borderColor="";}
+  if(dM){
+    var pv=dM[1].toUpperCase().endsWith("QA")?"QA":"FP";
+    passDD.setValue(pv);
+  } else {
+    passDD.reset();
+  }
   updateProgress();
 });
 
-// ===== TASK ID WARN =====
+// TASK ID WARN
 document.getElementById("taskId").addEventListener("input",function(){
   var warn=document.getElementById("taskIdWarn");
   var v=this.value.trim();
@@ -911,7 +939,7 @@ document.getElementById("taskId").addEventListener("input",function(){
   else{warn.style.display="none";}
 });
 
-// ===== ACTION TOGGLE =====
+// ACTION TOGGLE
 function setAction(val){
   document.getElementById("action").value=val;
   var bs=document.getElementById("brSubmit"),bk=document.getElementById("brSkip"),
@@ -945,7 +973,7 @@ function setAction(val){
 document.getElementById("btnSubmit").addEventListener("click",function(){setAction("Submit");});
 document.getElementById("btnSkip").addEventListener("click",function(){setAction("Skip");});
 
-// ===== REASON =====
+// REASON
 document.getElementById("reason").addEventListener("change",function(){
   var val=this.value;
   var sf=FRAME_R.indexOf(val)>-1;
@@ -959,35 +987,29 @@ document.getElementById("reason").addEventListener("change",function(){
   if(lbl){lbl.innerHTML=val==="Other"?'Notes <span class="req">*</span>':'Notes <span style="font-size:.72rem;color:var(--text-muted);font-weight:400">(optional)</span>';}
 });
 
-// ===== FORM SUBMIT =====
+// FORM SUBMIT
 document.getElementById("F").addEventListener("submit",function(e){
   e.preventDefault();
   var err=false;
   function chk(id,val){if(!val){me(id);err=true;}else ce(id);}
+  function chkDD(hidId,btnId){
+    if(!document.getElementById(hidId).value){
+      document.getElementById(btnId).style.borderColor="var(--error)";
+      document.getElementById(btnId).style.boxShadow="0 0 0 3px rgba(192,57,43,.1)";
+      err=true;
+    } else {
+      document.getElementById(btnId).style.borderColor="";
+      document.getElementById(btnId).style.boxShadow="";
+    }
+  }
 
   var lab=document.getElementById("labName").value.trim();
   var lnk=document.getElementById("taskLink").value.trim();
   var yk=document.getElementById("yk").value.trim();
   var act=document.getElementById("action").value;
 
-  // Validate searchable dropdowns
-  if(!document.getElementById("shift").value){
-    document.getElementById("shiftBtn").style.borderColor="var(--error)";
-    document.getElementById("shiftBtn").style.boxShadow="0 0 0 3px rgba(192,57,43,.1)";
-    err=true;
-  } else {
-    document.getElementById("shiftBtn").style.borderColor="";
-    document.getElementById("shiftBtn").style.boxShadow="";
-  }
-
-  if(!document.getElementById("unit").value){
-    document.getElementById("unitBtn").style.borderColor="var(--error)";
-    document.getElementById("unitBtn").style.boxShadow="0 0 0 3px rgba(192,57,43,.1)";
-    err=true;
-  } else {
-    document.getElementById("unitBtn").style.borderColor="";
-    document.getElementById("unitBtn").style.boxShadow="";
-  }
+  chkDD("shift","shiftBtn");
+  chkDD("unit","unitBtn");
 
   var pcVal=document.getElementById("pcNo").value.trim();
   if(!pcVal){me("pcNo");err=true;}
@@ -998,7 +1020,7 @@ document.getElementById("F").addEventListener("submit",function(e){
   else if(!/^[a-zA-Z\s]+$/.test(lab)){me("labName");err=true;toast("Labeler Name: English letters only","err");return;}
   else ce("labName");
 
-  if(!document.getElementById("qtcShiftSel").value){me("qtcShiftSel");err=true;}else ce("qtcShiftSel");
+  chkDD("qtcShiftSel","qtcShiftBtn");
 
   if(!document.getElementById("qtcName").value){
     var w=document.getElementById("qtcPickerWrap");
@@ -1014,20 +1036,12 @@ document.getElementById("F").addEventListener("submit",function(e){
     else ce("yk");
   }
 
-  chk("modality",document.getElementById("modality").value);
-
-  if(!document.getElementById("qName").value){
-    document.getElementById("queueBtn").style.borderColor="var(--error)";
-    document.getElementById("queueBtn").style.boxShadow="0 0 0 3px rgba(192,57,43,.1)";
-    err=true;
-  }else{
-    document.getElementById("queueBtn").style.borderColor="";
-    document.getElementById("queueBtn").style.boxShadow="";
-  }
+  chkDD("modality","modalityBtn");
+  chkDD("qName","queueBtn");
 
   if(!lnk.startsWith("https://labeling.robot.car/#")){me("taskLink");err=true;}else ce("taskLink");
   chk("taskId",document.getElementById("taskId").value);
-  chk("pass",document.getElementById("pass").value);
+  chkDD("pass","passBtn");
 
   if(!act){
     document.getElementById("btnSubmit").style.borderColor="var(--error)";
@@ -1085,11 +1099,9 @@ document.getElementById("F").addEventListener("submit",function(e){
   fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
   .then(function(){
     toast("\u2713 Submitted successfully","ok");
-    // RESET
     document.getElementById("F").reset();tick();
     selectedQTC=null;
     document.getElementById("qtcName").value="";
-    document.getElementById("qtcShiftSel").value="";
     document.getElementById("qtcGrid").innerHTML="";
     document.getElementById("qtcSelectedDisplay").innerHTML="";
     document.getElementById("qtcPickerWrap").style.display="none";
@@ -1106,19 +1118,11 @@ document.getElementById("F").addEventListener("submit",function(e){
     linkTaskId="";
     document.getElementById("idIcon").textContent="\u2014";
     document.getElementById("idIcon").style.color="";
-    document.getElementById("pass").style.borderColor="";
     document.getElementById("linkHint").style.color="";
     document.getElementById("taskLink").style.borderColor="";
-    // Reset searchable dropdowns
-    shiftDD.reset();
-    unitDD.reset();
-    queueDD.reset();
-    ["shift","unit","labName","yk","modality","taskLink","taskId","pass","reason","objCount","notes","fromFrame","toFrame"]
+    shiftDD.reset(); unitDD.reset(); qtcShiftDD.reset(); modalityDD.reset(); queueDD.reset(); passDD.reset();
+    ["labName","yk","taskLink","taskId","reason","objCount","notes","fromFrame","toFrame"]
       .forEach(function(id){var el=document.getElementById(id);if(el){el.classList.remove("err-field");el.style.borderColor="";el.style.boxShadow="";}});
-    ["shiftBtn","unitBtn","queueBtn"].forEach(function(id){
-      var el=document.getElementById(id);
-      if(el){el.style.borderColor="";el.style.boxShadow="";}
-    });
     document.getElementById("progressBar").style.width="0%";
     var ykHint=document.getElementById("ykHint");
     if(ykHint){ykHint.style.color="var(--text-muted)";ykHint.textContent="6-digit code | or email format: ME123456@meti.ai";}
@@ -1137,7 +1141,7 @@ document.getElementById("F").addEventListener("submit",function(e){
   });
 });
 
-// ===== STORAGE MANAGER =====
+// STORAGE MANAGER
 document.getElementById("storageToggle").addEventListener("click",function(){
   var body=document.getElementById("storageBody");
   var arrow=document.getElementById("storageArrow");
