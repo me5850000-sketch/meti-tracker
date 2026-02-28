@@ -77,27 +77,26 @@ input[readonly]{background:#f2f6f9;color:var(--text-muted);cursor:default}
 input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
 input[type=number]{-moz-appearance:textfield}
 
-/* SELECT */
-.sw{position:relative}
-.sw::after{content:'▾';position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--primary);pointer-events:none;font-size:.8rem}
-.sw select{padding-right:34px}
-select option{background:#fff;color:var(--text)}
+/* SEARCHABLE DROPDOWN (replaces native select for Shift, Unit, Queue) */
+.sdw{position:relative}
+.sdb{width:100%;background:var(--input-bg);border:1.5px solid var(--border);border-radius:var(--radius);padding:12px 34px 12px 16px;color:var(--text);font-family:'Inter',sans-serif;font-size:1.05rem;text-align:left;cursor:pointer;outline:none;transition:border-color .18s,box-shadow .18s,background .18s;display:flex;align-items:center;position:relative}
+.sdb input.sd-input{flex:1;border:none;background:transparent;padding:0;font-size:1.05rem;color:var(--text);outline:none;cursor:text;font-family:'Inter',sans-serif;min-width:0}
+.sdb input.sd-input::placeholder{color:var(--text-muted)}
+.sdb .sd-arrow{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--primary);pointer-events:none;font-size:.8rem;transition:transform .2s}
+.sdb.open{border-color:var(--border-focus);box-shadow:0 0 0 3px rgba(30,108,147,.1);background:#fff}
+.sdb.open .sd-arrow{transform:translateY(-50%) rotate(180deg)}
+.sdl{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1.5px solid var(--border-focus);border-radius:var(--radius);z-index:300;list-style:none;box-shadow:var(--shadow-lg);display:none;overflow:hidden;max-height:280px;overflow-y:auto}
+.sdl.open{display:block}
+.sdl li{padding:11px 14px;cursor:pointer;font-size:.95rem;color:var(--text);border-bottom:1px solid #f0f4f7;transition:background .15s;line-height:1.5}
+.sdl li:last-child{border-bottom:none}
+.sdl li:hover,.sdl li.sd-hover{background:var(--primary-xlight);color:var(--primary-dark)}
+.sdl li.sel{background:var(--primary-xlight);color:var(--primary);font-weight:600}
+.sdl li.sd-empty{color:var(--text-muted);font-style:italic;cursor:default;font-size:.88rem}
+.sdl li.sd-empty:hover{background:transparent;color:var(--text-muted)}
+.sd-clear{position:absolute;right:32px;top:50%;transform:translateY(-50%);color:var(--text-muted);background:none;border:none;cursor:pointer;font-size:.85rem;padding:2px 4px;line-height:1;display:none}
+.sd-clear:hover{color:var(--error)}
 
-/* CUSTOM QUEUE DROPDOWN */
-.csw{position:relative}
-.csb{width:100%;background:var(--input-bg);border:1.5px solid var(--border);border-radius:var(--radius);padding:12px 34px 12px 16px;color:var(--text);font-family:'Inter',sans-serif;font-size:1.05rem;text-align:left;cursor:pointer;outline:none;transition:border-color .18s,box-shadow .18s;display:flex;align-items:center;justify-content:space-between}
-.csb.open,.csb:focus{border-color:var(--border-focus);box-shadow:0 0 0 3px rgba(30,108,147,.1);background:#fff}
-.csb .ca{color:var(--primary);font-size:.8rem}
-.csl{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1.5px solid var(--border-focus);border-radius:var(--radius);z-index:300;list-style:none;box-shadow:var(--shadow-lg);display:none;overflow:hidden;max-height:320px;overflow-y:auto}
-.csl.open{display:block}
-.csl li{padding:11px 14px;cursor:pointer;font-size:.95rem;color:var(--text);border-bottom:1px solid #f0f4f7;transition:background .15s;line-height:1.5}
-.csl li:last-child{border-bottom:none}
-.csl li:hover{background:var(--primary-xlight);color:var(--primary-dark)}
-.csl li.sel{background:var(--primary-xlight);color:var(--primary);font-weight:600}
-.csl li.q-search-row{padding:8px 10px;cursor:default;background:#f7fbfd;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:2}
-.csl li.q-search-row:hover{background:#f7fbfd}
-.csl li.q-search-row input{width:100%;font-size:.88rem;padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;background:#fff;color:var(--text);outline:none;font-family:'Inter',sans-serif;transition:border-color .18s}
-.csl li.q-search-row input:focus{border-color:var(--border-focus)}
+/* HIGHLIGHT in queue dropdown */
 .hl{color:#e07b00;font-weight:700;background:rgba(224,123,0,.1);border:1px solid rgba(224,123,0,.3);border-radius:5px;padding:1px 7px;margin:0 1px;display:inline-block;letter-spacing:.2px}
 
 /* AUTOCOMPLETE */
@@ -246,22 +245,44 @@ select option{background:#fff;color:var(--text)}
           </div>
 
           <div class="g3">
+            <!-- SHIFT - searchable -->
             <div class="field">
               <label>Shift <span class="req">*</span></label>
-              <div class="sw"><select id="shift" required>
-                <option value="" disabled selected>Select Shift...</option>
-                <option>Morning</option><option>Night</option><option>Over Night</option>
-                <option>Morning 12 H</option><option>Over Night 12 H</option>
-              </select></div>
+              <div class="sdw" id="shiftWrap">
+                <div class="sdb" id="shiftBtn" tabindex="0">
+                  <input class="sd-input" id="shiftInput" placeholder="Select Shift..." autocomplete="off" data-lpignore="true">
+                  <span class="sd-arrow">&#9660;</span>
+                </div>
+                <ul class="sdl" id="shiftList">
+                  <li data-v="Morning">Morning</li>
+                  <li data-v="Night">Night</li>
+                  <li data-v="Over Night">Over Night</li>
+                  <li data-v="Morning 12 H">Morning 12 H</li>
+                  <li data-v="Over Night 12 H">Over Night 12 H</li>
+                </ul>
+                <input type="hidden" id="shift" required>
+              </div>
             </div>
+
+            <!-- UNIT - searchable -->
             <div class="field">
               <label>Unit <span class="req">*</span></label>
-              <div class="sw"><select id="unit" required>
-                <option value="" disabled selected>Select Unit...</option>
-                <option>NC Room 102</option><option>NC Room 106</option><option>NC Room 108</option>
-                <option>2nd Floor</option><option>4th Floor</option>
-              </select></div>
+              <div class="sdw" id="unitWrap">
+                <div class="sdb" id="unitBtn" tabindex="0">
+                  <input class="sd-input" id="unitInput" placeholder="Select Unit..." autocomplete="off" data-lpignore="true">
+                  <span class="sd-arrow">&#9660;</span>
+                </div>
+                <ul class="sdl" id="unitList">
+                  <li data-v="NC Room 102">NC Room 102</li>
+                  <li data-v="NC Room 106">NC Room 106</li>
+                  <li data-v="NC Room 108">NC Room 108</li>
+                  <li data-v="2nd Floor">2nd Floor</li>
+                  <li data-v="4th Floor">4th Floor</li>
+                </ul>
+                <input type="hidden" id="unit" required>
+              </div>
             </div>
+
             <div class="field">
               <label>PC No. <span class="req">*</span></label>
               <input type="text" id="pcNo" placeholder="e.g. 7, 30 or QTC" required autocomplete="off">
@@ -324,14 +345,16 @@ select option{background:#fff;color:var(--text)}
                 <option>Lane Line</option><option>Lidar</option><option>Image</option><option>Relabeling</option>
               </select></div>
             </div>
+
+            <!-- QUEUE NAME - searchable (no inner search bar) -->
             <div class="field">
               <label>Queue Name <span class="req">*</span></label>
-              <div class="csw">
-                <button type="button" class="csb" id="qBtn"><span id="qDisp">Select Queue...</span><span class="ca">&#9662;</span></button>
-                <ul class="csl" id="qList">
-                  <li class="q-search-row" onmousedown="event.preventDefault()">
-                    <input type="text" id="qSearch" placeholder="&#128269; Search queue..." autocomplete="off">
-                  </li>
+              <div class="sdw" id="queueWrap">
+                <div class="sdb" id="queueBtn" tabindex="0">
+                  <input class="sd-input" id="queueInput" placeholder="Select Queue..." autocomplete="off" data-lpignore="true">
+                  <span class="sd-arrow">&#9660;</span>
+                </div>
+                <ul class="sdl" id="queueList">
                   <li data-v="sc3_full_scene_highway_mapless_filtered_3d_lanes">sc3_full_scene_highway_mapless_<span class="hl">filtered</span>_3d_lanes</li>
                   <li data-v="sc3_full_scene_highway_lanes_first_lidar_labeling">sc3_full_scene_highway_lanes_<span class="hl">first_lidar</span>_labeling</li>
                   <li data-v="sc3_full_scene_highway_lidar_only_labeling">sc3_full_scene_highway_<span class="hl">lidar_only</span>_labeling</li>
@@ -584,6 +607,165 @@ document.getElementById("pcNo").addEventListener("input",function(){
   else{this.style.borderColor="var(--error)";}
 });
 
+// ===== SEARCHABLE DROPDOWN FACTORY =====
+function makeSearchableDropdown(opts) {
+  // opts: { btnId, inputId, listId, hiddenId, wrapId, onSelect }
+  var btn = document.getElementById(opts.btnId);
+  var inp = document.getElementById(opts.inputId);
+  var list = document.getElementById(opts.listId);
+  var hidden = document.getElementById(opts.hiddenId);
+  var allItems = Array.from(list.querySelectorAll("li[data-v]"));
+  var activeIdx = -1;
+  var selectedVal = "";
+
+  function open() {
+    btn.classList.add("open");
+    list.classList.add("open");
+    filterItems(inp.value);
+    activeIdx = -1;
+  }
+
+  function close() {
+    btn.classList.remove("open");
+    list.classList.remove("open");
+    // If nothing selected or input cleared, restore display
+    if (!hidden.value) {
+      inp.value = "";
+    } else {
+      // Restore the label for the selected value
+      var found = allItems.find(function(li){ return li.dataset.v === hidden.value; });
+      if (found) inp.value = found.dataset.v;
+    }
+    activeIdx = -1;
+  }
+
+  function filterItems(q) {
+    var count = 0;
+    allItems.forEach(function(li) {
+      var text = li.dataset.v.toLowerCase();
+      var match = !q || text.indexOf(q.toLowerCase()) > -1;
+      li.style.display = match ? "" : "none";
+      if (match) count++;
+    });
+    // Remove old empty msg
+    var empty = list.querySelector(".sd-empty");
+    if (empty) empty.remove();
+    if (count === 0) {
+      var em = document.createElement("li");
+      em.className = "sd-empty";
+      em.textContent = "No results found";
+      list.appendChild(em);
+    }
+    activeIdx = -1;
+    updateHover();
+  }
+
+  function updateHover() {
+    var visible = allItems.filter(function(li){ return li.style.display !== "none"; });
+    visible.forEach(function(li, i){ li.classList.toggle("sd-hover", i === activeIdx); });
+  }
+
+  function selectItem(li) {
+    selectedVal = li.dataset.v;
+    hidden.value = selectedVal;
+    inp.value = selectedVal;
+    allItems.forEach(function(x){ x.classList.remove("sel"); });
+    li.classList.add("sel");
+    inp.style.color = "var(--text)";
+    btn.style.borderColor = "#1a8a5a";
+    close();
+    updateProgress();
+    if (opts.onSelect) opts.onSelect(selectedVal);
+  }
+
+  // Click on button area to open
+  btn.addEventListener("mousedown", function(e) {
+    if (e.target === inp) return; // let input handle itself
+    e.preventDefault();
+    if (list.classList.contains("open")) close(); else open();
+  });
+
+  // Click on input opens dropdown
+  inp.addEventListener("focus", function() {
+    open();
+  });
+
+  inp.addEventListener("input", function() {
+    filterItems(this.value);
+    hidden.value = ""; // clear selection while typing
+    btn.style.borderColor = "";
+    selectedVal = "";
+  });
+
+  inp.addEventListener("blur", function() {
+    setTimeout(close, 160);
+  });
+
+  inp.addEventListener("keydown", function(e) {
+    var visible = allItems.filter(function(li){ return li.style.display !== "none"; });
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      activeIdx = Math.min(activeIdx + 1, visible.length - 1);
+      updateHover();
+      if (visible[activeIdx]) visible[activeIdx].scrollIntoView({block:"nearest"});
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      activeIdx = Math.max(activeIdx - 1, 0);
+      updateHover();
+      if (visible[activeIdx]) visible[activeIdx].scrollIntoView({block:"nearest"});
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (activeIdx >= 0 && visible[activeIdx]) selectItem(visible[activeIdx]);
+    } else if (e.key === "Escape") {
+      close();
+    }
+  });
+
+  allItems.forEach(function(li) {
+    li.addEventListener("mousedown", function(e) {
+      e.preventDefault();
+      selectItem(li);
+    });
+  });
+
+  // Public reset
+  return {
+    reset: function() {
+      hidden.value = "";
+      inp.value = "";
+      selectedVal = "";
+      btn.style.borderColor = "";
+      allItems.forEach(function(x){ x.classList.remove("sel"); });
+      filterItems("");
+    },
+    getValue: function() { return hidden.value; }
+  };
+}
+
+// Init searchable dropdowns
+var shiftDD = makeSearchableDropdown({
+  btnId:"shiftBtn", inputId:"shiftInput", listId:"shiftList", hiddenId:"shift"
+});
+var unitDD = makeSearchableDropdown({
+  btnId:"unitBtn", inputId:"unitInput", listId:"unitList", hiddenId:"unit"
+});
+var queueDD = makeSearchableDropdown({
+  btnId:"queueBtn", inputId:"queueInput", listId:"queueList", hiddenId:"qName"
+});
+
+// Close all dropdowns when clicking outside
+document.addEventListener("click", function(e) {
+  ["shiftBtn","unitBtn","queueBtn"].forEach(function(id) {
+    var btn = document.getElementById(id);
+    var wrapId = id.replace("Btn","List");
+    var list = document.getElementById(wrapId) || document.getElementById(id.replace("Btn","List"));
+    if (btn && !btn.contains(e.target)) {
+      btn.classList.remove("open");
+      if (list) list.classList.remove("open");
+    }
+  });
+});
+
 // ===== LABELER AUTOCOMPLETE =====
 var labIn=document.getElementById("labName");
 var acL=document.getElementById("acList");
@@ -698,40 +880,6 @@ document.getElementById("qtcSearch").addEventListener("input",function(){
   });
 });
 
-// ===== QUEUE DROPDOWN =====
-(function(){
-  var btn=document.getElementById("qBtn"),list=document.getElementById("qList"),
-      inp=document.getElementById("qName"),disp=document.getElementById("qDisp");
-  btn.addEventListener("click",function(e){
-    e.stopPropagation();
-    var o=list.classList.toggle("open");btn.classList.toggle("open",o);
-    if(o){setTimeout(function(){var s=document.getElementById("qSearch");if(s)s.focus();},50);}
-  });
-  list.querySelectorAll("li[data-v]").forEach(function(li){
-    li.addEventListener("click",function(){
-      inp.value=this.dataset.v;disp.innerHTML=this.innerHTML;
-      list.querySelectorAll("li[data-v]").forEach(function(x){x.classList.remove("sel");});
-      this.classList.add("sel");list.classList.remove("open");btn.classList.remove("open");
-      var s=document.getElementById("qSearch");if(s){s.value="";filterQueue("");}
-      updateProgress();
-    });
-  });
-  document.addEventListener("click",function(){
-    list.classList.remove("open");btn.classList.remove("open");
-    var s=document.getElementById("qSearch");if(s){s.value="";filterQueue("");}
-  });
-  list.addEventListener("click",function(e){e.stopPropagation();});
-  function filterQueue(q){
-    list.querySelectorAll("li[data-v]").forEach(function(li){
-      li.style.display=(q===""||li.dataset.v.toLowerCase().indexOf(q.toLowerCase())>-1)?"":"none";
-    });
-  }
-  document.getElementById("qSearch").addEventListener("input",function(){filterQueue(this.value);});
-  document.getElementById("qSearch").addEventListener("keydown",function(e){
-    if(e.key==="Escape"){list.classList.remove("open");btn.classList.remove("open");}
-  });
-})();
-
 // ===== TASK LINK =====
 document.getElementById("taskLink").addEventListener("input",function(){
   var url=this.value.trim(),P="https://labeling.robot.car/#";
@@ -822,8 +970,24 @@ document.getElementById("F").addEventListener("submit",function(e){
   var yk=document.getElementById("yk").value.trim();
   var act=document.getElementById("action").value;
 
-  chk("shift",document.getElementById("shift").value);
-  chk("unit",document.getElementById("unit").value);
+  // Validate searchable dropdowns
+  if(!document.getElementById("shift").value){
+    document.getElementById("shiftBtn").style.borderColor="var(--error)";
+    document.getElementById("shiftBtn").style.boxShadow="0 0 0 3px rgba(192,57,43,.1)";
+    err=true;
+  } else {
+    document.getElementById("shiftBtn").style.borderColor="";
+    document.getElementById("shiftBtn").style.boxShadow="";
+  }
+
+  if(!document.getElementById("unit").value){
+    document.getElementById("unitBtn").style.borderColor="var(--error)";
+    document.getElementById("unitBtn").style.boxShadow="0 0 0 3px rgba(192,57,43,.1)";
+    err=true;
+  } else {
+    document.getElementById("unitBtn").style.borderColor="";
+    document.getElementById("unitBtn").style.boxShadow="";
+  }
 
   var pcVal=document.getElementById("pcNo").value.trim();
   if(!pcVal){me("pcNo");err=true;}
@@ -853,9 +1017,12 @@ document.getElementById("F").addEventListener("submit",function(e){
   chk("modality",document.getElementById("modality").value);
 
   if(!document.getElementById("qName").value){
-    var qb=document.getElementById("qBtn");qb.style.borderColor="var(--error)";qb.style.boxShadow="0 0 0 3px rgba(192,57,43,.1)";err=true;
+    document.getElementById("queueBtn").style.borderColor="var(--error)";
+    document.getElementById("queueBtn").style.boxShadow="0 0 0 3px rgba(192,57,43,.1)";
+    err=true;
   }else{
-    var qb=document.getElementById("qBtn");qb.style.borderColor="";qb.style.boxShadow="";
+    document.getElementById("queueBtn").style.borderColor="";
+    document.getElementById("queueBtn").style.boxShadow="";
   }
 
   if(!lnk.startsWith("https://labeling.robot.car/#")){me("taskLink");err=true;}else ce("taskLink");
@@ -940,13 +1107,18 @@ document.getElementById("F").addEventListener("submit",function(e){
     document.getElementById("idIcon").textContent="\u2014";
     document.getElementById("idIcon").style.color="";
     document.getElementById("pass").style.borderColor="";
-    document.getElementById("qDisp").innerHTML="Select Queue...";
-    document.getElementById("qName").value="";
-    document.querySelectorAll("#qList li").forEach(function(x){x.classList.remove("sel");});
     document.getElementById("linkHint").style.color="";
     document.getElementById("taskLink").style.borderColor="";
-    ["shift","unit","pcNo","labName","yk","modality","taskLink","taskId","pass","reason","objCount","notes","fromFrame","toFrame"]
+    // Reset searchable dropdowns
+    shiftDD.reset();
+    unitDD.reset();
+    queueDD.reset();
+    ["shift","unit","labName","yk","modality","taskLink","taskId","pass","reason","objCount","notes","fromFrame","toFrame"]
       .forEach(function(id){var el=document.getElementById(id);if(el){el.classList.remove("err-field");el.style.borderColor="";el.style.boxShadow="";}});
+    ["shiftBtn","unitBtn","queueBtn"].forEach(function(id){
+      var el=document.getElementById(id);
+      if(el){el.style.borderColor="";el.style.boxShadow="";}
+    });
     document.getElementById("progressBar").style.width="0%";
     var ykHint=document.getElementById("ykHint");
     if(ykHint){ykHint.style.color="var(--text-muted)";ykHint.textContent="6-digit code | or email format: ME123456@meti.ai";}
