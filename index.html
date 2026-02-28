@@ -273,7 +273,7 @@ input[type=number]{-moz-appearance:textfield}
                 <input type="text" id="yk" placeholder="e.g. 123456 or ME123456@meti.ai" required autocomplete="off" data-lpignore="true">
                 <ul class="acl" id="ykAcList"></ul>
               </div>
-              <div id="ykHint" style="font-size:.72rem;color:var(--text-muted);margin-top:5px;">6-digit code <span style="color:var(--border)">|</span> or email format: ME123456@meti.ai</div>
+              <div id="ykHint" style="font-size:.72rem;color:var(--text-muted);margin-top:5px;">6-digit code <span style="color:var(--border)">|</span> or email format: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3d70780c0f0e09080b7d50584954135c54">[email&#160;protected]</a></div>
             </div>
           </div>
 
@@ -470,8 +470,8 @@ input[type=number]{-moz-appearance:textfield}
 
 <div class="toast" id="toast"></div>
 
-<script>
-var SHEET_URL = "https://script.google.com/macros/s/AKfycbw1ykxEq-L76F-AUS8Dh7R4J9TkULcjzGqa4SzV2l_63j5AAxOQxbk8qehriD0amVXKbA/exec";
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+var SHEET_URL = "https://script.google.com/macros/s/AKfycbwxUfRtegKbtyXRK-DfcsF5MuWglmeXTqO-EL5YDGvamESjkY4t9SGel8i-8oWi4YcP/exec";
 var NK = "meti_labeler_names";
 var NK_YK = "meti_yk_history";
 var NK_PC = "meti_pc_last";
@@ -854,8 +854,4 @@ function makeStorageItem(label,onDel){
 }
 
 document.getElementById("clearNamesBtn").addEventListener("click",function(){localStorage.removeItem(NK);renderAC(labIn.value);renderStorageManager();});
-document.getElementById("clearYKBtn").addEventListener("click",function(){localStorage.removeItem(NK_YK);renderYKAC(ykIn.value);renderStorageManager();});
-document.getElementById("clearPCBtn").addEventListener("click",function(){localStorage.removeItem(NK_PC);renderStorageManager();});
-</script>
-</body>
-</html>
+document.getElementById("clearYKBtn").addEventListener("click",function(){localStorage
