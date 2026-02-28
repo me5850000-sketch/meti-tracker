@@ -396,7 +396,6 @@ input[type=number]{-moz-appearance:textfield}
           <div id="brSkip" class="branch" style="display:none">
             <div class="field" style="margin-bottom:0">
               <label>Reason <span class="req">*</span></label>
-              <!-- SEARCHABLE DROPDOWN FOR REASON -->
               <div class="sdw">
                 <div class="sdb" id="reasonBtn" tabindex="0">
                   <input class="sd-input" id="reasonInput" placeholder="Select an issue..." autocomplete="off" data-lpignore="true">
@@ -472,7 +471,7 @@ input[type=number]{-moz-appearance:textfield}
 <div class="toast" id="toast"></div>
 
 <script>
-var SHEET_URL = "https://script.google.com/macros/s/AKfycbxuivQCvNlK6RthWic_lfj-Ngqv9yQpud6q6N-9hXFpBAWekXSIdv-80ccREaOusfz8bw/exec";
+var SHEET_URL = "https://script.google.com/macros/s/AKfycbw1ykxEq-L76F-AUS8Dh7R4J9TkULcjzGqa4SzV2l_63j5AAxOQxbk8qehriD0amVXKbA/exec";
 var NK = "meti_labeler_names";
 var NK_YK = "meti_yk_history";
 var NK_PC = "meti_pc_last";
@@ -569,7 +568,6 @@ document.querySelectorAll("input,select,textarea").forEach(function(el){
   el.addEventListener("input",updateProgress);el.addEventListener("change",updateProgress);
 });
 
-// PC NO validation
 document.getElementById("pcNo").addEventListener("input",function(){
   var v=this.value.trim();
   if(!v){this.style.borderColor="";return;}
@@ -650,7 +648,7 @@ function buildQTCGrid(shift){
     card.addEventListener("click",function(){
       grid.querySelectorAll(".qtc-card.selected").forEach(function(c){c.classList.remove("selected");c.querySelector(".qtc-check").textContent="";});
       card.classList.add("selected");card.querySelector(".qtc-check").textContent="\u2713";
-      selectedQTC=p.name+(p.role?" "+p.role:"");hidInp.value=selectedQTC;
+      selectedQTC=p.name;hidInp.value=selectedQTC;
       disp.innerHTML="";
       var tag=document.createElement("div");tag.className="qtc-tag";
       tag.innerHTML=selectedQTC+'<button type="button" title="Clear">\u2715</button>';
@@ -755,14 +753,14 @@ document.getElementById("F").addEventListener("submit",function(e){
   var fromF=document.getElementById("fromFrame").value,toF=document.getElementById("toFrame").value;
   var framesVal=(fromF&&toF)?(fromF+"-"+toF):"";
 
+  // ====== PAYLOAD - بدون action ======
   var payload={
-    sheet:act,
     timestamp:document.getElementById("ts").value,
     shift:document.getElementById("shift").value,
     unit:document.getElementById("unit").value,
-    labelerName:lab,
     qtcName:document.getElementById("qtcName").value,
     yubikeyEmail:yk,
+    labelerName:lab,
     pcNo:document.getElementById("pcNo").value,
     modality:document.getElementById("modality").value,
     queueName:document.getElementById("qName").value,
@@ -770,10 +768,10 @@ document.getElementById("F").addEventListener("submit",function(e){
     taskId:document.getElementById("taskId").value,
     pass:document.getElementById("pass").value,
     action:act,
+    objectCount:act==="Submit"?obj:"",
     reason:act==="Skip"?document.getElementById("reason").value:"",
     otherNotes:(act==="Skip"&&(document.getElementById("reason").value==="Other"||document.getElementById("reason").value==="Edge Case"))?document.getElementById("notes").value.trim():"",
-    issuedFrames:act==="Skip"?framesVal:"",
-    objectCount:act==="Submit"?obj:""
+    issuedFrames:act==="Skip"?framesVal:""
   };
 
   var btn=document.getElementById("subBtn");
