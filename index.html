@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>METI Task Tracker</title>
+<title>METI Tasks Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -105,7 +105,7 @@ body::before {
 header.main-header {
   width: 100%;
   background: var(--primary);
-  padding: 28px 40px 32px;
+  padding: 28px 48px 32px;
   display: flex;
   align-items: flex-end;
   gap: 24px;
@@ -190,8 +190,8 @@ header.main-header {
 /* ===== CONTENT ===== */
 .content {
   width: 100%;
-  max-width: 860px;
-  padding: 36px 20px 60px;
+  max-width: 1080px;
+  padding: 36px 24px 60px;
 }
 
 /* ===== CARD ===== */
@@ -334,7 +334,29 @@ select option { background: #fff; color: var(--text); }
 .csl li:last-child { border-bottom: none; }
 .csl li:hover { background: var(--primary-xlight); color: var(--primary-dark); }
 .csl li.sel { background: var(--primary-xlight); color: var(--primary); font-weight: 600; }
-.hl {
+.csl li.q-search-row {
+  padding: 8px 10px;
+  cursor: default;
+  background: #f7fbfd;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.csl li.q-search-row:hover { background: #f7fbfd; }
+.csl li.q-search-row input {
+  width: 100%;
+  font-size: .82rem;
+  padding: 7px 10px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text);
+  outline: none;
+  font-family: 'Inter', sans-serif;
+  transition: border-color .18s;
+}
+.csl li.q-search-row input:focus { border-color: var(--border-focus); }
   color: #e07b00;
   font-weight: 700;
   background: rgba(224,123,0,0.1);
@@ -599,8 +621,7 @@ select option { background: #fff; color: var(--text); }
       <div class="header-dept">Labeling Operations · Internal System</div>
     </div>
     <div class="header-badge">
-      <span class="header-badge-label">Module</span>
-      <span class="header-badge-title">Task Tracker</span>
+      <span class="header-badge-title">Tasks Tracker</span>
     </div>
   </header>
 
@@ -668,7 +689,8 @@ select option { background: #fff; color: var(--text); }
             </div>
             <div class="field">
               <label>Yubikey <span class="req">*</span></label>
-              <input type="text" id="yk" placeholder="Enter your Yubikey..." required autocomplete="off" data-lpignore="true">
+              <input type="text" id="yk" placeholder="e.g. 123456 or ME123456@meti.ai" required autocomplete="off" data-lpignore="true">
+              <div id="ykHint" style="font-size:.72rem;color:var(--text-muted);margin-top:5px;">6-digit code <span style="color:var(--border)">|</span> or email format: ME123456@meti.ai</div>
             </div>
           </div>
 
@@ -711,6 +733,9 @@ select option { background: #fff; color: var(--text); }
               <div class="csw">
                 <button type="button" class="csb" id="qBtn"><span id="qDisp">Select Queue...</span><span class="ca">&#9662;</span></button>
                 <ul class="csl" id="qList">
+                  <li class="q-search-row" onmousedown="event.preventDefault()">
+                    <input type="text" id="qSearch" placeholder="&#128269; Search queue..." autocomplete="off">
+                  </li>
                   <li data-v="sc3_full_scene_highway_mapless_filtered_3d_lanes">sc3_full_scene_highway_mapless_<span class="hl">filtered</span>_3d_lanes</li>
                   <li data-v="sc3_full_scene_highway_lanes_first_lidar_labeling">sc3_full_scene_highway_lanes_<span class="hl">first_lidar</span>_labeling</li>
                   <li data-v="sc3_full_scene_highway_lidar_only_labeling">sc3_full_scene_highway_<span class="hl">lidar_only</span>_labeling</li>
@@ -731,8 +756,12 @@ select option { background: #fff; color: var(--text); }
             <div class="field">
               <label>Task ID <span class="req">*</span></label>
               <div class="task-id-wrap">
-                <input type="text" id="taskId" placeholder="Auto-filled from link" required readonly style="background:#f2f6f9;cursor:default">
+                <input type="text" id="taskId" placeholder="Auto-filled or type manually" required style="padding-right:38px">
                 <span id="idIcon">&#8212;</span>
+              </div>
+              <div id="taskIdWarn" style="display:none;margin-top:6px;display:none;align-items:center;gap:6px;font-size:.75rem;color:#b45309;background:#fffbeb;border:1px solid #fcd34d;border-radius:6px;padding:6px 10px;">
+                <span style="font-size:.9rem;font-weight:700;">⚠</span>
+                <span>Heads up — this ID differs from the one in the link</span>
               </div>
             </div>
             <div class="field">
@@ -798,7 +827,7 @@ select option { background: #fff; color: var(--text); }
             </div>
             <div id="notesRow" style="display:none;margin-top:18px" class="field">
               <label>Notes <span class="req">*</span></label>
-              <textarea id="notes" rows="3" placeholder="عربي أو إنجليزي..." style="resize:vertical;line-height:1.6"></textarea>
+              <textarea id="notes" rows="3" placeholder="Write your notes here..." style="resize:vertical;line-height:1.6"></textarea>
             </div>
           </div>
         </div>
@@ -818,6 +847,8 @@ select option { background: #fff; color: var(--text); }
 <script>
 var SHEET_URL="https://script.google.com/macros/s/AKfycbxuivQCvNlK6RthWic_lfj-Ngqv9yQpud6q6N-9hXFpBAWekXSIdv-80ccREaOusfz8bw/exec";
 var NK="meti_labeler_names";
+var NK_YK="meti_yk_history";
+var NK_PC="meti_pc_last";
 var FRAME_R=["Lidar points shifting vertically"];
 
 var QTC_DATA={
@@ -936,7 +967,58 @@ function tick(){
 }
 tick();setInterval(tick,1000);
 
-// Progress
+// Yubikey — autocomplete + validation
+function getYK(){try{return JSON.parse(localStorage.getItem(NK_YK))||[];}catch(e){return[];}}
+function saveYK(v){if(!v.trim())return;var a=getYK();if(a.indexOf(v)===-1){a.unshift(v);localStorage.setItem(NK_YK,JSON.stringify(a.slice(0,20)));}}
+function delYK(v){localStorage.setItem(NK_YK,JSON.stringify(getYK().filter(function(x){return x!==v;})));}
+
+var ykIn=document.getElementById("yk");
+var ykAcL=document.createElement("ul");ykAcL.className="acl";ykAcL.id="ykAcList";
+ykIn.parentNode.style.position="relative";
+ykIn.parentNode.appendChild(ykAcL);
+var ykActive=-1;
+
+function validateYK(v){
+  var hint=document.getElementById("ykHint");
+  if(!v){ykIn.style.borderColor="";hint.style.color="var(--text-muted)";hint.textContent="6-digit code | or email format: ME123456@meti.ai";return;}
+  var is6=/^\d{6}$/.test(v),isE=/^[a-zA-Z]{2}\d+@meti\.ai$/i.test(v);
+  if(is6||isE){ykIn.style.borderColor="#1a8a5a";hint.style.color="var(--success)";hint.textContent=is6?"✓ Valid 6-digit code":"✓ Valid email";ce("yk");}
+  else{ykIn.style.borderColor="var(--error)";hint.style.color="var(--error)";hint.textContent="Must be 6 digits (123456) or email like ME123456@meti.ai";}
+}
+
+function renderYKAC(q){
+  var hits=q?getYK().filter(function(n){return n.toLowerCase().indexOf(q.toLowerCase())>-1;}):getYK();
+  ykActive=-1;
+  if(!hits.length){ykAcL.innerHTML="";ykAcL.classList.remove("open");return;}
+  ykAcL.innerHTML="";
+  hits.forEach(function(val){
+    var li=document.createElement("li");
+    var sp=document.createElement("span");sp.textContent=val;
+    var dl=document.createElement("button");dl.className="delbtn";dl.type="button";dl.textContent="\u2715";
+    li.appendChild(sp);li.appendChild(dl);
+    li.addEventListener("mousedown",function(e){
+      if(e.target===dl){e.preventDefault();delYK(val);renderYKAC(ykIn.value);return;}
+      e.preventDefault();ykIn.value=val;ykAcL.classList.remove("open");ykActive=-1;validateYK(val);
+    });
+    li.addEventListener("touchstart",function(e){
+      if(e.target===dl){e.preventDefault();delYK(val);renderYKAC(ykIn.value);return;}
+      e.preventDefault();ykIn.value=val;ykAcL.classList.remove("open");ykActive=-1;validateYK(val);
+    },{passive:false});
+    ykAcL.appendChild(li);
+  });
+  ykAcL.classList.add("open");
+}
+ykIn.addEventListener("input",function(){validateYK(this.value.trim());renderYKAC(this.value);});
+ykIn.addEventListener("focus",function(){renderYKAC(this.value);});
+ykIn.addEventListener("blur",function(){setTimeout(function(){ykAcL.classList.remove("open");ykActive=-1;},180);});
+ykIn.addEventListener("keydown",function(e){
+  var items=ykAcL.querySelectorAll("li");
+  if(!items.length)return;
+  if(e.key==="ArrowDown"){e.preventDefault();ykActive=Math.min(ykActive+1,items.length-1);items.forEach(function(x,i){x.classList.toggle("ac-hover",i===ykActive);});}
+  else if(e.key==="ArrowUp"){e.preventDefault();ykActive=Math.max(ykActive-1,0);items.forEach(function(x,i){x.classList.toggle("ac-hover",i===ykActive);});}
+  else if(e.key==="Enter"&&ykActive>=0){e.preventDefault();var v=items[ykActive].querySelector("span").textContent;ykIn.value=v;ykAcL.classList.remove("open");ykActive=-1;validateYK(v);}
+  else if(e.key==="Escape"){ykAcL.classList.remove("open");ykActive=-1;}
+});
 function updateProgress(){
   var fields=["shift","unit","pcNo","labName","yk","modality","taskLink","taskId","pass","qtcName","action"];
   var filled=fields.filter(function(id){var el=document.getElementById(id);return el&&el.value&&el.value.trim();}).length;
@@ -948,6 +1030,8 @@ function toast(msg,type){var t=document.getElementById("toast");t.textContent=ms
 function me(id){var el=document.getElementById(id);if(el)el.classList.add("err-field");}
 function ce(id){var el=document.getElementById(id);if(el)el.classList.remove("err-field");}
 
+var linkTaskId = ""; // ID extracted from link
+
 // Task link parsing
 document.getElementById("taskLink").addEventListener("input",function(){
   var url=this.value.trim(),P="https://labeling.robot.car/#";
@@ -955,15 +1039,32 @@ document.getElementById("taskLink").addEventListener("input",function(){
   if(url.length>0&&!url.startsWith(P)){this.style.borderColor="var(--error)";hint.style.color="var(--error)";}
   else{this.style.borderColor=url.length>0?"#1a8a5a":"";hint.style.color="";}
   var idM=url.match(/\/id\/(\d+)/);
-  if(idM){idEl.value=idM[1];idEl.style.borderColor="#1a8a5a";icon.textContent="\u2713";icon.style.color="var(--success)";icon.style.opacity="1";}
-  else{idEl.value="";idEl.style.borderColor="";icon.textContent="\u2014";icon.style.color="";icon.style.opacity=".4";}
+  if(idM){
+    linkTaskId=idM[1];
+    idEl.value=idM[1];idEl.style.borderColor="#1a8a5a";icon.textContent="\u2713";icon.style.color="var(--success)";icon.style.opacity="1";
+    document.getElementById("taskIdWarn").style.display="none";
+  }
+  else{linkTaskId="";idEl.value="";idEl.style.borderColor="";icon.textContent="\u2014";icon.style.color="";icon.style.opacity=".4";document.getElementById("taskIdWarn").style.display="none";}
   var dM=url.match(/\/do\/([^\/]+)\//);
   if(dM){passEl.value=dM[1].toUpperCase().endsWith("QA")?"QA":"FP";passEl.style.borderColor="#1a8a5a";}
   else{passEl.value="";passEl.style.borderColor="";}
   updateProgress();
 });
 
-// PC No validation
+// Task ID manual edit warning
+document.getElementById("taskId").addEventListener("input",function(){
+  var warn=document.getElementById("taskIdWarn");
+  var v=this.value.trim();
+  if(linkTaskId && v && v!==linkTaskId){
+    warn.style.display="flex";
+  } else {
+    warn.style.display="none";
+  }
+});
+(function(){
+  var saved=localStorage.getItem(NK_PC);
+  if(saved){var el=document.getElementById("pcNo");el.value=saved;el.style.borderColor="#1a8a5a";}
+})();
 document.getElementById("pcNo").addEventListener("input",function(){
   var v=this.value.trim();
   if(!v){this.style.borderColor="";}
@@ -974,12 +1075,39 @@ document.getElementById("pcNo").addEventListener("input",function(){
 // Queue dropdown
 (function(){
   var btn=document.getElementById("qBtn"),list=document.getElementById("qList"),inp=document.getElementById("qName"),disp=document.getElementById("qDisp");
-  btn.addEventListener("click",function(e){e.stopPropagation();var o=list.classList.toggle("open");btn.classList.toggle("open",o);});
-  list.querySelectorAll("li").forEach(function(li){
-    li.addEventListener("click",function(){inp.value=this.dataset.v;disp.innerHTML=this.innerHTML;list.querySelectorAll("li").forEach(function(x){x.classList.remove("sel");});this.classList.add("sel");list.classList.remove("open");btn.classList.remove("open");updateProgress();});
+  btn.addEventListener("click",function(e){
+    e.stopPropagation();
+    var o=list.classList.toggle("open");
+    btn.classList.toggle("open",o);
+    if(o){ setTimeout(function(){ var s=document.getElementById("qSearch"); if(s)s.focus(); },50); }
   });
-  document.addEventListener("click",function(){list.classList.remove("open");btn.classList.remove("open");});
+  list.querySelectorAll("li[data-v]").forEach(function(li){
+    li.addEventListener("click",function(){
+      inp.value=this.dataset.v;
+      disp.innerHTML=this.innerHTML;
+      list.querySelectorAll("li[data-v]").forEach(function(x){x.classList.remove("sel");});
+      this.classList.add("sel");
+      list.classList.remove("open");
+      btn.classList.remove("open");
+      // clear search
+      var s=document.getElementById("qSearch"); if(s){s.value=""; filterQueue("");}
+      updateProgress();
+    });
+  });
+  document.addEventListener("click",function(){
+    list.classList.remove("open");btn.classList.remove("open");
+    var s=document.getElementById("qSearch"); if(s){s.value=""; filterQueue("");}
+  });
   list.addEventListener("click",function(e){e.stopPropagation();});
+
+  function filterQueue(q){
+    list.querySelectorAll("li[data-v]").forEach(function(li){
+      var text=li.dataset.v.toLowerCase();
+      li.style.display=(q===''||text.indexOf(q.toLowerCase())>-1)?"":"none";
+    });
+  }
+  document.getElementById("qSearch").addEventListener("input",function(){filterQueue(this.value);});
+  document.getElementById("qSearch").addEventListener("keydown",function(e){if(e.key==="Escape"){list.classList.remove("open");btn.classList.remove("open");}});
 })();
 
 // Autocomplete
@@ -1061,12 +1189,22 @@ document.getElementById("btnSubmit").addEventListener("click",function(){setActi
 document.getElementById("btnSkip").addEventListener("click",function(){setAction("Skip");});
 
 document.getElementById("reason").addEventListener("change",function(){
-  var sf=FRAME_R.indexOf(this.value)>-1,sn=this.value==="Other";
+  var val=this.value;
+  var sf=FRAME_R.indexOf(val)>-1;
+  var sn=(val==="Other"||val==="Edge Case");
   document.getElementById("framesRow").style.display=sf?"block":"none";
   document.getElementById("fromFrame").required=sf;
   document.getElementById("toFrame").required=sf;
   document.getElementById("notesRow").style.display=sn?"block":"none";
-  document.getElementById("notes").required=sn;
+  // Only required for Other, optional for Edge Case
+  document.getElementById("notes").required=(val==="Other");
+  // Update label to show/hide req asterisk
+  var notesLabel=document.querySelector("#notesRow label");
+  if(notesLabel){
+    notesLabel.innerHTML=val==="Other"
+      ? 'Notes <span class="req">*</span>'
+      : 'Notes <span style="font-size:.72rem;color:var(--text-muted);font-weight:400">(optional)</span>';
+  }
 });
 
 // Form submit
@@ -1092,6 +1230,12 @@ document.getElementById("F").addEventListener("submit",function(e){
   else if(!/^[a-zA-Z\s]+$/.test(lab)){me("labName");err=true;toast("Labeler Name: English letters only","err");return;}
   else ce("labName");
 
+  // QTC Shift
+  if(!document.getElementById("qtcShiftSel").value){
+    me("qtcShiftSel"); err=true;
+  } else { ce("qtcShiftSel"); }
+
+  // QTC Name
   if(!document.getElementById("qtcName").value){
     var w=document.getElementById("qtcPickerWrap");
     w.style.border="1.5px solid var(--error)";w.style.borderRadius="8px";w.style.padding="8px";err=true;
@@ -1099,7 +1243,12 @@ document.getElementById("F").addEventListener("submit",function(e){
     var w=document.getElementById("qtcPickerWrap");w.style.border="";w.style.padding="";
   }
 
-  if(!yk){me("yk");err=true;}else ce("yk");
+  if(!yk){ me("yk"); err=true; }
+  else {
+    var is6digit=/^\d{6}$/.test(yk), isEmail=/^[a-zA-Z]{2}\d+@meti\.ai$/i.test(yk);
+    if(!is6digit && !isEmail){ me("yk"); err=true; toast("Yubikey: must be 6 digits or ME123456@meti.ai","err"); return; }
+    else ce("yk");
+  }
   chk("modality",document.getElementById("modality").value);
 
   if(!document.getElementById("qName").value){
@@ -1136,6 +1285,8 @@ document.getElementById("F").addEventListener("submit",function(e){
   if(err){toast("Please fill all required fields","err");return;}
 
   saveN(lab);
+  saveYK(yk);
+  localStorage.setItem(NK_PC, document.getElementById("pcNo").value);
 
   var fromF=document.getElementById("fromFrame").value;
   var toF=document.getElementById("toFrame").value;
@@ -1157,7 +1308,7 @@ document.getElementById("F").addEventListener("submit",function(e){
     pass:document.getElementById("pass").value,
     action:act,
     reason:act==="Skip"?document.getElementById("reason").value:"",
-    otherNotes:(act==="Skip"&&document.getElementById("reason").value==="Other")?document.getElementById("notes").value.trim():"",
+    otherNotes:(act==="Skip"&&(document.getElementById("reason").value==="Other"||document.getElementById("reason").value==="Edge Case"))?document.getElementById("notes").value.trim():"",
     issuedFrames:act==="Skip"?framesVal:"",
     objectCount:act==="Submit"?obj:""
   };
@@ -1184,6 +1335,8 @@ document.getElementById("F").addEventListener("submit",function(e){
     document.getElementById("action").value="";
     document.getElementById("taskId").value="";
     document.getElementById("taskId").style.borderColor="";
+    document.getElementById("taskIdWarn").style.display="none";
+    linkTaskId="";
     document.getElementById("idIcon").textContent="\u2014";
     document.getElementById("idIcon").style.color="";
     document.getElementById("pass").style.borderColor="";
@@ -1195,6 +1348,14 @@ document.getElementById("F").addEventListener("submit",function(e){
     ["shift","unit","pcNo","labName","yk","modality","taskLink","taskId","pass","reason","objCount","notes","fromFrame","toFrame"]
       .forEach(function(id){var el=document.getElementById(id);if(el){el.classList.remove("err-field");el.style.borderColor="";el.style.boxShadow="";}});
     document.getElementById("progressBar").style.width="0%";
+    // reset yk hint
+    var ykHint=document.getElementById("ykHint");
+    if(ykHint){ykHint.style.color="var(--text-muted)";ykHint.textContent="6-digit code | or email format: ME123456@meti.ai";}
+    document.getElementById("yk").style.borderColor="";
+    ykAcL.classList.remove("open");
+    // restore PC No from storage
+    var savedPC=localStorage.getItem(NK_PC);
+    if(savedPC){var pcEl=document.getElementById("pcNo");pcEl.value=savedPC;pcEl.style.borderColor="#1a8a5a";}
     btn.textContent="\u23ed  Skip Task";
     btn.style.background="var(--primary)";
     btn.disabled=false;
