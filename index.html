@@ -190,8 +190,8 @@ header.main-header {
 /* ===== CONTENT ===== */
 .content {
   width: 100%;
-  max-width: 1080px;
-  padding: 36px 24px 60px;
+  max-width: 1280px;
+  padding: 36px 32px 60px;
 }
 
 /* ===== CARD ===== */
@@ -210,7 +210,7 @@ header.main-header {
 
 .card-section {
   border-bottom: 1px solid #edf2f6;
-  padding: 28px 32px;
+  padding: 32px 40px;
 }
 .card-section:last-child { border-bottom: none; }
 
@@ -233,7 +233,7 @@ header.main-header {
 .section-icon svg { width: 15px; height: 15px; color: var(--primary); }
 .section-title {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: .72rem;
+  font-size: .82rem;
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -241,17 +241,17 @@ header.main-header {
 }
 
 /* ===== GRID ===== */
-.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
-.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-bottom: 18px; }
-.full { margin-bottom: 18px; }
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-bottom: 22px; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 22px; margin-bottom: 22px; }
+.full { margin-bottom: 22px; }
 
 /* ===== FIELD ===== */
 .field label {
   display: block;
-  font-size: .78rem;
+  font-size: .88rem;
   font-weight: 600;
   color: var(--text-secondary);
-  margin-bottom: 7px;
+  margin-bottom: 8px;
   letter-spacing: .2px;
 }
 .field label .req { color: var(--error); margin-left: 2px; }
@@ -262,10 +262,10 @@ input, select, textarea {
   background: var(--input-bg);
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
-  padding: 10px 14px;
+  padding: 12px 16px;
   color: var(--text);
   font-family: 'Inter', sans-serif;
-  font-size: .9rem;
+  font-size: 1rem;
   outline: none;
   transition: border-color .18s, box-shadow .18s, background .18s;
   appearance: none;
@@ -294,10 +294,10 @@ select option { background: #fff; color: var(--text); }
   background: var(--input-bg);
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
-  padding: 10px 34px 10px 14px;
+  padding: 12px 34px 12px 16px;
   color: var(--text);
   font-family: 'Inter', sans-serif;
-  font-size: .9rem;
+  font-size: 1rem;
   text-align: left;
   cursor: pointer;
   outline: none;
@@ -690,7 +690,7 @@ select option { background: #fff; color: var(--text); }
             <div class="field">
               <label>Yubikey <span class="req">*</span></label>
               <input type="text" id="yk" placeholder="e.g. 123456 or ME123456@meti.ai" required autocomplete="off" data-lpignore="true">
-              <div id="ykHint" style="font-size:.72rem;color:var(--text-muted);margin-top:5px;">6-digit code <span style="color:var(--border)">|</span> or email format: ME123456@meti.ai</div>
+              <div id="ykHint" style="font-size:.72rem;color:var(--text-muted);margin-top:5px;">6-digit code <span style="color:var(--border)">|</span> or email format: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="064b43373435323330466b63726f28676f">[email&#160;protected]</a></div>
             </div>
           </div>
 
@@ -844,7 +844,7 @@ select option { background: #fff; color: var(--text); }
 
 <div class="toast" id="toast"></div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 var SHEET_URL="https://script.google.com/macros/s/AKfycbxuivQCvNlK6RthWic_lfj-Ngqv9yQpud6q6N-9hXFpBAWekXSIdv-80ccREaOusfz8bw/exec";
 var NK="meti_labeler_names";
 var NK_YK="meti_yk_history";
@@ -1358,13 +1358,4 @@ document.getElementById("F").addEventListener("submit",function(e){
     if(savedPC){var pcEl=document.getElementById("pcNo");pcEl.value=savedPC;pcEl.style.borderColor="#1a8a5a";}
     btn.textContent="\u23ed  Skip Task";
     btn.style.background="var(--primary)";
-    btn.disabled=false;
-  })
-  .catch(function(){
-    toast("Submission failed. Check connection.","err");
-    btn.disabled=false;btn.textContent=act==="Submit"?"\u2714  Submit Task":"\u23ed  Skip Task";
-  });
-});
-</script>
-</body>
-</html>
+    btn.disab
