@@ -598,16 +598,29 @@ document.querySelectorAll("input,select,textarea").forEach(function(el){
   el.addEventListener("input",updateProgress);el.addEventListener("change",updateProgress);
 });
 
-// PC NO
+// PC NO — with max 100 validation
 (function(){
   var saved=localStorage.getItem(NK_PC);
   if(saved){var el=document.getElementById("pcNo");el.value=saved;el.style.borderColor="#1a8a5a";}
 })();
 document.getElementById("pcNo").addEventListener("input",function(){
   var v=this.value.trim();
-  if(!v){this.style.borderColor="";}
-  else if(/^\d+$/.test(v)||/^qtc$/i.test(v)){this.value=/^qtc$/i.test(v)?"QTC":v;this.style.borderColor="#1a8a5a";}
-  else{this.style.borderColor="var(--error)";}
+  if(!v){this.style.borderColor="";return;}
+  if(/^qtc$/i.test(v)){
+    this.value="QTC";
+    this.style.borderColor="#1a8a5a";
+    return;
+  }
+  if(/^\d+$/.test(v)){
+    var num=parseInt(v,10);
+    if(num>=1&&num<=100){
+      this.style.borderColor="#1a8a5a";
+    } else {
+      this.style.borderColor="var(--error)";
+    }
+  } else {
+    this.style.borderColor="var(--error)";
+  }
 });
 
 // ===== SEARCHABLE DROPDOWN FACTORY =====
@@ -624,7 +637,6 @@ function makeSearchableDropdown(opts) {
   function open() {
     btn.classList.add("open");
     list.classList.add("open");
-    // hide display span, show input for typing
     if (dispEl) { dispEl.style.display = "none"; }
     inp.style.display = "";
     inp.value = "";
@@ -704,7 +716,6 @@ function makeSearchableDropdown(opts) {
     if (list.classList.contains("open")) { close(); } else { open(); }
   });
 
-  // clicking the display span re-opens
   if (dispEl) {
     dispEl.addEventListener("mousedown", function(e) {
       e.preventDefault();
@@ -1012,9 +1023,21 @@ document.getElementById("F").addEventListener("submit",function(e){
   chkDD("unit","unitBtn");
 
   var pcVal=document.getElementById("pcNo").value.trim();
-  if(!pcVal){me("pcNo");err=true;}
-  else if(!/^\d+$/.test(pcVal)&&!/^qtc$/i.test(pcVal)){me("pcNo");err=true;toast("PC No.: Enter a number or QTC","err");return;}
-  else{ce("pcNo");document.getElementById("pcNo").value=/^qtc$/i.test(pcVal)?"QTC":pcVal;}
+  if(!pcVal){
+    me("pcNo");err=true;
+  } else if(/^qtc$/i.test(pcVal)){
+    document.getElementById("pcNo").value="QTC";
+    ce("pcNo");
+  } else if(/^\d+$/.test(pcVal)){
+    var pcNum=parseInt(pcVal,10);
+    if(pcNum<1||pcNum>100){
+      me("pcNo");err=true;toast("PC No. must be between 1 and 100","err");return;
+    } else {
+      ce("pcNo");
+    }
+  } else {
+    me("pcNo");err=true;toast("PC No.: Enter a number (1–100) or QTC","err");return;
+  }
 
   if(!lab){me("labName");err=true;}
   else if(!/^[a-zA-Z\s]+$/.test(lab)){me("labName");err=true;toast("Labeler Name: English letters only","err");return;}
