@@ -6,44 +6,30 @@
 <title>METI Tasks Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-
-/* ============================================================
-   🎨 THEME VARIABLES — عدّل الألوان هنا بسهولة
-   ============================================================ */
 :root {
   --primary:        #1E6C93;
   --primary-dark:   #155270;
   --primary-light:  #2a85b5;
   --primary-xlight: #e8f4fb;
   --accent:         #0fa3d4;
-
   --surface:        #fff;
   --bg:             #f0f4f7;
   --border:         #ccdde8;
   --border-focus:   #1E6C93;
-
   --text:           #1a2733;
   --text-secondary: #4a6375;
   --text-muted:     #7a96a8;
-
   --error:          #c0392b;
   --error-bg:       #fdf0ee;
   --success:        #1a8a5a;
   --success-bg:     #edf7f3;
-
   --input-bg:       #f7fbfd;
-
   --shadow-sm:  0 1px 3px  rgba(30,108,147,.08);
   --shadow-md:  0 4px 16px rgba(30,108,147,.12);
   --shadow-lg:  0 8px 32px rgba(30,108,147,.16);
-
   --radius:    8px;
   --radius-lg: 12px;
 }
-
-/* ============================================================
-   🔧 RESET & BASE
-   ============================================================ */
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
 body {
   font-family: 'Inter', sans-serif;
@@ -62,10 +48,6 @@ body::before {
   pointer-events: none;
   z-index: 0;
 }
-
-/* ============================================================
-   📐 LAYOUT
-   ============================================================ */
 .page {
   position: relative;
   z-index: 1;
@@ -74,10 +56,6 @@ body::before {
   align-items: center;
   min-height: 100vh;
 }
-
-/* ============================================================
-   🔵 TOP BAR
-   ============================================================ */
 .topbar {
   width: 100%;
   background: var(--primary-dark);
@@ -106,10 +84,6 @@ body::before {
   color: rgba(255,255,255,.55);
   font-weight: 500; letter-spacing: .5px;
 }
-
-/* ============================================================
-   🏷️ MAIN HEADER
-   ============================================================ */
 header.main-header {
   width: 100%;
   background: var(--primary);
@@ -148,17 +122,8 @@ header.main-header {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size:1.05rem; font-weight:700; color:#fff; letter-spacing:.5px; display:block;
 }
-
-/* ============================================================
-   📊 PROGRESS BAR
-   ============================================================ */
 .progress-bar-track { width:100%; height:4px; background:rgba(30,108,147,.12) }
 .progress-bar-fill  { height:100%; width:0%; background:var(--accent); transition:width .4s ease }
-
-/* ============================================================
-   📦 CONTENT & CARD
-   — FIX: overflow:visible يخلي الـ dropdowns تظهر فوق الكارد
-   ============================================================ */
 .content {
   width: 100%;
   max-width: 1480px;
@@ -169,25 +134,19 @@ header.main-header {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
-  overflow: visible;          /* ✅ الفيكس — كان hidden وبيقطع الـ dropdowns */
+  overflow: visible;
   animation: slideUp .4s ease both;
 }
 @keyframes slideUp {
   from { opacity:0; transform:translateY(20px) }
   to   { opacity:1; transform:translateY(0) }
 }
-
-/* ============================================================
-   📄 CARD SECTIONS
-   ============================================================ */
 .card-section {
   border-bottom: 1px solid #edf2f6;
   padding: 36px 48px;
-  border-radius: 0; /* sections مش بتحتاج radius لأن الكارد بيعملها */
 }
 .card-section:first-child { border-radius: var(--radius-lg) var(--radius-lg) 0 0 }
 .card-section:last-child  { border-bottom:none }
-
 .section-header { display:flex; align-items:center; gap:10px; margin-bottom:22px }
 .section-icon {
   width:30px; height:30px;
@@ -201,17 +160,9 @@ header.main-header {
   font-size:.82rem; font-weight:700;
   letter-spacing:2px; text-transform:uppercase; color:var(--primary);
 }
-
-/* ============================================================
-   🔲 GRID HELPERS
-   ============================================================ */
 .g2   { display:grid; grid-template-columns:1fr 1fr;     gap:22px; margin-bottom:22px }
 .g3   { display:grid; grid-template-columns:1fr 1fr 1fr; gap:22px; margin-bottom:22px }
 .full { margin-bottom:22px }
-
-/* ============================================================
-   🏷️ FIELDS & INPUTS
-   ============================================================ */
 .field label {
   display:block;
   font-size:1.15rem; font-weight:600;
@@ -224,7 +175,6 @@ header.main-header {
   font-size:.7rem; font-weight:400;
   color:var(--text-muted); margin-top:2px;
 }
-
 input, select, textarea {
   width:100%;
   background: var(--input-bg);
@@ -248,12 +198,7 @@ input[readonly] { background:#f2f6f9; color:var(--text-muted); cursor:default }
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { -webkit-appearance:none }
 input[type=number] { -moz-appearance:textfield }
-
-/* ============================================================
-   🔽 SEARCHABLE DROPDOWN — القائمة المنسدلة
-   ============================================================ */
 .sdw { position:relative }
-
 .sdb {
   width:100%;
   background: var(--input-bg);
@@ -284,14 +229,11 @@ input[type=number] { -moz-appearance:textfield }
 }
 .sdb.open { border-color:var(--border-focus); box-shadow:0 0 0 3px rgba(30,108,147,.1); background:#fff }
 .sdb.open .sd-arrow { transform:translateY(-50%) rotate(180deg) }
-
 .sd-display {
   flex:1; min-width:0; font-size:1.05rem;
   overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
   display:none; cursor:pointer;
 }
-
-/* ✅ الـ dropdown list — position:absolute + z-index عالي = تظهر فوق كل حاجة */
 .sdl {
   position: absolute;
   top: calc(100% + 4px);
@@ -299,7 +241,7 @@ input[type=number] { -moz-appearance:textfield }
   background: #fff;
   border: 1.5px solid var(--border-focus);
   border-radius: var(--radius);
-  z-index: 9999;          /* ✅ z-index عالي جداً */
+  z-index: 9999;
   list-style: none;
   box-shadow: var(--shadow-lg);
   display: none;
@@ -319,18 +261,12 @@ input[type=number] { -moz-appearance:textfield }
 .sdl li.sel { background:var(--primary-xlight); color:var(--primary); font-weight:600 }
 .sdl li.sd-empty { color:var(--text-muted); font-style:italic; cursor:default; font-size:.88rem }
 .sdl li.sd-empty:hover { background:transparent; color:var(--text-muted) }
-
-/* هايلايت داخل الـ queue items */
 .hl {
   color:#e07b00; font-weight:700;
   background:rgba(224,123,0,.1); border:1px solid rgba(224,123,0,.3);
   border-radius:5px; padding:1px 7px; margin:0 1px;
   display:inline-block; letter-spacing:.2px;
 }
-
-/* ============================================================
-   🔤 AUTOCOMPLETE — اسم اللابلر + اليوبيكي
-   ============================================================ */
 .acw { position:relative }
 .acl {
   position: absolute;
@@ -340,7 +276,7 @@ input[type=number] { -moz-appearance:textfield }
   border: 1.5px solid var(--border-focus);
   border-radius: var(--radius);
   max-height: 220px; overflow-y:auto;
-  z-index: 9999;      /* ✅ نفس الفيكس */
+  z-index: 9999;
   box-shadow: var(--shadow-lg);
   display: none;
 }
@@ -362,10 +298,6 @@ input[type=number] { -moz-appearance:textfield }
 }
 .acl li:hover .delbtn, .acl li.ac-hover .delbtn { color:var(--text-muted) }
 .delbtn:hover { color:var(--error) !important }
-
-/* ============================================================
-   👥 QTC PICKER — اختيار اسم الـ QTC
-   ============================================================ */
 .qtc-hint      { font-size:.72rem; color:var(--text-muted); margin-bottom:10px; font-style:italic }
 .qtc-shift-msg {
   font-size:.82rem; color:var(--primary);
@@ -382,7 +314,6 @@ input[type=number] { -moz-appearance:textfield }
 .qtc-grid::-webkit-scrollbar       { width:5px }
 .qtc-grid::-webkit-scrollbar-track { background:#f0f4f7; border-radius:4px }
 .qtc-grid::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px }
-
 .qtc-card {
   background:var(--input-bg);
   border:1.5px solid var(--border);
@@ -405,7 +336,6 @@ input[type=number] { -moz-appearance:textfield }
 .qtc-card .qtc-name             { font-size:.83rem; font-weight:600; color:var(--text); line-height:1.3 }
 .qtc-card .qtc-role             { font-size:.72rem; color:var(--primary); margin-top:1px; font-weight:500 }
 .qtc-card.selected .qtc-name   { color:var(--success) }
-
 .qtc-selected-display { margin-top:10px; min-height:32px; display:flex; flex-wrap:wrap; gap:6px }
 .qtc-tag {
   background:var(--success-bg);
@@ -416,17 +346,52 @@ input[type=number] { -moz-appearance:textfield }
 }
 .qtc-tag button { background:none; border:none; color:var(--success); cursor:pointer; font-size:.8rem; padding:0; line-height:1; opacity:.7 }
 .qtc-tag button:hover { opacity:1 }
-
-/* ============================================================
-   🖼️ FRAMES INPUT
-   ============================================================ */
 .frames-merged { display:flex; align-items:center; gap:10px }
 .frames-merged input { flex:1 }
 .frames-sep { color:var(--text-muted); font-size:1.1rem; font-weight:700; flex-shrink:0 }
 
-/* ============================================================
-   ✅ ACTION TOGGLE — Submit / Skip
-   ============================================================ */
+/* ── MULTI-FRAMES STYLES ── */
+.frames-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+.frames-group input { flex:1 }
+.frames-remove-btn {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-muted);
+  width: 36px; height: 36px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex; align-items:center; justify-content:center;
+  transition: all .15s;
+  flex-shrink: 0;
+}
+.frames-remove-btn:hover { border-color:var(--error); color:var(--error); background:var(--error-bg) }
+.frames-list { display:flex; flex-direction:column; gap:10px }
+.add-frames-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 10px;
+  padding: 9px 16px;
+  background: var(--primary-xlight);
+  border: 1.5px dashed var(--primary-light);
+  border-radius: var(--radius);
+  color: var(--primary);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: .82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .18s;
+  letter-spacing: .3px;
+}
+.add-frames-btn:hover { background:#d6ecf8; border-color:var(--primary); border-style:solid }
+.add-frames-btn svg { width:14px; height:14px }
+
 .atog { display:flex; gap:12px; margin-top:4px }
 .abtn {
   flex:1; padding:13px 10px;
@@ -441,10 +406,6 @@ input[type=number] { -moz-appearance:textfield }
 .abtn:hover      { border-color:var(--primary); color:var(--primary); background:var(--primary-xlight) }
 .abtn.asubmit    { background:var(--success-bg); border-color:var(--success); color:var(--success) }
 .abtn.askip      { background:var(--primary-xlight); border-color:var(--primary); color:var(--primary) }
-
-/* ============================================================
-   📋 BRANCH SECTIONS — تظهر بعد اختيار Submit أو Skip
-   ============================================================ */
 .branch {
   border:1px solid var(--border);
   border-radius:var(--radius);
@@ -456,10 +417,6 @@ input[type=number] { -moz-appearance:textfield }
   from { opacity:0; transform:translateY(-4px) }
   to   { opacity:1; transform:translateY(0) }
 }
-
-/* ============================================================
-   🚀 SUBMIT BUTTON
-   ============================================================ */
 .subbtn {
   width:100%; padding:14px;
   background:var(--primary);
@@ -475,10 +432,6 @@ input[type=number] { -moz-appearance:textfield }
 .subbtn:hover    { background:var(--primary-light); box-shadow:0 4px 20px rgba(30,108,147,.4) }
 .subbtn:active   { transform:scale(.99) }
 .subbtn:disabled { opacity:.6; cursor:not-allowed }
-
-/* ============================================================
-   🍞 TOAST NOTIFICATION
-   ============================================================ */
 .toast {
   position:fixed; bottom:28px; left:50%;
   transform:translateX(-50%) translateY(16px);
@@ -491,10 +444,6 @@ input[type=number] { -moz-appearance:textfield }
 .toast.show { opacity:1; transform:translateX(-50%) translateY(0) }
 .toast.ok   { background:var(--success-bg); border:1px solid rgba(26,138,90,.4); color:var(--success) }
 .toast.err  { background:var(--error-bg);   border:1px solid rgba(192,57,43,.3);  color:var(--error) }
-
-/* ============================================================
-   ❌ ERROR STATE
-   ============================================================ */
 .err-field {
   border-color: var(--error) !important;
   box-shadow: 0 0 0 3px rgba(192,57,43,.1) !important;
@@ -505,28 +454,16 @@ input[type=number] { -moz-appearance:textfield }
   20%,60%  { transform:translateX(-3px) }
   40%,80%  { transform:translateX(3px) }
 }
-
-/* ============================================================
-   🆔 TASK ID
-   ============================================================ */
 .task-id-wrap { position:relative }
 .task-id-wrap input { padding-right:38px }
 #idIcon { position:absolute; right:12px; top:50%; transform:translateY(-50%); font-size:.8rem; opacity:.4 }
 #linkHint { color:var(--text-muted) }
-
-/* ============================================================
-   🔚 FORM FOOTER
-   ============================================================ */
 .form-footer {
   background:#f7fbfd;
   border-top:1px solid var(--border);
   padding:20px 32px;
-  border-radius:0 0 var(--radius-lg) var(--radius-lg); /* ✅ يكمّل شكل الكارد */
+  border-radius:0 0 var(--radius-lg) var(--radius-lg);
 }
-
-/* ============================================================
-   💾 SAVED DATA PANEL
-   ============================================================ */
 .storage-panel {
   width:100%; max-width:1480px;
   margin:16px 0 40px;
@@ -575,10 +512,6 @@ input[type=number] { -moz-appearance:textfield }
 }
 .storage-item-del:hover { color:var(--error) }
 .storage-empty { font-size:.78rem; color:var(--text-muted); font-style:italic; padding:4px 0 }
-
-/* ============================================================
-   📱 RESPONSIVE
-   ============================================================ */
 @media(max-width:640px) {
   .g2, .g3 { grid-template-columns:1fr }
   .atog { flex-direction:column }
@@ -592,10 +525,6 @@ input[type=number] { -moz-appearance:textfield }
 </head>
 <body>
 <div class="page">
-
-  <!-- ============================================================
-       🔵 TOP BAR
-       ============================================================ -->
   <div class="topbar">
     <div class="topbar-brand">
       <div class="topbar-logo-box">
@@ -609,10 +538,6 @@ input[type=number] { -moz-appearance:textfield }
     </div>
     <span class="topbar-time" id="topTime">Loading...</span>
   </div>
-
-  <!-- ============================================================
-       🏷️ MAIN HEADER
-       ============================================================ -->
   <header class="main-header">
     <div class="header-meti">METI</div>
     <div class="header-divider"></div>
@@ -624,38 +549,27 @@ input[type=number] { -moz-appearance:textfield }
       <span class="header-badge-title">Tasks Tracker</span>
     </div>
   </header>
-
-  <!-- PROGRESS BAR -->
   <div class="progress-bar-track">
     <div class="progress-bar-fill" id="progressBar"></div>
   </div>
-
-  <!-- ============================================================
-       📦 MAIN CONTENT
-       ============================================================ -->
   <div class="content">
     <div class="card">
       <form id="F" autocomplete="off">
 
-        <!-- ========== SECTION 1: SESSION INFO ========== -->
+        <!-- SECTION 1: SESSION INFO -->
         <div class="card-section">
           <div class="section-header">
             <div class="section-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
               </svg>
             </div>
             <span class="section-title">Session Information</span>
           </div>
-
-          <!-- Timestamp -->
           <div class="full field">
             <label>Timestamp</label>
             <input type="text" id="ts" readonly>
           </div>
-
-          <!-- Shift / Unit / PC No -->
           <div class="g3">
             <div class="field">
               <label>Shift <span class="req">*</span></label>
@@ -664,7 +578,6 @@ input[type=number] { -moz-appearance:textfield }
                   <input class="sd-input" id="shiftInput" placeholder="Select Shift..." autocomplete="off" data-lpignore="true">
                   <span class="sd-arrow">&#9660;</span>
                 </div>
-                <!-- ⬇️ لإضافة shift جديد: أضف <li data-v="اسم الشيفت">اسم الشيفت</li> -->
                 <ul class="sdl" id="shiftList">
                   <li data-v="Morning">Morning</li>
                   <li data-v="Night">Night</li>
@@ -675,7 +588,6 @@ input[type=number] { -moz-appearance:textfield }
                 <input type="hidden" id="shift">
               </div>
             </div>
-
             <div class="field">
               <label>Unit <span class="req">*</span></label>
               <div class="sdw">
@@ -683,7 +595,6 @@ input[type=number] { -moz-appearance:textfield }
                   <input class="sd-input" id="unitInput" placeholder="Select Unit..." autocomplete="off" data-lpignore="true">
                   <span class="sd-arrow">&#9660;</span>
                 </div>
-                <!-- ⬇️ لإضافة unit جديد: أضف <li data-v="الاسم">الاسم</li> -->
                 <ul class="sdl" id="unitList">
                   <li data-v="NC Room 102">NC Room 102</li>
                   <li data-v="NC Room 106">NC Room 106</li>
@@ -694,14 +605,11 @@ input[type=number] { -moz-appearance:textfield }
                 <input type="hidden" id="unit">
               </div>
             </div>
-
             <div class="field">
               <label>PC No. <span class="req">*</span></label>
               <input type="text" id="pcNo" placeholder="e.g. 7, 30 or QTC" required autocomplete="off">
             </div>
           </div>
-
-          <!-- Labeler Name -->
           <div class="full field">
             <label>Labeler Name <span class="req">*</span></label>
             <div class="acw">
@@ -709,8 +617,6 @@ input[type=number] { -moz-appearance:textfield }
               <ul class="acl" id="acList"></ul>
             </div>
           </div>
-
-          <!-- QTC Shift / Yubikey -->
           <div class="g2">
             <div class="field">
               <label>QTC Shift <span class="req">*</span></label>
@@ -727,7 +633,6 @@ input[type=number] { -moz-appearance:textfield }
                 <input type="hidden" id="qtcShiftSel">
               </div>
             </div>
-
             <div class="field">
               <label>Yubikey <span class="req">*</span></label>
               <div class="acw">
@@ -739,8 +644,6 @@ input[type=number] { -moz-appearance:textfield }
               </div>
             </div>
           </div>
-
-          <!-- QTC Name Picker -->
           <div class="full field">
             <label>QTC Name <span class="req">*</span></label>
             <div id="qtcShiftMsg" class="qtc-shift-msg">&#9432; Please select a QTC Shift first to view available names.</div>
@@ -753,9 +656,8 @@ input[type=number] { -moz-appearance:textfield }
             <input type="hidden" id="qtcName">
           </div>
         </div>
-        <!-- END SECTION 1 -->
 
-        <!-- ========== SECTION 2: TASK DETAILS ========== -->
+        <!-- SECTION 2: TASK DETAILS -->
         <div class="card-section">
           <div class="section-header">
             <div class="section-icon">
@@ -768,8 +670,6 @@ input[type=number] { -moz-appearance:textfield }
             </div>
             <span class="section-title">Task Details</span>
           </div>
-
-          <!-- Modality / Queue Name -->
           <div class="g2">
             <div class="field">
               <label>Modality <span class="req">*</span></label>
@@ -778,7 +678,6 @@ input[type=number] { -moz-appearance:textfield }
                   <input class="sd-input" id="modalityInput" placeholder="Select Modality..." autocomplete="off" data-lpignore="true">
                   <span class="sd-arrow">&#9660;</span>
                 </div>
-                <!-- ⬇️ لإضافة modality جديد -->
                 <ul class="sdl" id="modalityList">
                   <li data-v="Lane Line">Lane Line</li>
                   <li data-v="Lidar">Lidar</li>
@@ -788,7 +687,6 @@ input[type=number] { -moz-appearance:textfield }
                 <input type="hidden" id="modality">
               </div>
             </div>
-
             <div class="field">
               <label>Queue Name <span class="req">*</span></label>
               <div class="sdw">
@@ -797,7 +695,6 @@ input[type=number] { -moz-appearance:textfield }
                   <input class="sd-input" id="queueInput" placeholder="Select Queue..." autocomplete="off" data-lpignore="true">
                   <span class="sd-arrow">&#9660;</span>
                 </div>
-                <!-- ⬇️ لإضافة queue جديد -->
                 <ul class="sdl" id="queueList">
                   <li data-v="sc3_full_scene_highway_mapless_filtered_3d_lanes">sc3_full_scene_highway_mapless_<span class="hl">filtered</span>_3d_lanes</li>
                   <li data-v="sc3_full_scene_highway_lanes_first_lidar_labeling">sc3_full_scene_highway_lanes_<span class="hl">first_lidar</span>_labeling</li>
@@ -807,16 +704,12 @@ input[type=number] { -moz-appearance:textfield }
               </div>
             </div>
           </div>
-
-          <!-- Task Link -->
           <div class="full field">
             <label>Task Link <span class="req">*</span>
               <span class="sub" id="linkHint">Must start with: https://labeling.robot.car/#</span>
             </label>
             <input type="text" id="taskLink" placeholder="https://labeling.robot.car/#..." required autocomplete="off">
           </div>
-
-          <!-- Task ID / Pass -->
           <div class="g2">
             <div class="field">
               <label>Task ID <span class="req">*</span></label>
@@ -829,7 +722,6 @@ input[type=number] { -moz-appearance:textfield }
                 <span>Heads up — this ID differs from the one in the link</span>
               </div>
             </div>
-
             <div class="field">
               <label>Pass <span class="req">*</span></label>
               <div class="sdw">
@@ -846,9 +738,8 @@ input[type=number] { -moz-appearance:textfield }
             </div>
           </div>
         </div>
-        <!-- END SECTION 2 -->
 
-        <!-- ========== SECTION 3: TASK ACTION ========== -->
+        <!-- SECTION 3: TASK ACTION -->
         <div class="card-section">
           <div class="section-header">
             <div class="section-icon">
@@ -859,7 +750,6 @@ input[type=number] { -moz-appearance:textfield }
             </div>
             <span class="section-title">Task Action</span>
           </div>
-
           <div class="full field">
             <label>What would you like to do with this task? <span class="req">*</span></label>
             <div class="atog">
@@ -869,7 +759,7 @@ input[type=number] { -moz-appearance:textfield }
             <input type="hidden" id="action">
           </div>
 
-          <!-- Submit Branch: Object Count -->
+          <!-- Submit Branch -->
           <div id="brSubmit" class="branch" style="display:none">
             <div class="field" style="margin-bottom:0">
               <label>How Many Objects? <span class="req">*</span></label>
@@ -877,7 +767,7 @@ input[type=number] { -moz-appearance:textfield }
             </div>
           </div>
 
-          <!-- Skip Branch: Reason + Frames + Notes -->
+          <!-- Skip Branch -->
           <div id="brSkip" class="branch" style="display:none">
             <div class="field" style="margin-bottom:0">
               <label>Reason <span class="req">*</span></label>
@@ -886,7 +776,6 @@ input[type=number] { -moz-appearance:textfield }
                   <input class="sd-input" id="reasonInput" placeholder="Select an issue..." autocomplete="off" data-lpignore="true">
                   <span class="sd-arrow">&#9660;</span>
                 </div>
-                <!-- ⬇️ لإضافة سبب جديد للـ skip -->
                 <ul class="sdl" id="reasonList">
                   <li data-v="Edge Case">Edge Case</li>
                   <li data-v="Not a freeway">Not a freeway</li>
@@ -900,15 +789,22 @@ input[type=number] { -moz-appearance:textfield }
               </div>
             </div>
 
+            <!-- ══════════════════════════════════════════
+                 FRAMES ROW — Multi-frames with "Any other frames?" button
+                 ══════════════════════════════════════════ -->
             <div id="framesRow" style="display:none;margin-top:18px" class="field">
               <label>Issued Frames <span class="req">*</span>
-                <span class="sub">Format: 100–150</span>
+                <span class="sub">Format: 100–150 — you can add multiple ranges</span>
               </label>
-              <div class="frames-merged">
-                <input type="number" id="fromFrame" placeholder="From e.g. 100" min="0">
-                <span class="frames-sep">&#8212;</span>
-                <input type="number" id="toFrame" placeholder="To e.g. 150" min="0">
-              </div>
+              <!-- Container for all frame range rows -->
+              <div id="framesList" class="frames-list"></div>
+              <!-- Add more frames button -->
+              <button type="button" class="add-frames-btn" id="addFramesBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+                </svg>
+                Any other frames?
+              </button>
             </div>
 
             <div id="notesRow" style="display:none;margin-top:18px" class="field">
@@ -917,19 +813,15 @@ input[type=number] { -moz-appearance:textfield }
             </div>
           </div>
         </div>
-        <!-- END SECTION 3 -->
 
-        <!-- FORM FOOTER — SUBMIT BUTTON -->
+        <!-- FORM FOOTER -->
         <div class="form-footer" id="finalWrap" style="display:none">
           <button type="submit" class="subbtn" id="subBtn">&#9193;&nbsp; Skip Task</button>
         </div>
-
       </form>
-    </div><!-- END .card -->
+    </div>
 
-    <!-- ============================================================
-         💾 SAVED DATA PANEL
-         ============================================================ -->
+    <!-- SAVED DATA PANEL -->
     <div class="storage-panel">
       <button type="button" class="storage-toggle" id="storageToggle">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0">
@@ -964,28 +856,23 @@ input[type=number] { -moz-appearance:textfield }
         </div>
       </div>
     </div>
-
-  </div><!-- END .content -->
-</div><!-- END .page -->
+  </div>
+</div>
 
 <div class="toast" id="toast"></div>
 
 <script>
 // ============================================================
-// ⚙️ CONFIG — عدّل هنا بس
+// CONFIG
 // ============================================================
 var SHEET_URL = "https://script.google.com/macros/s/AKfycbxaQdZ8lW5bylL3D4Shh--wL3_tyNPDJzoipFzGk0TTkE6OfGmYnyFbI-8qakAKLxT_kA/exec";
-
-// مفاتيح الـ localStorage
 var NK    = "meti_labeler_names";
 var NK_YK = "meti_yk_history";
 var NK_PC = "meti_pc_last";
-
-// الـ reasons اللي بتفتح حقل الـ Frames
 var FRAME_REASONS = ["Lidar points shifting vertically"];
 
 // ============================================================
-// 👥 QTC DATA — لإضافة أو تعديل أسماء: عدّل هنا
+// QTC DATA
 // ============================================================
 var QTC_DATA = {
   "Morning": [
@@ -1048,7 +935,7 @@ var QTC_DATA = {
 };
 
 // ============================================================
-// 🔧 HELPERS
+// HELPERS
 // ============================================================
 var selectedQTC = null;
 var linkTaskId  = "";
@@ -1061,8 +948,6 @@ function toast(msg, type) {
 }
 function me(id) { var el = document.getElementById(id); if (el) el.classList.add("err-field"); }
 function ce(id) { var el = document.getElementById(id); if (el) el.classList.remove("err-field"); }
-
-// localStorage helpers
 function getN()  { try { return JSON.parse(localStorage.getItem(NK))    || []; } catch(e) { return []; } }
 function getYK() { try { return JSON.parse(localStorage.getItem(NK_YK)) || []; } catch(e) { return []; } }
 function saveN(n)  { if (!n.trim()) return; var a = getN();  if (a.indexOf(n) === -1) { a.unshift(n);  localStorage.setItem(NK,    JSON.stringify(a.slice(0,60))); } }
@@ -1071,7 +956,7 @@ function delN(n)   { localStorage.setItem(NK,    JSON.stringify(getN().filter(fu
 function delYK(v)  { localStorage.setItem(NK_YK, JSON.stringify(getYK().filter(function(x) { return x !== v; }))); }
 
 // ============================================================
-// ⏰ CLOCK
+// CLOCK
 // ============================================================
 function tick() {
   var d = new Date();
@@ -1084,7 +969,7 @@ tick();
 setInterval(tick, 1000);
 
 // ============================================================
-// 📊 PROGRESS BAR
+// PROGRESS BAR
 // ============================================================
 function updateProgress() {
   var fields = ["shift","unit","pcNo","labName","yk","modality","taskLink","taskId","pass","qtcName","action"];
@@ -1100,7 +985,7 @@ document.querySelectorAll("input,select,textarea").forEach(function(el) {
 });
 
 // ============================================================
-// 🔢 PC NO. VALIDATION
+// PC NO. VALIDATION
 // ============================================================
 document.getElementById("pcNo").addEventListener("input", function() {
   var v = this.value.trim();
@@ -1115,7 +1000,7 @@ document.getElementById("pcNo").addEventListener("input", function() {
 });
 
 // ============================================================
-// 🔽 SEARCHABLE DROPDOWN FACTORY
+// SEARCHABLE DROPDOWN FACTORY
 // ============================================================
 function makeSearchableDropdown(opts) {
   var btn     = document.getElementById(opts.btnId);
@@ -1137,26 +1022,21 @@ function makeSearchableDropdown(opts) {
     activeIdx = -1;
     setTimeout(function() { inp.focus(); }, 0);
   }
-
   function close() {
     btn.classList.remove("open");
     list.classList.remove("open");
     if (!hidden.value) {
-      inp.value = "";
-      inp.style.display = "";
+      inp.value = ""; inp.style.display = "";
       if (dispEl) { dispEl.innerHTML = ""; dispEl.style.display = "none"; }
     } else {
       if (dispEl) {
         var found = allItems.find(function(li) { return li.dataset.v === hidden.value; });
         if (found) { dispEl.innerHTML = found.innerHTML; dispEl.style.display = "block"; }
         inp.style.display = "none";
-      } else {
-        inp.value = hidden.value;
-      }
+      } else { inp.value = hidden.value; }
     }
     activeIdx = -1;
   }
-
   function filterItems(q) {
     var count = 0;
     allItems.forEach(function(li) {
@@ -1168,20 +1048,15 @@ function makeSearchableDropdown(opts) {
     var empty = list.querySelector(".sd-empty");
     if (empty) empty.remove();
     if (count === 0) {
-      var em = document.createElement("li");
-      em.className = "sd-empty";
-      em.textContent = "No results found";
+      var em = document.createElement("li"); em.className = "sd-empty"; em.textContent = "No results found";
       list.appendChild(em);
     }
-    activeIdx = -1;
-    updateHover();
+    activeIdx = -1; updateHover();
   }
-
   function updateHover() {
     var visible = allItems.filter(function(li) { return li.style.display !== "none"; });
     visible.forEach(function(li, i) { li.classList.toggle("sd-hover", i === activeIdx); });
   }
-
   function selectItem(li) {
     selectedVal = li.dataset.v;
     hidden.value = selectedVal;
@@ -1189,21 +1064,12 @@ function makeSearchableDropdown(opts) {
     li.classList.add("sel");
     btn.style.borderColor = "#1a8a5a";
     if (dispEl) {
-      dispEl.innerHTML = li.innerHTML;
-      dispEl.style.display = "block";
-      inp.style.display = "none";
-      inp.value = selectedVal;
-    } else {
-      inp.value = selectedVal;
-    }
-    btn.classList.remove("open");
-    list.classList.remove("open");
-    activeIdx = -1;
-    updateProgress();
+      dispEl.innerHTML = li.innerHTML; dispEl.style.display = "block"; inp.style.display = "none"; inp.value = selectedVal;
+    } else { inp.value = selectedVal; }
+    btn.classList.remove("open"); list.classList.remove("open");
+    activeIdx = -1; updateProgress();
     if (opts.onSelect) opts.onSelect(selectedVal);
   }
-
-  // Events
   btn.addEventListener("mousedown", function(e) {
     if (e.target === inp) return;
     e.preventDefault();
@@ -1230,7 +1096,6 @@ function makeSearchableDropdown(opts) {
   allItems.forEach(function(li) {
     li.addEventListener("mousedown", function(e) { e.preventDefault(); selectItem(li); });
   });
-
   return {
     reset: function() {
       hidden.value = ""; inp.value = ""; inp.style.display = ""; selectedVal = ""; btn.style.borderColor = "";
@@ -1246,13 +1111,11 @@ function makeSearchableDropdown(opts) {
   };
 }
 
-// Initialize all dropdowns
 var shiftDD    = makeSearchableDropdown({btnId:"shiftBtn",    inputId:"shiftInput",    listId:"shiftList",    hiddenId:"shift"});
 var unitDD     = makeSearchableDropdown({btnId:"unitBtn",     inputId:"unitInput",     listId:"unitList",     hiddenId:"unit"});
 var modalityDD = makeSearchableDropdown({btnId:"modalityBtn", inputId:"modalityInput", listId:"modalityList", hiddenId:"modality"});
-var queueDD    = makeSearchableDropdown({btnId:"queueBtn",    inputId:"queueInput",    listId:"queueList",    hiddenId:"qName",        displayId:"queueDisplay"});
+var queueDD    = makeSearchableDropdown({btnId:"queueBtn",    inputId:"queueInput",    listId:"queueList",    hiddenId:"qName", displayId:"queueDisplay"});
 var passDD     = makeSearchableDropdown({btnId:"passBtn",     inputId:"passInput",     listId:"passList",     hiddenId:"pass"});
-
 var qtcShiftDD = makeSearchableDropdown({
   btnId:"qtcShiftBtn", inputId:"qtcShiftInput", listId:"qtcShiftList", hiddenId:"qtcShiftSel",
   onSelect: function(val) {
@@ -1261,17 +1124,24 @@ var qtcShiftDD = makeSearchableDropdown({
     if (s) s.value = "";
   }
 });
-
 var reasonDD = makeSearchableDropdown({
   btnId:"reasonBtn", inputId:"reasonInput", listId:"reasonList", hiddenId:"reason",
   onSelect: function(val) {
     var showFrames = FRAME_REASONS.indexOf(val) > -1;
     var showNotes  = (val === "Other" || val === "Edge Case");
-    document.getElementById("framesRow").style.display  = showFrames ? "block" : "none";
-    document.getElementById("fromFrame").required = showFrames;
-    document.getElementById("toFrame").required   = showFrames;
-    document.getElementById("notesRow").style.display   = showNotes  ? "block" : "none";
-    document.getElementById("notes").required     = (val === "Other");
+    var framesRow  = document.getElementById("framesRow");
+    framesRow.style.display = showFrames ? "block" : "none";
+    if (showFrames) {
+      // Initialize with one frame row if empty
+      if (document.getElementById("framesList").children.length === 0) {
+        addFrameRow();
+      }
+    } else {
+      // Clear all frame rows
+      document.getElementById("framesList").innerHTML = "";
+    }
+    document.getElementById("notesRow").style.display = showNotes ? "block" : "none";
+    document.getElementById("notes").required = (val === "Other");
     var lbl = document.getElementById("notesLabel");
     if (lbl) {
       lbl.innerHTML = val === "Other"
@@ -1281,7 +1151,6 @@ var reasonDD = makeSearchableDropdown({
   }
 });
 
-// Close dropdowns on outside click
 document.addEventListener("click", function(e) {
   ["shiftBtn","unitBtn","qtcShiftBtn","modalityBtn","queueBtn","passBtn","reasonBtn"].forEach(function(id) {
     var b = document.getElementById(id);
@@ -1294,7 +1163,103 @@ document.addEventListener("click", function(e) {
 });
 
 // ============================================================
-// 🔤 AUTOCOMPLETE — Labeler Name
+// MULTI-FRAMES LOGIC
+// ============================================================
+var frameCounter = 0;
+
+function addFrameRow(fromVal, toVal) {
+  frameCounter++;
+  var id = "fr_" + frameCounter;
+  var list = document.getElementById("framesList");
+  var div = document.createElement("div");
+  div.className = "frames-group";
+  div.dataset.fid = id;
+
+  var fromInput = document.createElement("input");
+  fromInput.type = "number"; fromInput.min = "0";
+  fromInput.placeholder = "From e.g. 100";
+  fromInput.className = "frame-from";
+  if (fromVal !== undefined) fromInput.value = fromVal;
+
+  var sep = document.createElement("span");
+  sep.className = "frames-sep"; sep.textContent = "—";
+
+  var toInput = document.createElement("input");
+  toInput.type = "number"; toInput.min = "0";
+  toInput.placeholder = "To e.g. 150";
+  toInput.className = "frame-to";
+  if (toVal !== undefined) toInput.value = toVal;
+
+  var removeBtn = document.createElement("button");
+  removeBtn.type = "button";
+  removeBtn.className = "frames-remove-btn";
+  removeBtn.title = "Remove this range";
+  removeBtn.innerHTML = "&#10005;";
+  removeBtn.addEventListener("click", function() {
+    // Keep at least one row
+    if (list.children.length > 1) {
+      div.remove();
+    } else {
+      fromInput.value = "";
+      toInput.value = "";
+    }
+  });
+
+  div.appendChild(fromInput);
+  div.appendChild(sep);
+  div.appendChild(toInput);
+  div.appendChild(removeBtn);
+  list.appendChild(div);
+
+  // Animate in
+  div.style.opacity = "0";
+  div.style.transform = "translateY(-6px)";
+  div.style.transition = "opacity .2s ease, transform .2s ease";
+  requestAnimationFrame(function() {
+    div.style.opacity = "1";
+    div.style.transform = "translateY(0)";
+  });
+
+  return div;
+}
+
+document.getElementById("addFramesBtn").addEventListener("click", function() {
+  addFrameRow();
+  // Focus the new "From" input
+  var rows = document.getElementById("framesList").querySelectorAll(".frames-group");
+  var lastRow = rows[rows.length - 1];
+  if (lastRow) {
+    var inp = lastRow.querySelector(".frame-from");
+    if (inp) setTimeout(function() { inp.focus(); }, 50);
+  }
+});
+
+function getAllFrames() {
+  var results = [];
+  document.getElementById("framesList").querySelectorAll(".frames-group").forEach(function(row) {
+    var f = row.querySelector(".frame-from").value.trim();
+    var t = row.querySelector(".frame-to").value.trim();
+    if (f && t) results.push(f + "-" + t);
+  });
+  return results;
+}
+
+function validateFrames() {
+  var rows = document.getElementById("framesList").querySelectorAll(".frames-group");
+  var valid = true;
+  rows.forEach(function(row) {
+    var f = row.querySelector(".frame-from").value.trim();
+    var t = row.querySelector(".frame-to").value.trim();
+    if (!f) { row.querySelector(".frame-from").classList.add("err-field"); valid = false; }
+    else    { row.querySelector(".frame-from").classList.remove("err-field"); }
+    if (!t) { row.querySelector(".frame-to").classList.add("err-field"); valid = false; }
+    else    { row.querySelector(".frame-to").classList.remove("err-field"); }
+  });
+  return valid;
+}
+
+// ============================================================
+// AUTOCOMPLETE — Labeler Name
 // ============================================================
 var labIn   = document.getElementById("labName");
 var acL     = document.getElementById("acList");
@@ -1331,7 +1296,7 @@ labIn.addEventListener("keydown", function(e) {
 });
 
 // ============================================================
-// 🔑 YUBIKEY AUTOCOMPLETE + VALIDATION
+// YUBIKEY AUTOCOMPLETE + VALIDATION
 // ============================================================
 var ykIn    = document.getElementById("yk");
 var ykAcL   = document.getElementById("ykAcList");
@@ -1379,7 +1344,7 @@ ykIn.addEventListener("keydown", function(e) {
 });
 
 // ============================================================
-// 👥 QTC GRID BUILDER
+// QTC GRID BUILDER
 // ============================================================
 function buildQTCGrid(shift) {
   var grid = document.getElementById("qtcGrid");
@@ -1387,12 +1352,10 @@ function buildQTCGrid(shift) {
   var wrap = document.getElementById("qtcPickerWrap");
   var msg  = document.getElementById("qtcShiftMsg");
   var hid  = document.getElementById("qtcName");
-
   selectedQTC = null; hid.value = ""; disp.innerHTML = ""; grid.innerHTML = "";
   var list = QTC_DATA[shift];
   if (!list) { wrap.style.display = "none"; msg.style.display = "block"; return; }
   msg.style.display = "none"; wrap.style.display = "block";
-
   list.forEach(function(p) {
     var card = document.createElement("div"); card.className = "qtc-card";
     card.innerHTML = '<div class="qtc-check"></div><div><div class="qtc-name">' + p.name + '</div>' + (p.role ? '<div class="qtc-role">' + p.role + '</div>' : '') + '</div>';
@@ -1412,7 +1375,6 @@ function buildQTCGrid(shift) {
     grid.appendChild(card);
   });
 }
-
 document.getElementById("qtcShiftMsg").style.display = "block";
 document.getElementById("qtcSearch").addEventListener("input", function() {
   var q = this.value.toLowerCase().trim();
@@ -1423,7 +1385,7 @@ document.getElementById("qtcSearch").addEventListener("input", function() {
 });
 
 // ============================================================
-// 🔗 TASK LINK — Auto-fill ID and Pass
+// TASK LINK — Auto-fill ID and Pass
 // ============================================================
 document.getElementById("taskLink").addEventListener("input", function() {
   var url    = this.value.trim();
@@ -1431,13 +1393,11 @@ document.getElementById("taskLink").addEventListener("input", function() {
   var hint   = document.getElementById("linkHint");
   var idEl   = document.getElementById("taskId");
   var icon   = document.getElementById("idIcon");
-
   if (url.length > 0 && !url.startsWith(PREFIX)) {
     this.style.borderColor = "var(--error)"; hint.style.color = "var(--error)";
   } else {
     this.style.borderColor = url.length > 0 ? "#1a8a5a" : ""; hint.style.color = "";
   }
-
   var idM = url.match(/\/id\/(\d+)/);
   if (idM) {
     linkTaskId = idM[1]; idEl.value = idM[1]; idEl.style.borderColor = "#1a8a5a";
@@ -1448,36 +1408,29 @@ document.getElementById("taskLink").addEventListener("input", function() {
     icon.textContent = "\u2014"; icon.style.color = ""; icon.style.opacity = ".4";
     document.getElementById("taskIdWarn").style.display = "none";
   }
-
   var dM = url.match(/\/do\/([^\/]+)\//);
   if (dM) { passDD.setValue(dM[1].toUpperCase().endsWith("QA") ? "QA" : "FP"); }
   else    { passDD.reset(); }
   updateProgress();
 });
-
 document.getElementById("taskId").addEventListener("input", function() {
   var v = this.value.trim();
   document.getElementById("taskIdWarn").style.display = (linkTaskId && v && v !== linkTaskId) ? "flex" : "none";
 });
 
 // ============================================================
-// ✅ ACTION: Submit / Skip
+// ACTION: Submit / Skip
 // ============================================================
 function setAction(val) {
   document.getElementById("action").value = val;
   var btn = document.getElementById("subBtn");
-
   document.getElementById("btnSubmit").classList.toggle("asubmit", val === "Submit");
   document.getElementById("btnSkip").classList.toggle("askip",   val === "Skip");
-
-  // Reset branches
-  document.getElementById("framesRow").style.display = "none";
   document.getElementById("notesRow").style.display  = "none";
-  document.getElementById("fromFrame").required = false;
-  document.getElementById("toFrame").required   = false;
-  document.getElementById("notes").required     = false;
+  document.getElementById("framesRow").style.display = "none";
+  document.getElementById("framesList").innerHTML    = "";
+  document.getElementById("notes").required = false;
   reasonDD.reset();
-
   if (val === "Submit") {
     document.getElementById("brSubmit").style.display = "block";
     document.getElementById("brSkip").style.display   = "none";
@@ -1502,14 +1455,13 @@ document.getElementById("btnSubmit").addEventListener("click", function() { setA
 document.getElementById("btnSkip").addEventListener("click",   function() { setAction("Skip"); });
 
 // ============================================================
-// 📤 FORM SUBMISSION
+// FORM SUBMISSION
 // ============================================================
 document.getElementById("F").addEventListener("submit", function(e) {
   e.preventDefault();
   var err = false;
-
-  function chk(id, val)         { if (!val) { me(id); err = true; } else ce(id); }
-  function chkDD(hidId, btnId)  {
+  function chk(id, val)        { if (!val) { me(id); err = true; } else ce(id); }
+  function chkDD(hidId, btnId) {
     if (!document.getElementById(hidId).value) {
       document.getElementById(btnId).style.borderColor = "var(--error)";
       document.getElementById(btnId).style.boxShadow   = "0 0 0 3px rgba(192,57,43,.1)";
@@ -1519,7 +1471,6 @@ document.getElementById("F").addEventListener("submit", function(e) {
       document.getElementById(btnId).style.boxShadow   = "";
     }
   }
-
   var lab = document.getElementById("labName").value.trim();
   var lnk = document.getElementById("taskLink").value.trim();
   var yk  = document.getElementById("yk").value.trim();
@@ -1528,7 +1479,6 @@ document.getElementById("F").addEventListener("submit", function(e) {
   chkDD("shift", "shiftBtn");
   chkDD("unit",  "unitBtn");
 
-  // PC No validation
   var pcVal = document.getElementById("pcNo").value.trim();
   if (!pcVal) { me("pcNo"); err = true; }
   else if (/^qtc$/i.test(pcVal)) { document.getElementById("pcNo").value = "QTC"; ce("pcNo"); }
@@ -1538,14 +1488,12 @@ document.getElementById("F").addEventListener("submit", function(e) {
     else { ce("pcNo"); }
   } else { me("pcNo"); err = true; toast("PC No.: Enter a number (1-100) or QTC", "err"); return; }
 
-  // Labeler Name
   if (!lab) { me("labName"); err = true; }
   else if (!/^[a-zA-Z\s]+$/.test(lab)) { me("labName"); err = true; toast("Labeler Name: English letters only", "err"); return; }
   else { ce("labName"); }
 
   chkDD("qtcShiftSel", "qtcShiftBtn");
 
-  // QTC Name
   if (!document.getElementById("qtcName").value) {
     var w = document.getElementById("qtcPickerWrap");
     w.style.border = "1.5px solid var(--error)"; w.style.borderRadius = "8px"; w.style.padding = "8px";
@@ -1555,7 +1503,6 @@ document.getElementById("F").addEventListener("submit", function(e) {
     w.style.border = ""; w.style.padding = "";
   }
 
-  // Yubikey
   if (!yk) { me("yk"); err = true; }
   else {
     var is6 = /^\d{6}$/.test(yk);
@@ -1566,7 +1513,6 @@ document.getElementById("F").addEventListener("submit", function(e) {
 
   chkDD("modality", "modalityBtn");
   chkDD("qName",    "queueBtn");
-
   if (!lnk.startsWith("https://labeling.robot.car/#")) { me("taskLink"); err = true; } else { ce("taskLink"); }
   chk("taskId", document.getElementById("taskId").value);
   chkDD("pass", "passBtn");
@@ -1580,18 +1526,17 @@ document.getElementById("F").addEventListener("submit", function(e) {
     document.getElementById("btnSkip").style.borderColor   = "";
   }
 
+  var framesValue = "";
   if (act === "Skip") {
     chkDD("reason", "reasonBtn");
     if (document.getElementById("reason").value === "Other" && !document.getElementById("notes").value.trim()) {
       me("notes"); err = true; toast("Please write a note", "err"); return;
     }
+    // Validate frames if reason requires it
     if (FRAME_REASONS.indexOf(document.getElementById("reason").value) > -1) {
-      var ff = document.getElementById("fromFrame").value;
-      var tf = document.getElementById("toFrame").value;
-      if (!ff || !tf) {
-        if (!ff) me("fromFrame"); if (!tf) me("toFrame");
-        err = true; toast("Please enter both frame numbers", "err"); return;
-      }
+      var framesOk = validateFrames();
+      if (!framesOk) { err = true; toast("Please fill all frame ranges", "err"); return; }
+      framesValue = getAllFrames().join("\n");
     }
   }
 
@@ -1599,13 +1544,8 @@ document.getElementById("F").addEventListener("submit", function(e) {
   if (act === "Submit" && obj === "") { me("objCount"); err = true; toast("Please enter number of objects", "err"); return; }
   if (err) { toast("Please fill all required fields", "err"); return; }
 
-  // Save to localStorage
   saveN(lab); saveYK(yk);
   localStorage.setItem(NK_PC, document.getElementById("pcNo").value);
-
-  var fromF   = document.getElementById("fromFrame").value;
-  var toF     = document.getElementById("toFrame").value;
-  var framesV = (fromF && toF) ? (fromF + "-" + toF) : "";
 
   var payload = {
     timestamp:   document.getElementById("ts").value,
@@ -1625,7 +1565,7 @@ document.getElementById("F").addEventListener("submit", function(e) {
     reason:      act === "Skip"   ? document.getElementById("reason").value : "",
     otherNotes:  (act === "Skip" && (document.getElementById("reason").value === "Other" || document.getElementById("reason").value === "Edge Case"))
                    ? document.getElementById("notes").value.trim() : "",
-    issuedFrames: act === "Skip" ? framesV : ""
+    issuedFrames: act === "Skip" ? framesValue : ""
   };
 
   var btn = document.getElementById("subBtn");
@@ -1649,13 +1589,11 @@ document.getElementById("F").addEventListener("submit", function(e) {
 });
 
 // ============================================================
-// 🔄 RESET FORM
+// RESET FORM
 // ============================================================
 function resetForm() {
   document.getElementById("F").reset();
   tick();
-
-  // QTC
   selectedQTC = null;
   document.getElementById("qtcName").value = "";
   document.getElementById("qtcGrid").innerHTML = "";
@@ -1664,18 +1602,13 @@ function resetForm() {
   document.getElementById("qtcPickerWrap").style.border  = "";
   document.getElementById("qtcPickerWrap").style.padding = "";
   document.getElementById("qtcShiftMsg").style.display   = "block";
-
-  // Branches
   ["brSubmit","brSkip","framesRow","notesRow","finalWrap"].forEach(function(id) {
     document.getElementById(id).style.display = "none";
   });
-
-  // Action buttons
+  document.getElementById("framesList").innerHTML = "";
   document.getElementById("btnSubmit").classList.remove("asubmit");
   document.getElementById("btnSkip").classList.remove("askip");
   document.getElementById("action").value = "";
-
-  // Task Link & ID
   linkTaskId = "";
   document.getElementById("taskId").value = "";
   document.getElementById("taskId").style.borderColor  = "";
@@ -1684,33 +1617,24 @@ function resetForm() {
   document.getElementById("idIcon").style.color         = "";
   document.getElementById("linkHint").style.color       = "";
   document.getElementById("taskLink").style.borderColor = "";
-
-  // Reset all dropdowns
   shiftDD.reset(); unitDD.reset(); qtcShiftDD.reset();
   modalityDD.reset(); queueDD.reset(); passDD.reset(); reasonDD.reset();
-
-  // Clear error states
-  ["labName","yk","pcNo","taskLink","taskId","objCount","notes","fromFrame","toFrame"].forEach(function(id) {
+  ["labName","yk","pcNo","taskLink","taskId","objCount","notes"].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) { el.classList.remove("err-field"); el.style.borderColor = ""; el.style.boxShadow = ""; }
   });
-
-  // Reset Yubikey hint
   var ykHint = document.getElementById("ykHint");
   if (ykHint) { ykHint.style.color = "var(--text-muted)"; ykHint.textContent = "6-digit code | or email format: ME123456@meti.ai"; }
   document.getElementById("yk").style.borderColor = "";
   ykAcL.classList.remove("open");
-
-  // Reset submit button
   var btn = document.getElementById("subBtn");
   btn.textContent = "\u23ed  Skip Task";
   btn.style.background = "var(--primary)";
-
   document.getElementById("progressBar").style.width = "0%";
 }
 
 // ============================================================
-// 💾 STORAGE MANAGER
+// STORAGE MANAGER
 // ============================================================
 document.getElementById("storageToggle").addEventListener("click", function() {
   var body  = document.getElementById("storageBody");
@@ -1720,7 +1644,6 @@ document.getElementById("storageToggle").addEventListener("click", function() {
   arrow.classList.toggle("open", open);
   if (open) renderStorageManager();
 });
-
 function renderStorageManager() {
   renderStorageGroup("storageNames", getN(),  delN,  function() { renderAC(labIn.value); renderStorageManager(); });
   renderStorageGroup("storageYK",    getYK(), delYK, function() { renderYKAC(ykIn.value); renderStorageManager(); });
@@ -1754,9 +1677,7 @@ document.getElementById("clearNamesBtn").addEventListener("click", function() { 
 document.getElementById("clearYKBtn").addEventListener("click",    function() { localStorage.removeItem(NK_YK); renderYKAC(ykIn.value);  renderStorageManager(); });
 document.getElementById("clearPCBtn").addEventListener("click",    function() { localStorage.removeItem(NK_PC); renderStorageManager(); });
 
-// ============================================================
-// 🚀 INIT
-// ============================================================
+// INIT
 var pcSaved = localStorage.getItem(NK_PC);
 if (pcSaved) { document.getElementById("pcNo").value = pcSaved; }
 </script>
