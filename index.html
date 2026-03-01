@@ -199,8 +199,6 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { -webkit-appearance:none }
 input[type=number] { -moz-appearance:textfield }
 .sdw { position:relative }
-
-/* ── UPGRADED DROPDOWN BUTTON ── */
 .sdb {
   width:100%;
   background: var(--input-bg);
@@ -259,24 +257,14 @@ input[type=number] { -moz-appearance:textfield }
 .sdb.open .sd-arrow::after {
   transform: rotate(-135deg) translateY(30%);
 }
-.sdb:hover {
-  border-color: var(--primary);
-}
-.sdb:hover .sd-arrow {
-  background: #d0dcf5;
-  border-left-color: var(--primary);
-}
+.sdb:hover { border-color: var(--primary); }
+.sdb:hover .sd-arrow { background: #d0dcf5; border-left-color: var(--primary); }
 .sdb.open {
   border-color: var(--border-focus);
   box-shadow: 0 0 0 3px rgba(28,69,135,.1);
   background: #fff;
 }
-.sdb.open .sd-arrow {
-  background: var(--primary);
-  color: #fff;
-  border-left-color: var(--primary);
-}
-
+.sdb.open .sd-arrow { background: var(--primary); color: #fff; border-left-color: var(--primary); }
 .sd-display {
   flex:1; min-width:0; font-size:1.05rem;
   overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
@@ -396,80 +384,28 @@ input[type=number] { -moz-appearance:textfield }
 }
 .qtc-tag button { background:none; border:none; color:var(--success); cursor:pointer; font-size:.8rem; padding:0; line-height:1; opacity:.7 }
 .qtc-tag button:hover { opacity:1 }
-.frames-merged { display:flex; align-items:center; gap:10px }
-.frames-merged input { flex:1 }
-.frames-sep { color:var(--text-muted); font-size:1.1rem; font-weight:700; flex-shrink:0 }
-
-/* ── MULTI-FRAMES STYLES ── */
-.frames-group {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  position: relative;
+.warn-box {
+  display:none;
+  margin-top:6px;
+  align-items:center;
+  gap:6px;
+  font-size:.75rem;
+  color:#b45309;
+  background:#fffbeb;
+  border:1px solid #fcd34d;
+  border-radius:6px;
+  padding:6px 10px;
 }
-.frames-group input { flex:1 }
-.frames-remove-btn {
-  background: none;
-  border: 1.5px solid var(--border);
-  border-radius: 6px;
-  color: var(--text-muted);
-  width: 36px; height: 36px;
-  cursor: pointer;
-  font-size: 1rem;
-  display: flex; align-items:center; justify-content:center;
-  transition: all .15s;
-  flex-shrink: 0;
-}
-.frames-remove-btn:hover { border-color:var(--error); color:var(--error); background:var(--error-bg) }
-.frames-list { display:flex; flex-direction:column; gap:10px }
-.add-frames-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  margin-top: 10px;
-  padding: 9px 16px;
-  background: var(--primary-xlight);
-  border: 1.5px dashed var(--primary-light);
-  border-radius: var(--radius);
-  color: var(--primary);
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: .82rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .18s;
-  letter-spacing: .3px;
-}
-.add-frames-btn:hover { background:#d6e2f8; border-color:var(--primary); border-style:solid }
-.add-frames-btn svg { width:14px; height:14px }
-
-.atog { display:flex; gap:12px; margin-top:4px }
-.abtn {
-  flex:1; padding:13px 10px;
-  background:var(--input-bg);
-  border:1.5px solid var(--border);
-  border-radius:var(--radius);
-  color:var(--text-muted);
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:.92rem; font-weight:700; letter-spacing:.3px;
-  cursor:pointer; transition:all .2s;
-}
-.abtn:hover      { border-color:var(--primary); color:var(--primary); background:var(--primary-xlight) }
-.abtn.asubmit    { background:var(--success-bg); border-color:var(--success); color:var(--success) }
-.abtn.askip      { background:var(--primary-xlight); border-color:var(--primary); color:var(--primary) }
-.branch {
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:20px; margin-bottom:18px;
-  background:#fafcfe;
-  animation:fadeIn .25s ease;
-}
-@keyframes fadeIn {
-  from { opacity:0; transform:translateY(-4px) }
-  to   { opacity:1; transform:translateY(0) }
+.warn-box .warn-icon { font-size:.9rem; font-weight:700; flex-shrink:0 }
+.form-footer {
+  background:#f7f9fd;
+  border-top:1px solid var(--border);
+  padding:20px 32px;
+  border-radius:0 0 var(--radius-lg) var(--radius-lg);
 }
 .subbtn {
   width:100%; padding:14px;
-  background:var(--primary);
+  background:var(--success);
   border:none; border-radius:var(--radius);
   color:#fff;
   font-family:'Plus Jakarta Sans',sans-serif;
@@ -477,9 +413,9 @@ input[type=number] { -moz-appearance:textfield }
   letter-spacing:1px; text-transform:uppercase;
   cursor:pointer;
   transition:background .2s, transform .1s, box-shadow .2s;
-  box-shadow:0 3px 12px rgba(28,69,135,.3);
+  box-shadow:0 3px 12px rgba(26,138,90,.3);
 }
-.subbtn:hover    { background:var(--primary-light); box-shadow:0 4px 20px rgba(28,69,135,.4) }
+.subbtn:hover    { background:#157a4e; box-shadow:0 4px 20px rgba(26,138,90,.4) }
 .subbtn:active   { transform:scale(.99) }
 .subbtn:disabled { opacity:.6; cursor:not-allowed }
 .toast {
@@ -508,28 +444,6 @@ input[type=number] { -moz-appearance:textfield }
 .task-id-wrap input { padding-right:38px }
 #idIcon { position:absolute; right:12px; top:50%; transform:translateY(-50%); font-size:.8rem; opacity:.4 }
 #linkHint { color:var(--text-muted) }
-
-/* ── WARN BOX (shared style for Task ID & Pass warnings) ── */
-.warn-box {
-  display:none;
-  margin-top:6px;
-  align-items:center;
-  gap:6px;
-  font-size:.75rem;
-  color:#b45309;
-  background:#fffbeb;
-  border:1px solid #fcd34d;
-  border-radius:6px;
-  padding:6px 10px;
-}
-.warn-box .warn-icon { font-size:.9rem; font-weight:700; flex-shrink:0 }
-
-.form-footer {
-  background:#f7f9fd;
-  border-top:1px solid var(--border);
-  padding:20px 32px;
-  border-radius:0 0 var(--radius-lg) var(--radius-lg);
-}
 .storage-panel {
   width:100%; max-width:1480px;
   margin:16px 0 40px;
@@ -580,7 +494,6 @@ input[type=number] { -moz-appearance:textfield }
 .storage-empty { font-size:.78rem; color:var(--text-muted); font-style:italic; padding:4px 0 }
 @media(max-width:640px) {
   .g2, .g3 { grid-template-columns:1fr }
-  .atog { flex-direction:column }
   .card-section { padding:22px 18px }
   .header-badge { display:none }
   .qtc-grid { grid-template-columns:1fr 1fr }
@@ -813,7 +726,6 @@ input[type=number] { -moz-appearance:textfield }
                 <input type="hidden" id="pass">
                 <span id="passIcon" style="position:absolute;right:56px;top:50%;transform:translateY(-50%);font-size:.8rem;opacity:.4;pointer-events:none;z-index:10;">&#8212;</span>
               </div>
-              <!-- NEW: Pass warning — shown when user pick differs from link-detected value -->
               <div id="passWarn" class="warn-box">
                 <span class="warn-icon">&#9888;</span>
                 <span id="passWarnText">Heads up — this Pass differs from the one in the link</span>
@@ -822,7 +734,7 @@ input[type=number] { -moz-appearance:textfield }
           </div>
         </div>
 
-        <!-- SECTION 3: TASK ACTION -->
+        <!-- SECTION 3: TASK ACTION — Submit Only -->
         <div class="card-section">
           <div class="section-header">
             <div class="section-icon">
@@ -834,67 +746,14 @@ input[type=number] { -moz-appearance:textfield }
             <span class="section-title">Task Action</span>
           </div>
           <div class="full field">
-            <label>What would you like to do with this task? <span class="req">*</span></label>
-            <div class="atog">
-              <button type="button" class="abtn" id="btnSubmit">&#10004;&nbsp; Submit</button>
-              <button type="button" class="abtn" id="btnSkip">&#9193;&nbsp; Skip</button>
-            </div>
-            <input type="hidden" id="action">
-          </div>
-
-          <!-- Submit Branch -->
-          <div id="brSubmit" class="branch" style="display:none">
-            <div class="field" style="margin-bottom:0">
-              <label>How Many Objects? <span class="req">*</span></label>
-              <input type="number" id="objCount" placeholder="Enter number of objects" min="0">
-            </div>
-          </div>
-
-          <!-- Skip Branch -->
-          <div id="brSkip" class="branch" style="display:none">
-            <div class="field" style="margin-bottom:0">
-              <label>Reason <span class="req">*</span></label>
-              <div class="sdw">
-                <div class="sdb" id="reasonBtn" tabindex="0">
-                  <input class="sd-input" id="reasonInput" placeholder="Select an issue..." autocomplete="off" data-lpignore="true">
-                  <span class="sd-arrow"></span>
-                </div>
-                <ul class="sdl" id="reasonList">
-                  <li data-v="Edge Case">Edge Case</li>
-                  <li data-v="Not a freeway">Not a freeway</li>
-                  <li data-v="Camera projection issue">Camera projection issue</li>
-                  <li data-v="Lidar points shifting vertically">Lidar points shifting vertically</li>
-                  <li data-v="Degraded lidar returns">Degraded lidar returns</li>
-                  <li data-v="Tool Issue">Tool Issue</li>
-                  <li data-v="Other">Other</li>
-                </ul>
-                <input type="hidden" id="reason">
-              </div>
-            </div>
-
-            <div id="framesRow" style="display:none;margin-top:18px" class="field">
-              <label>Issued Frames <span class="req">*</span>
-                <span class="sub">Format: 100–150 — you can add multiple ranges</span>
-              </label>
-              <div id="framesList" class="frames-list"></div>
-              <button type="button" class="add-frames-btn" id="addFramesBtn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
-                </svg>
-                Any other frames?
-              </button>
-            </div>
-
-            <div id="notesRow" style="display:none;margin-top:18px" class="field">
-              <label id="notesLabel">Notes <span class="req">*</span></label>
-              <textarea id="notes" rows="3" placeholder="Write your notes here..." style="resize:vertical;line-height:1.6"></textarea>
-            </div>
+            <label>How Many Objects? <span class="req">*</span></label>
+            <input type="number" id="objCount" placeholder="Enter number of objects" min="0" required>
           </div>
         </div>
 
         <!-- FORM FOOTER -->
-        <div class="form-footer" id="finalWrap" style="display:none">
-          <button type="submit" class="subbtn" id="subBtn">&#9193;&nbsp; Skip Task</button>
+        <div class="form-footer">
+          <button type="submit" class="subbtn" id="subBtn">&#10004;&nbsp; Submit Task</button>
         </div>
       </form>
     </div>
@@ -947,7 +806,6 @@ var SHEET_URL = "https://script.google.com/macros/s/AKfycbxaQdZ8lW5bylL3D4Shh--w
 var NK      = "meti_labeler_names";
 var NK_YK   = "meti_yk_history";
 var NK_PC_H = "meti_pc_history";
-var FRAME_REASONS = ["Lidar points shifting vertically"];
 
 // ============================================================
 // QTC DATA
@@ -1017,7 +875,7 @@ var QTC_DATA = {
 // ============================================================
 var selectedQTC  = null;
 var linkTaskId   = "";
-var linkPassVal  = "";   // ← tracks the Pass value extracted from the link
+var linkPassVal  = "";
 
 function toast(msg, type) {
   var t = document.getElementById("toast");
@@ -1037,22 +895,17 @@ function delN(n)   { localStorage.setItem(NK,      JSON.stringify(getN().filter(
 function delYK(v)  { localStorage.setItem(NK_YK,   JSON.stringify(getYK().filter(function(x)  { return x !== v; }))); }
 function delPCH(v) { localStorage.setItem(NK_PC_H, JSON.stringify(getPCH().filter(function(x) { return x !== v; }))); }
 
-// ============================================================
-// PASS WARNING HELPER
-// ============================================================
 function checkPassWarn() {
   var currentPass = document.getElementById("pass").value;
   var warn  = document.getElementById("passWarn");
   var pIcon = document.getElementById("passIcon");
   if (linkPassVal && currentPass && currentPass !== linkPassVal) {
-    // مختلف — ورنينج وشيل العلامة
     warn.style.display   = "flex";
     pIcon.textContent    = "\u2014";
     pIcon.style.color    = "";
     pIcon.style.opacity  = ".4";
   } else {
     warn.style.display = "none";
-    // لو في قيمة متطابقة أو اليوزر اختار نفس اللي في اللينك
     if (linkPassVal && currentPass && currentPass === linkPassVal) {
       pIcon.textContent   = "\u2713";
       pIcon.style.color   = "var(--success)";
@@ -1078,7 +931,7 @@ setInterval(tick, 1000);
 // PROGRESS BAR
 // ============================================================
 function updateProgress() {
-  var fields = ["shift","unit","pcNo","labName","yk","modality","taskLink","taskId","pass","qtcName","action"];
+  var fields = ["shift","unit","pcNo","labName","yk","modality","taskLink","taskId","pass","qtcName","objCount"];
   var filled = fields.filter(function(id) {
     var el = document.getElementById(id);
     return el && el.value && el.value.trim();
@@ -1091,7 +944,7 @@ document.querySelectorAll("input,select,textarea").forEach(function(el) {
 });
 
 // ============================================================
-// LABELER NAME — warning if non-English (no blocking)
+// LABELER NAME — warning if non-English
 // ============================================================
 document.getElementById("labName").addEventListener("input", function() {
   var v = this.value;
@@ -1102,7 +955,7 @@ document.getElementById("labName").addEventListener("input", function() {
 });
 
 // ============================================================
-// TASK ID — warning if non-numeric (no blocking)
+// TASK ID — warning if non-numeric
 // ============================================================
 document.getElementById("taskId").addEventListener("input", function() {
   var v = this.value;
@@ -1125,7 +978,7 @@ document.getElementById("taskId").addEventListener("input", function() {
 });
 
 // ============================================================
-// PC NO. — Autocomplete with local storage + validation
+// PC NO. — Autocomplete
 // ============================================================
 var pcIn    = document.getElementById("pcNo");
 var pcAcL   = document.getElementById("pcAcList");
@@ -1292,15 +1145,10 @@ var shiftDD    = makeSearchableDropdown({btnId:"shiftBtn",    inputId:"shiftInpu
 var unitDD     = makeSearchableDropdown({btnId:"unitBtn",     inputId:"unitInput",     listId:"unitList",     hiddenId:"unit"});
 var modalityDD = makeSearchableDropdown({btnId:"modalityBtn", inputId:"modalityInput", listId:"modalityList", hiddenId:"modality"});
 var queueDD    = makeSearchableDropdown({btnId:"queueBtn",    inputId:"queueInput",    listId:"queueList",    hiddenId:"qName", displayId:"queueDisplay"});
-
-// Pass dropdown — with warning check on select
-var passDD = makeSearchableDropdown({
+var passDD     = makeSearchableDropdown({
   btnId:"passBtn", inputId:"passInput", listId:"passList", hiddenId:"pass",
-  onSelect: function(val) {
-    checkPassWarn();
-  }
+  onSelect: function(val) { checkPassWarn(); }
 });
-
 var qtcShiftDD = makeSearchableDropdown({
   btnId:"qtcShiftBtn", inputId:"qtcShiftInput", listId:"qtcShiftList", hiddenId:"qtcShiftSel",
   onSelect: function(val) {
@@ -1309,33 +1157,9 @@ var qtcShiftDD = makeSearchableDropdown({
     if (s) s.value = "";
   }
 });
-var reasonDD = makeSearchableDropdown({
-  btnId:"reasonBtn", inputId:"reasonInput", listId:"reasonList", hiddenId:"reason",
-  onSelect: function(val) {
-    var showFrames = FRAME_REASONS.indexOf(val) > -1;
-    var showNotes  = (val === "Other" || val === "Edge Case");
-    var framesRow  = document.getElementById("framesRow");
-    framesRow.style.display = showFrames ? "block" : "none";
-    if (showFrames) {
-      if (document.getElementById("framesList").children.length === 0) {
-        addFrameRow();
-      }
-    } else {
-      document.getElementById("framesList").innerHTML = "";
-    }
-    document.getElementById("notesRow").style.display = showNotes ? "block" : "none";
-    document.getElementById("notes").required = (val === "Other");
-    var lbl = document.getElementById("notesLabel");
-    if (lbl) {
-      lbl.innerHTML = val === "Other"
-        ? 'Notes <span class="req">*</span>'
-        : 'Notes <span style="font-size:.72rem;color:var(--text-muted);font-weight:400">(optional)</span>';
-    }
-  }
-});
 
 document.addEventListener("click", function(e) {
-  ["shiftBtn","unitBtn","qtcShiftBtn","modalityBtn","queueBtn","passBtn","reasonBtn"].forEach(function(id) {
+  ["shiftBtn","unitBtn","qtcShiftBtn","modalityBtn","queueBtn","passBtn"].forEach(function(id) {
     var b = document.getElementById(id);
     var l = document.getElementById(id.replace("Btn","List"));
     if (b && !b.contains(e.target)) {
@@ -1344,99 +1168,6 @@ document.addEventListener("click", function(e) {
     }
   });
 });
-
-// ============================================================
-// MULTI-FRAMES LOGIC
-// ============================================================
-var frameCounter = 0;
-
-function addFrameRow(fromVal, toVal) {
-  frameCounter++;
-  var id = "fr_" + frameCounter;
-  var list = document.getElementById("framesList");
-  var div = document.createElement("div");
-  div.className = "frames-group";
-  div.dataset.fid = id;
-
-  var fromInput = document.createElement("input");
-  fromInput.type = "number"; fromInput.min = "0";
-  fromInput.placeholder = "From e.g. 100";
-  fromInput.className = "frame-from";
-  if (fromVal !== undefined) fromInput.value = fromVal;
-
-  var sep = document.createElement("span");
-  sep.className = "frames-sep"; sep.textContent = "—";
-
-  var toInput = document.createElement("input");
-  toInput.type = "number"; toInput.min = "0";
-  toInput.placeholder = "To e.g. 150";
-  toInput.className = "frame-to";
-  if (toVal !== undefined) toInput.value = toVal;
-
-  var removeBtn = document.createElement("button");
-  removeBtn.type = "button";
-  removeBtn.className = "frames-remove-btn";
-  removeBtn.title = "Remove this range";
-  removeBtn.innerHTML = "&#10005;";
-  removeBtn.addEventListener("click", function() {
-    if (list.children.length > 1) {
-      div.remove();
-    } else {
-      fromInput.value = "";
-      toInput.value = "";
-    }
-  });
-
-  div.appendChild(fromInput);
-  div.appendChild(sep);
-  div.appendChild(toInput);
-  div.appendChild(removeBtn);
-  list.appendChild(div);
-
-  div.style.opacity = "0";
-  div.style.transform = "translateY(-6px)";
-  div.style.transition = "opacity .2s ease, transform .2s ease";
-  requestAnimationFrame(function() {
-    div.style.opacity = "1";
-    div.style.transform = "translateY(0)";
-  });
-
-  return div;
-}
-
-document.getElementById("addFramesBtn").addEventListener("click", function() {
-  addFrameRow();
-  var rows = document.getElementById("framesList").querySelectorAll(".frames-group");
-  var lastRow = rows[rows.length - 1];
-  if (lastRow) {
-    var inp = lastRow.querySelector(".frame-from");
-    if (inp) setTimeout(function() { inp.focus(); }, 50);
-  }
-});
-
-function getAllFrames() {
-  var results = [];
-  document.getElementById("framesList").querySelectorAll(".frames-group").forEach(function(row) {
-    var f = row.querySelector(".frame-from").value.trim();
-    var t = row.querySelector(".frame-to").value.trim();
-    if (f && t) results.push(f + "-" + t);
-  });
-  return results;
-}
-
-function validateFrames() {
-  var rows = document.getElementById("framesList").querySelectorAll(".frames-group");
-  var valid = true;
-  rows.forEach(function(row) {
-    var f = row.querySelector(".frame-from").value.trim();
-    var t = row.querySelector(".frame-to").value.trim();
-    if (!f) { row.querySelector(".frame-from").classList.add("err-field"); valid = false; }
-    else    { row.querySelector(".frame-from").classList.remove("err-field"); }
-    if (!t) { row.querySelector(".frame-to").classList.add("err-field"); valid = false; }
-    else    { row.querySelector(".frame-to").classList.remove("err-field"); }
-  });
-  return valid;
-}
 
 // ============================================================
 // AUTOCOMPLETE — Labeler Name
@@ -1591,7 +1322,6 @@ document.getElementById("taskLink").addEventListener("input", function() {
     document.getElementById("taskIdWarn").style.display = "none";
   }
 
-  // Detect pass from link and auto-fill
   var dM = url.match(/\/do\/([^\/]+)\//);
   if (dM) {
     var detectedPass = dM[1].toUpperCase().endsWith("QA") ? "QA" : "FP";
@@ -1612,43 +1342,7 @@ document.getElementById("taskLink").addEventListener("input", function() {
 });
 
 // ============================================================
-// ACTION: Submit / Skip
-// ============================================================
-function setAction(val) {
-  document.getElementById("action").value = val;
-  var btn = document.getElementById("subBtn");
-  document.getElementById("btnSubmit").classList.toggle("asubmit", val === "Submit");
-  document.getElementById("btnSkip").classList.toggle("askip",   val === "Skip");
-  document.getElementById("notesRow").style.display  = "none";
-  document.getElementById("framesRow").style.display = "none";
-  document.getElementById("framesList").innerHTML    = "";
-  document.getElementById("notes").required = false;
-  reasonDD.reset();
-  if (val === "Submit") {
-    document.getElementById("brSubmit").style.display = "block";
-    document.getElementById("brSkip").style.display   = "none";
-    document.getElementById("reason").required  = false;
-    document.getElementById("objCount").required = true;
-    btn.textContent = "\u2714  Submit Task";
-    btn.style.background = "var(--success)";
-    btn.style.boxShadow  = "0 3px 12px rgba(26,138,90,.3)";
-  } else {
-    document.getElementById("brSubmit").style.display = "none";
-    document.getElementById("brSkip").style.display   = "block";
-    document.getElementById("reason").required  = true;
-    document.getElementById("objCount").required = false;
-    btn.textContent = "\u23ed  Skip Task";
-    btn.style.background = "var(--primary)";
-    btn.style.boxShadow  = "0 3px 12px rgba(28,69,135,.3)";
-  }
-  document.getElementById("finalWrap").style.display = "block";
-  updateProgress();
-}
-document.getElementById("btnSubmit").addEventListener("click", function() { setAction("Submit"); });
-document.getElementById("btnSkip").addEventListener("click",   function() { setAction("Skip"); });
-
-// ============================================================
-// FORM SUBMISSION
+// FORM SUBMISSION — Submit Only
 // ============================================================
 document.getElementById("F").addEventListener("submit", function(e) {
   e.preventDefault();
@@ -1667,7 +1361,7 @@ document.getElementById("F").addEventListener("submit", function(e) {
   var lab = document.getElementById("labName").value.trim();
   var lnk = document.getElementById("taskLink").value.trim();
   var yk  = document.getElementById("yk").value.trim();
-  var act = document.getElementById("action").value;
+  var obj = document.getElementById("objCount").value;
 
   chkDD("shift", "shiftBtn");
   chkDD("unit",  "unitBtn");
@@ -1692,8 +1386,8 @@ document.getElementById("F").addEventListener("submit", function(e) {
     w.style.border = "1.5px solid var(--error)"; w.style.borderRadius = "8px"; w.style.padding = "8px";
     err = true;
   } else {
-    var w = document.getElementById("qtcPickerWrap");
-    w.style.border = ""; w.style.padding = "";
+    var w2 = document.getElementById("qtcPickerWrap");
+    w2.style.border = ""; w2.style.padding = "";
   }
 
   if (!yk) { me("yk"); err = true; }
@@ -1710,30 +1404,8 @@ document.getElementById("F").addEventListener("submit", function(e) {
   chk("taskId", document.getElementById("taskId").value);
   chkDD("pass", "passBtn");
 
-  if (!act) {
-    document.getElementById("btnSubmit").style.borderColor = "var(--error)";
-    document.getElementById("btnSkip").style.borderColor   = "var(--error)";
-    err = true;
-  } else {
-    document.getElementById("btnSubmit").style.borderColor = "";
-    document.getElementById("btnSkip").style.borderColor   = "";
-  }
+  if (obj === "") { me("objCount"); err = true; toast("Please enter number of objects", "err"); return; }
 
-  var framesValue = "";
-  if (act === "Skip") {
-    chkDD("reason", "reasonBtn");
-    if (document.getElementById("reason").value === "Other" && !document.getElementById("notes").value.trim()) {
-      me("notes"); err = true; toast("Please write a note", "err"); return;
-    }
-    if (FRAME_REASONS.indexOf(document.getElementById("reason").value) > -1) {
-      var framesOk = validateFrames();
-      if (!framesOk) { err = true; toast("Please fill all frame ranges", "err"); return; }
-      framesValue = getAllFrames().join("\n");
-    }
-  }
-
-  var obj = document.getElementById("objCount").value;
-  if (act === "Submit" && obj === "") { me("objCount"); err = true; toast("Please enter number of objects", "err"); return; }
   if (err) { toast("Please fill all required fields", "err"); return; }
 
   saveN(lab); saveYK(yk);
@@ -1752,12 +1424,11 @@ document.getElementById("F").addEventListener("submit", function(e) {
     taskLink:    lnk,
     taskId:      document.getElementById("taskId").value,
     pass:        document.getElementById("pass").value,
-    action:      act,
-    objectCount: act === "Submit" ? obj : "",
-    reason:      act === "Skip"   ? document.getElementById("reason").value : "",
-    otherNotes:  (act === "Skip" && (document.getElementById("reason").value === "Other" || document.getElementById("reason").value === "Edge Case"))
-                   ? document.getElementById("notes").value.trim() : "",
-    issuedFrames: act === "Skip" ? framesValue : ""
+    action:      "Submit",
+    objectCount: obj,
+    reason:      "",
+    otherNotes:  "",
+    issuedFrames:""
   };
 
   var btn = document.getElementById("subBtn");
@@ -1776,7 +1447,7 @@ document.getElementById("F").addEventListener("submit", function(e) {
   .catch(function() {
     toast("Submission failed. Check connection.", "err");
     btn.disabled = false;
-    btn.textContent = act === "Submit" ? "\u2714  Submit Task" : "\u23ed  Skip Task";
+    btn.textContent = "\u2714\u00a0 Submit Task";
   });
 });
 
@@ -1795,13 +1466,6 @@ function resetForm() {
   document.getElementById("qtcPickerWrap").style.border  = "";
   document.getElementById("qtcPickerWrap").style.padding = "";
   document.getElementById("qtcShiftMsg").style.display   = "block";
-  ["brSubmit","brSkip","framesRow","notesRow","finalWrap"].forEach(function(id) {
-    document.getElementById(id).style.display = "none";
-  });
-  document.getElementById("framesList").innerHTML = "";
-  document.getElementById("btnSubmit").classList.remove("asubmit");
-  document.getElementById("btnSkip").classList.remove("askip");
-  document.getElementById("action").value = "";
   linkTaskId = "";
   document.getElementById("taskId").value = "";
   document.getElementById("taskId").style.borderColor  = "";
@@ -1816,21 +1480,19 @@ function resetForm() {
   document.getElementById("linkHint").style.color       = "";
   document.getElementById("taskLink").style.borderColor = "";
   shiftDD.reset(); unitDD.reset(); qtcShiftDD.reset();
-  modalityDD.reset(); queueDD.reset(); passDD.reset(); reasonDD.reset();
-  ["labName","yk","pcNo","taskLink","taskId","objCount","notes"].forEach(function(id) {
+  modalityDD.reset(); queueDD.reset(); passDD.reset();
+  ["labName","yk","pcNo","taskLink","taskId","objCount"].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) { el.classList.remove("err-field"); el.style.borderColor = ""; el.style.boxShadow = ""; }
   });
-  var labWarn = document.getElementById("labNameWarn");
-  if (labWarn) labWarn.style.display = "none";
   var ykHint = document.getElementById("ykHint");
   if (ykHint) { ykHint.style.color = "var(--text-muted)"; ykHint.textContent = "6-digit code | or email format: ME123456@meti.ai"; }
   document.getElementById("yk").style.borderColor = "";
   ykAcL.classList.remove("open");
   pcAcL.classList.remove("open");
   var btn = document.getElementById("subBtn");
-  btn.textContent = "\u23ed  Skip Task";
-  btn.style.background = "var(--primary)";
+  btn.textContent = "\u2714\u00a0 Submit Task";
+  btn.style.background = "var(--success)";
   document.getElementById("progressBar").style.width = "0%";
 }
 
