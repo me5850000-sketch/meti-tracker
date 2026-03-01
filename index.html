@@ -587,7 +587,7 @@ input[type=number] { -moz-appearance:textfield }
             <div class="field">
               <label>PC No. <span class="req">*</span></label>
               <div class="acw">
-                <input type="text" id="pcNo" placeholder="e.g. 7, 30 or QTC" required autocomplete="off" data-lpignore="true">
+                <input type="text" id="pcNo" placeholder="e.g. 7, 30, QTC or SV" required autocomplete="off" data-lpignore="true">
                 <ul class="acl" id="pcAcList"></ul>
               </div>
             </div>
@@ -626,7 +626,7 @@ input[type=number] { -moz-appearance:textfield }
                 <ul class="acl" id="ykAcList"></ul>
               </div>
               <div id="ykHint" style="font-size:.72rem;color:var(--text-muted);margin-top:5px;">
-                6-digit code <span style="color:var(--border)">|</span> or email format: ME123456@meti.ai
+                6-digit code <span style="color:var(--border)">|</span> or email format: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="99d4dca8abaaadacafd9f4fcedf0b7f8f0">[email&#160;protected]</a>
               </div>
             </div>
           </div>
@@ -791,6 +791,20 @@ input[type=number] { -moz-appearance:textfield }
           </div>
           <div id="storagePC" class="storage-list"></div>
         </div>
+        <div class="storage-group">
+          <div class="storage-group-header">
+            <span class="storage-group-title">&#9728; Shift</span>
+            <button type="button" class="storage-clear-all" id="clearShiftBtn">Clear All</button>
+          </div>
+          <div id="storageShift" class="storage-list"></div>
+        </div>
+        <div class="storage-group">
+          <div class="storage-group-header">
+            <span class="storage-group-title">&#127970; Unit</span>
+            <button type="button" class="storage-clear-all" id="clearUnitBtn">Clear All</button>
+          </div>
+          <div id="storageUnit" class="storage-list"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -798,14 +812,16 @@ input[type=number] { -moz-appearance:textfield }
 
 <div class="toast" id="toast"></div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ============================================================
 // CONFIG
 // ============================================================
 var SHEET_URL = "https://script.google.com/macros/s/AKfycbxaQdZ8lW5bylL3D4Shh--wL3_tyNPDJzoipFzGk0TTkE6OfGmYnyFbI-8qakAKLxT_kA/exec";
-var NK      = "meti_labeler_names";
-var NK_YK   = "meti_yk_history";
-var NK_PC_H = "meti_pc_history";
+var NK        = "meti_labeler_names";
+var NK_YK     = "meti_yk_history";
+var NK_PC_H   = "meti_pc_history";
+var NK_SHIFT  = "meti_shift_history";
+var NK_UNIT   = "meti_unit_history";
 
 // ============================================================
 // QTC DATA
@@ -886,14 +902,20 @@ function toast(msg, type) {
 function me(id) { var el = document.getElementById(id); if (el) el.classList.add("err-field"); }
 function ce(id) { var el = document.getElementById(id); if (el) el.classList.remove("err-field"); }
 function getN()    { try { return JSON.parse(localStorage.getItem(NK))      || []; } catch(e) { return []; } }
-function getYK()   { try { return JSON.parse(localStorage.getItem(NK_YK))   || []; } catch(e) { return []; } }
-function getPCH()  { try { return JSON.parse(localStorage.getItem(NK_PC_H)) || []; } catch(e) { return []; } }
+function getYK()      { try { return JSON.parse(localStorage.getItem(NK_YK))    || []; } catch(e) { return []; } }
+function getPCH()     { try { return JSON.parse(localStorage.getItem(NK_PC_H))  || []; } catch(e) { return []; } }
+function getShiftH()  { try { return JSON.parse(localStorage.getItem(NK_SHIFT)) || []; } catch(e) { return []; } }
+function getUnitH()   { try { return JSON.parse(localStorage.getItem(NK_UNIT))  || []; } catch(e) { return []; } }
 function saveN(n)  { if (!n.trim()) return; var a = getN();   if (a.indexOf(n) === -1) { a.unshift(n); localStorage.setItem(NK,      JSON.stringify(a.slice(0,60))); } }
-function saveYK(v) { if (!v.trim()) return; var a = getYK();  if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_YK,  JSON.stringify(a.slice(0,20))); } }
-function savePCH(v){ if (!v.trim()) return; var a = getPCH(); if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_PC_H, JSON.stringify(a.slice(0,20))); } }
+function saveYK(v)    { if (!v.trim()) return; var a = getYK();     if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_YK,    JSON.stringify(a.slice(0,20))); } }
+function savePCH(v)   { if (!v.trim()) return; var a = getPCH();    if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_PC_H,  JSON.stringify(a.slice(0,20))); } }
+function saveShiftH(v){ if (!v.trim()) return; var a = getShiftH(); if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_SHIFT, JSON.stringify(a.slice(0,10))); } }
+function saveUnitH(v) { if (!v.trim()) return; var a = getUnitH();  if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_UNIT,  JSON.stringify(a.slice(0,10))); } }
 function delN(n)   { localStorage.setItem(NK,      JSON.stringify(getN().filter(function(x)   { return x !== n; }))); }
-function delYK(v)  { localStorage.setItem(NK_YK,   JSON.stringify(getYK().filter(function(x)  { return x !== v; }))); }
-function delPCH(v) { localStorage.setItem(NK_PC_H, JSON.stringify(getPCH().filter(function(x) { return x !== v; }))); }
+function delYK(v)     { localStorage.setItem(NK_YK,    JSON.stringify(getYK().filter(function(x)     { return x !== v; }))); }
+function delPCH(v)    { localStorage.setItem(NK_PC_H,  JSON.stringify(getPCH().filter(function(x)    { return x !== v; }))); }
+function delShiftH(v) { localStorage.setItem(NK_SHIFT, JSON.stringify(getShiftH().filter(function(x) { return x !== v; }))); }
+function delUnitH(v)  { localStorage.setItem(NK_UNIT,  JSON.stringify(getUnitH().filter(function(x)  { return x !== v; }))); }
 
 function checkPassWarn() {
   var currentPass = document.getElementById("pass").value;
@@ -1010,6 +1032,7 @@ function renderPCAC(q) {
 function validatePC(v) {
   if (!v) { pcIn.style.borderColor = ""; return; }
   if (/^qtc$/i.test(v)) { pcIn.value = "QTC"; pcIn.style.borderColor = "#1a8a5a"; return; }
+  if (/^sv$/i.test(v))  { pcIn.value = "SV";  pcIn.style.borderColor = "#1a8a5a"; return; }
   if (/^\d+$/.test(v)) {
     var num = parseInt(v, 10);
     pcIn.style.borderColor = (num >= 1 && num <= 100) ? "#1a8a5a" : "var(--error)";
@@ -1141,8 +1164,8 @@ function makeSearchableDropdown(opts) {
   };
 }
 
-var shiftDD    = makeSearchableDropdown({btnId:"shiftBtn",    inputId:"shiftInput",    listId:"shiftList",    hiddenId:"shift"});
-var unitDD     = makeSearchableDropdown({btnId:"unitBtn",     inputId:"unitInput",     listId:"unitList",     hiddenId:"unit"});
+var shiftDD    = makeSearchableDropdown({btnId:"shiftBtn",    inputId:"shiftInput",    listId:"shiftList",    hiddenId:"shift",    onSelect: function(v){ saveShiftH(v); }});
+var unitDD     = makeSearchableDropdown({btnId:"unitBtn",     inputId:"unitInput",     listId:"unitList",     hiddenId:"unit",     onSelect: function(v){ saveUnitH(v);  }});
 var modalityDD = makeSearchableDropdown({btnId:"modalityBtn", inputId:"modalityInput", listId:"modalityList", hiddenId:"modality"});
 var queueDD    = makeSearchableDropdown({btnId:"queueBtn",    inputId:"queueInput",    listId:"queueList",    hiddenId:"qName", displayId:"queueDisplay"});
 var passDD     = makeSearchableDropdown({
@@ -1369,11 +1392,12 @@ document.getElementById("F").addEventListener("submit", function(e) {
   var pcVal = document.getElementById("pcNo").value.trim();
   if (!pcVal) { me("pcNo"); err = true; }
   else if (/^qtc$/i.test(pcVal)) { document.getElementById("pcNo").value = "QTC"; ce("pcNo"); }
+  else if (/^sv$/i.test(pcVal))  { document.getElementById("pcNo").value = "SV";  ce("pcNo"); }
   else if (/^\d+$/.test(pcVal)) {
     var pcNum = parseInt(pcVal, 10);
     if (pcNum < 1 || pcNum > 100) { me("pcNo"); err = true; toast("PC No. must be between 1 and 100", "err"); return; }
     else { ce("pcNo"); }
-  } else { me("pcNo"); err = true; toast("PC No.: Enter a number (1-100) or QTC", "err"); return; }
+  } else { me("pcNo"); err = true; toast("PC No.: Enter a number (1-100), QTC or SV", "err"); return; }
 
   if (!lab) { me("labName"); err = true; }
   else if (!/^[a-zA-Z\s]+$/.test(lab)) { me("labName"); err = true; toast("Labeler Name: English letters only", "err"); return; }
@@ -1410,6 +1434,8 @@ document.getElementById("F").addEventListener("submit", function(e) {
 
   saveN(lab); saveYK(yk);
   savePCH(document.getElementById("pcNo").value);
+  saveShiftH(document.getElementById("shift").value);
+  saveUnitH(document.getElementById("unit").value);
 
   var payload = {
     timestamp:   document.getElementById("ts").value,
@@ -1479,8 +1505,12 @@ function resetForm() {
   document.getElementById("idIcon").style.color         = "";
   document.getElementById("linkHint").style.color       = "";
   document.getElementById("taskLink").style.borderColor = "";
+  var prevShift = document.getElementById("shift").value;
+  var prevUnit  = document.getElementById("unit").value;
   shiftDD.reset(); unitDD.reset(); qtcShiftDD.reset();
   modalityDD.reset(); queueDD.reset(); passDD.reset();
+  if (prevShift) shiftDD.setValue(prevShift);
+  if (prevUnit)  unitDD.setValue(prevUnit);
   ["labName","yk","pcNo","taskLink","taskId","objCount"].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) { el.classList.remove("err-field"); el.style.borderColor = ""; el.style.boxShadow = ""; }
@@ -1508,9 +1538,11 @@ document.getElementById("storageToggle").addEventListener("click", function() {
   if (open) renderStorageManager();
 });
 function renderStorageManager() {
-  renderStorageGroup("storageNames", getN(),   delN,   function() { renderAC(labIn.value);   renderStorageManager(); });
-  renderStorageGroup("storageYK",    getYK(),  delYK,  function() { renderYKAC(ykIn.value);  renderStorageManager(); });
-  renderStorageGroup("storagePC",    getPCH(), delPCH, function() { renderPCAC(pcIn.value);  renderStorageManager(); });
+  renderStorageGroup("storageNames", getN(),        delN,       function() { renderAC(labIn.value);   renderStorageManager(); });
+  renderStorageGroup("storageYK",    getYK(),       delYK,      function() { renderYKAC(ykIn.value);  renderStorageManager(); });
+  renderStorageGroup("storagePC",    getPCH(),      delPCH,     function() { renderPCAC(pcIn.value);  renderStorageManager(); });
+  renderStorageGroup("storageShift", getShiftH(),   delShiftH,  function() {                          renderStorageManager(); });
+  renderStorageGroup("storageUnit",  getUnitH(),    delUnitH,   function() {                          renderStorageManager(); });
 }
 function renderStorageGroup(containerId, items, delFn, afterDel) {
   var container = document.getElementById(containerId); container.innerHTML = "";
@@ -1530,7 +1562,9 @@ function makeStorageItem(label, onDel) {
 }
 document.getElementById("clearNamesBtn").addEventListener("click", function() { localStorage.removeItem(NK);      renderAC(labIn.value);   renderStorageManager(); });
 document.getElementById("clearYKBtn").addEventListener("click",    function() { localStorage.removeItem(NK_YK);   renderYKAC(ykIn.value);  renderStorageManager(); });
-document.getElementById("clearPCBtn").addEventListener("click",    function() { localStorage.removeItem(NK_PC_H); renderPCAC(pcIn.value); renderStorageManager(); });
+document.getElementById("clearPCBtn").addEventListener("click",    function() { localStorage.removeItem(NK_PC_H);  renderPCAC(pcIn.value);  renderStorageManager(); });
+document.getElementById("clearShiftBtn").addEventListener("click", function() { localStorage.removeItem(NK_SHIFT);                          renderStorageManager(); });
+document.getElementById("clearUnitBtn").addEventListener("click",  function() { localStorage.removeItem(NK_UNIT);                           renderStorageManager(); });
 </script>
 </body>
 </html>
