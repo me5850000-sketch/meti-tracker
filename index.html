@@ -199,12 +199,14 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { -webkit-appearance:none }
 input[type=number] { -moz-appearance:textfield }
 .sdw { position:relative }
+
+/* ── UPGRADED DROPDOWN BUTTON ── */
 .sdb {
   width:100%;
   background: var(--input-bg);
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
-  padding: 12px 34px 12px 16px;
+  padding: 0;
   color: var(--text);
   font-family: 'Inter', sans-serif;
   font-size: 1.05rem;
@@ -212,27 +214,77 @@ input[type=number] { -moz-appearance:textfield }
   cursor: pointer;
   outline: none;
   transition: border-color .18s, box-shadow .18s, background .18s;
-  display: flex; align-items:center;
+  display: flex;
+  align-items: stretch;
   position: relative;
   min-height: 48px;
+  overflow: hidden;
 }
 .sdb input.sd-input {
   flex:1; border:none; background:transparent;
-  padding:0; font-size:1.05rem; color:var(--text);
+  padding: 12px 14px; font-size:1.05rem; color:var(--text);
   outline:none; cursor:text;
   font-family:'Inter',sans-serif; min-width:0;
 }
 .sdb input.sd-input::placeholder { color:var(--text-muted) }
 .sdb .sd-arrow {
-  position:absolute; right:13px; top:50%; transform:translateY(-50%);
-  color:var(--primary); pointer-events:none; font-size:.8rem; transition:transform .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  min-width: 48px;
+  flex-shrink: 0;
+  background: var(--primary-xlight);
+  border-left: 1.5px solid var(--border);
+  color: var(--primary);
+  transition: background .18s, color .18s, border-color .18s;
+  pointer-events: none;
+  position: static;
+  top: auto; right: auto;
+  transform: none;
+  border-radius: 0 calc(var(--radius) - 1.5px) calc(var(--radius) - 1.5px) 0;
+  /* hide original HTML entity arrow */
+  font-size: 0;
 }
-.sdb.open { border-color:var(--border-focus); box-shadow:0 0 0 3px rgba(28,69,135,.1); background:#fff }
-.sdb.open .sd-arrow { transform:translateY(-50%) rotate(180deg) }
+/* Draw a chevron via pseudo-element */
+.sdb .sd-arrow::after {
+  content: '';
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-right: 2.5px solid currentColor;
+  border-bottom: 2.5px solid currentColor;
+  transform: rotate(45deg) translateY(-30%);
+  transition: transform .2s;
+  color: inherit;
+}
+.sdb.open .sd-arrow::after {
+  transform: rotate(-135deg) translateY(30%);
+}
+.sdb:hover {
+  border-color: var(--primary);
+}
+.sdb:hover .sd-arrow {
+  background: #d0dcf5;
+  border-left-color: var(--primary);
+}
+.sdb.open {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(28,69,135,.1);
+  background: #fff;
+}
+.sdb.open .sd-arrow {
+  background: var(--primary);
+  color: #fff;
+  border-left-color: var(--primary);
+}
+
 .sd-display {
   flex:1; min-width:0; font-size:1.05rem;
   overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
   display:none; cursor:pointer;
+  padding: 12px 14px;
+  align-items: center;
 }
 .sdl {
   position: absolute;
@@ -576,7 +628,7 @@ input[type=number] { -moz-appearance:textfield }
               <div class="sdw">
                 <div class="sdb" id="shiftBtn" tabindex="0">
                   <input class="sd-input" id="shiftInput" placeholder="Select Shift..." autocomplete="off" data-lpignore="true">
-                  <span class="sd-arrow">&#9660;</span>
+                  <span class="sd-arrow"></span>
                 </div>
                 <ul class="sdl" id="shiftList">
                   <li data-v="Morning">Morning</li>
@@ -593,7 +645,7 @@ input[type=number] { -moz-appearance:textfield }
               <div class="sdw">
                 <div class="sdb" id="unitBtn" tabindex="0">
                   <input class="sd-input" id="unitInput" placeholder="Select Unit..." autocomplete="off" data-lpignore="true">
-                  <span class="sd-arrow">&#9660;</span>
+                  <span class="sd-arrow"></span>
                 </div>
                 <ul class="sdl" id="unitList">
                   <li data-v="NC Room 102">NC Room 102</li>
@@ -630,7 +682,7 @@ input[type=number] { -moz-appearance:textfield }
               <div class="sdw">
                 <div class="sdb" id="qtcShiftBtn" tabindex="0">
                   <input class="sd-input" id="qtcShiftInput" placeholder="Select QTC Shift..." autocomplete="off" data-lpignore="true">
-                  <span class="sd-arrow">&#9660;</span>
+                  <span class="sd-arrow"></span>
                 </div>
                 <ul class="sdl" id="qtcShiftList">
                   <li data-v="Morning">Morning</li>
@@ -683,7 +735,7 @@ input[type=number] { -moz-appearance:textfield }
               <div class="sdw">
                 <div class="sdb" id="modalityBtn" tabindex="0">
                   <input class="sd-input" id="modalityInput" placeholder="Select Modality..." autocomplete="off" data-lpignore="true">
-                  <span class="sd-arrow">&#9660;</span>
+                  <span class="sd-arrow"></span>
                 </div>
                 <ul class="sdl" id="modalityList">
                   <li data-v="Lane Line">Lane Line</li>
@@ -700,7 +752,7 @@ input[type=number] { -moz-appearance:textfield }
                 <div class="sdb" id="queueBtn" tabindex="0">
                   <span class="sd-display" id="queueDisplay"></span>
                   <input class="sd-input" id="queueInput" placeholder="Select Queue..." autocomplete="off" data-lpignore="true">
-                  <span class="sd-arrow">&#9660;</span>
+                  <span class="sd-arrow"></span>
                 </div>
                 <ul class="sdl" id="queueList">
                   <li data-v="sc3_full_scene_highway_mapless_filtered_3d_lanes">sc3_full_scene_highway_mapless_<span class="hl">filtered</span>_3d_lanes</li>
@@ -738,7 +790,7 @@ input[type=number] { -moz-appearance:textfield }
               <div class="sdw">
                 <div class="sdb" id="passBtn" tabindex="0">
                   <input class="sd-input" id="passInput" placeholder="Auto-filled from link..." autocomplete="off" data-lpignore="true">
-                  <span class="sd-arrow">&#9660;</span>
+                  <span class="sd-arrow"></span>
                 </div>
                 <ul class="sdl" id="passList">
                   <li data-v="FP">FP</li>
@@ -785,7 +837,7 @@ input[type=number] { -moz-appearance:textfield }
               <div class="sdw">
                 <div class="sdb" id="reasonBtn" tabindex="0">
                   <input class="sd-input" id="reasonInput" placeholder="Select an issue..." autocomplete="off" data-lpignore="true">
-                  <span class="sd-arrow">&#9660;</span>
+                  <span class="sd-arrow"></span>
                 </div>
                 <ul class="sdl" id="reasonList">
                   <li data-v="Edge Case">Edge Case</li>
@@ -1103,7 +1155,7 @@ function makeSearchableDropdown(opts) {
     } else {
       if (dispEl) {
         var found = allItems.find(function(li) { return li.dataset.v === hidden.value; });
-        if (found) { dispEl.innerHTML = found.innerHTML; dispEl.style.display = "block"; }
+        if (found) { dispEl.innerHTML = found.innerHTML; dispEl.style.display = "flex"; }
         inp.style.display = "none";
       } else { inp.value = hidden.value; }
     }
@@ -1136,7 +1188,7 @@ function makeSearchableDropdown(opts) {
     li.classList.add("sel");
     btn.style.borderColor = "#1a8a5a";
     if (dispEl) {
-      dispEl.innerHTML = li.innerHTML; dispEl.style.display = "block"; inp.style.display = "none"; inp.value = selectedVal;
+      dispEl.innerHTML = li.innerHTML; dispEl.style.display = "flex"; inp.style.display = "none"; inp.value = selectedVal;
     } else { inp.value = selectedVal; }
     btn.classList.remove("open"); list.classList.remove("open");
     activeIdx = -1; updateProgress();
@@ -1480,7 +1532,6 @@ document.getElementById("taskLink").addEventListener("input", function() {
   else    { passDD.reset(); }
   updateProgress();
 });
-// taskId input validation handled above in numbers-only section
 
 // ============================================================
 // ACTION: Submit / Skip
@@ -1688,7 +1739,8 @@ function resetForm() {
     var el = document.getElementById(id);
     if (el) { el.classList.remove("err-field"); el.style.borderColor = ""; el.style.boxShadow = ""; }
   });
-  labWarn.style.display = "none";
+  var labWarn = document.getElementById("labNameWarn");
+  if (labWarn) labWarn.style.display = "none";
   var ykHint = document.getElementById("ykHint");
   if (ykHint) { ykHint.style.color = "var(--text-muted)"; ykHint.textContent = "6-digit code | or email format: ME123456@meti.ai"; }
   document.getElementById("yk").style.borderColor = "";
@@ -1735,8 +1787,6 @@ function makeStorageItem(label, onDel) {
 document.getElementById("clearNamesBtn").addEventListener("click", function() { localStorage.removeItem(NK);      renderAC(labIn.value);   renderStorageManager(); });
 document.getElementById("clearYKBtn").addEventListener("click",    function() { localStorage.removeItem(NK_YK);   renderYKAC(ykIn.value);  renderStorageManager(); });
 document.getElementById("clearPCBtn").addEventListener("click",    function() { localStorage.removeItem(NK_PC_H); renderPCAC(pcIn.value); renderStorageManager(); });
-
-// INIT
 </script>
 </body>
 </html>
