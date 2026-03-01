@@ -622,11 +622,11 @@ input[type=number] { -moz-appearance:textfield }
             <div class="field">
               <label>Yubikey <span class="req">*</span></label>
               <div class="acw">
-                <input type="text" id="yk" placeholder="e.g. 123456 or ME123456@meti.ai" required autocomplete="off" data-lpignore="true">
+                <input type="text" id="yk" placeholder="e.g. 123456 or me123456@meti.ai" required autocomplete="off" data-lpignore="true">
                 <ul class="acl" id="ykAcList"></ul>
               </div>
               <div id="ykHint" style="font-size:.72rem;color:var(--text-muted);margin-top:5px;">
-                6-digit code <span style="color:var(--border)">|</span> or email format: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="99d4dca8abaaadacafd9f4fcedf0b7f8f0">[email&#160;protected]</a>
+                6-digit code <span style="color:var(--border)">|</span> or email format: me123456@meti.ai
               </div>
             </div>
           </div>
@@ -1236,13 +1236,13 @@ var ykActive = -1;
 
 function validateYK(v) {
   var hint = document.getElementById("ykHint");
-  if (!v) { ykIn.style.borderColor = ""; hint.style.color = "var(--text-muted)"; hint.textContent = "6-digit code | or email format: ME123456@meti.ai"; return; }
+  if (!v) { ykIn.style.borderColor = ""; hint.style.color = "var(--text-muted)"; hint.textContent = "6-digit code | or email format: me123456@meti.ai"; return; }
   var is6 = /^\d{6}$/.test(v);
   var isE = /^[a-zA-Z]{2}\d+@meti\.ai$/i.test(v);
   if (is6 || isE) {
     ykIn.style.borderColor = "#1a8a5a"; hint.style.color = "var(--success)"; hint.textContent = is6 ? "\u2713 Valid 6-digit code" : "\u2713 Valid email"; ce("yk");
   } else {
-    ykIn.style.borderColor = "var(--error)"; hint.style.color = "var(--error)"; hint.textContent = "Must be 6 digits or email like ME123456@meti.ai";
+    ykIn.style.borderColor = "var(--error)"; hint.style.color = "var(--error)"; hint.textContent = "Must be 6 digits or email like me123456@meti.ai";
   }
 }
 function renderYKAC(q) {
@@ -1416,7 +1416,7 @@ document.getElementById("F").addEventListener("submit", function(e) {
   else {
     var is6 = /^\d{6}$/.test(yk);
     var isE = /^[a-zA-Z]{2}\d+@meti\.ai$/i.test(yk);
-    if (!is6 && !isE) { me("yk"); err = true; toast("Yubikey: must be 6 digits or ME123456@meti.ai", "err"); return; }
+    if (!is6 && !isE) { me("yk"); err = true; toast("Yubikey: must be 6 digits or me123456@meti.ai", "err"); return; }
     else { ce("yk"); }
   }
 
@@ -1514,7 +1514,7 @@ function resetForm() {
     if (el) { el.classList.remove("err-field"); el.style.borderColor = ""; el.style.boxShadow = ""; }
   });
   var ykHint = document.getElementById("ykHint");
-  if (ykHint) { ykHint.style.color = "var(--text-muted)"; ykHint.textContent = "6-digit code | or email format: ME123456@meti.ai"; }
+  if (ykHint) { ykHint.style.color = "var(--text-muted)"; ykHint.textContent = "6-digit code | or email format: me123456@meti.ai"; }
   document.getElementById("yk").style.borderColor = "";
   ykAcL.classList.remove("open");
   pcAcL.classList.remove("open");
