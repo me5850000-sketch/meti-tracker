@@ -243,10 +243,8 @@ input[type=number] { -moz-appearance:textfield }
   top: auto; right: auto;
   transform: none;
   border-radius: 0 calc(var(--radius) - 1.5px) calc(var(--radius) - 1.5px) 0;
-  /* hide original HTML entity arrow */
   font-size: 0;
 }
-/* Draw a chevron via pseudo-element */
 .sdb .sd-arrow::after {
   content: '';
   display: block;
@@ -510,6 +508,22 @@ input[type=number] { -moz-appearance:textfield }
 .task-id-wrap input { padding-right:38px }
 #idIcon { position:absolute; right:12px; top:50%; transform:translateY(-50%); font-size:.8rem; opacity:.4 }
 #linkHint { color:var(--text-muted) }
+
+/* ── WARN BOX (shared style for Task ID & Pass warnings) ── */
+.warn-box {
+  display:none;
+  margin-top:6px;
+  align-items:center;
+  gap:6px;
+  font-size:.75rem;
+  color:#b45309;
+  background:#fffbeb;
+  border:1px solid #fcd34d;
+  border-radius:6px;
+  padding:6px 10px;
+}
+.warn-box .warn-icon { font-size:.9rem; font-weight:700; flex-shrink:0 }
+
 .form-footer {
   background:#f7f9fd;
   border-top:1px solid var(--border);
@@ -671,8 +685,8 @@ input[type=number] { -moz-appearance:textfield }
               <input type="text" id="labName" placeholder="Start typing a name..." required autocomplete="off" data-lpignore="true">
               <ul class="acl" id="acList"></ul>
             </div>
-            <div id="labNameWarn" style="display:none;margin-top:6px;align-items:center;gap:6px;font-size:.75rem;color:#b45309;background:#fffbeb;border:1px solid #fcd34d;border-radius:6px;padding:6px 10px;">
-              <span style="font-size:.9rem;font-weight:700;">&#9888;</span>
+            <div id="labNameWarn" class="warn-box">
+              <span class="warn-icon">&#9888;</span>
               <span>English letters only — numbers and symbols not allowed</span>
             </div>
           </div>
@@ -776,18 +790,18 @@ input[type=number] { -moz-appearance:textfield }
                 <input type="text" id="taskId" placeholder="Auto-filled" required>
                 <span id="idIcon">&#8212;</span>
               </div>
-              <div id="taskIdNumWarn" style="display:none;margin-top:6px;align-items:center;gap:6px;font-size:.75rem;color:#b45309;background:#fffbeb;border:1px solid #fcd34d;border-radius:6px;padding:6px 10px;">
-                <span style="font-size:.9rem;font-weight:700;">&#9888;</span>
+              <div id="taskIdNumWarn" class="warn-box">
+                <span class="warn-icon">&#9888;</span>
                 <span>Numbers only — letters and symbols not allowed</span>
               </div>
-              <div id="taskIdWarn" style="display:none;margin-top:6px;align-items:center;gap:6px;font-size:.75rem;color:#b45309;background:#fffbeb;border:1px solid #fcd34d;border-radius:6px;padding:6px 10px;">
-                <span style="font-size:.9rem;font-weight:700;">&#9888;</span>
+              <div id="taskIdWarn" class="warn-box">
+                <span class="warn-icon">&#9888;</span>
                 <span>Heads up — this ID differs from the one in the link</span>
               </div>
             </div>
             <div class="field">
               <label>Pass <span class="req">*</span></label>
-              <div class="sdw">
+              <div class="sdw" style="position:relative">
                 <div class="sdb" id="passBtn" tabindex="0">
                   <input class="sd-input" id="passInput" placeholder="Auto-filled from link..." autocomplete="off" data-lpignore="true">
                   <span class="sd-arrow"></span>
@@ -797,6 +811,12 @@ input[type=number] { -moz-appearance:textfield }
                   <li data-v="QA">QA</li>
                 </ul>
                 <input type="hidden" id="pass">
+                <span id="passIcon" style="position:absolute;right:56px;top:50%;transform:translateY(-50%);font-size:.8rem;opacity:.4;pointer-events:none;z-index:10;">&#8212;</span>
+              </div>
+              <!-- NEW: Pass warning — shown when user pick differs from link-detected value -->
+              <div id="passWarn" class="warn-box">
+                <span class="warn-icon">&#9888;</span>
+                <span id="passWarnText">Heads up — this Pass differs from the one in the link</span>
               </div>
             </div>
           </div>
@@ -995,8 +1015,9 @@ var QTC_DATA = {
 // ============================================================
 // HELPERS
 // ============================================================
-var selectedQTC = null;
-var linkTaskId  = "";
+var selectedQTC  = null;
+var linkTaskId   = "";
+var linkPassVal  = "";   // ← tracks the Pass value extracted from the link
 
 function toast(msg, type) {
   var t = document.getElementById("toast");
@@ -1015,6 +1036,30 @@ function savePCH(v){ if (!v.trim()) return; var a = getPCH(); if (a.indexOf(v) =
 function delN(n)   { localStorage.setItem(NK,      JSON.stringify(getN().filter(function(x)   { return x !== n; }))); }
 function delYK(v)  { localStorage.setItem(NK_YK,   JSON.stringify(getYK().filter(function(x)  { return x !== v; }))); }
 function delPCH(v) { localStorage.setItem(NK_PC_H, JSON.stringify(getPCH().filter(function(x) { return x !== v; }))); }
+
+// ============================================================
+// PASS WARNING HELPER
+// ============================================================
+function checkPassWarn() {
+  var currentPass = document.getElementById("pass").value;
+  var warn  = document.getElementById("passWarn");
+  var pIcon = document.getElementById("passIcon");
+  if (linkPassVal && currentPass && currentPass !== linkPassVal) {
+    // مختلف — ورنينج وشيل العلامة
+    warn.style.display   = "flex";
+    pIcon.textContent    = "\u2014";
+    pIcon.style.color    = "";
+    pIcon.style.opacity  = ".4";
+  } else {
+    warn.style.display = "none";
+    // لو في قيمة متطابقة أو اليوزر اختار نفس اللي في اللينك
+    if (linkPassVal && currentPass && currentPass === linkPassVal) {
+      pIcon.textContent   = "\u2713";
+      pIcon.style.color   = "var(--success)";
+      pIcon.style.opacity = "1";
+    }
+  }
+}
 
 // ============================================================
 // CLOCK
@@ -1065,10 +1110,18 @@ document.getElementById("taskId").addEventListener("input", function() {
   this.style.borderColor = hasNonNum ? "var(--error)" : "";
   this.style.boxShadow   = hasNonNum ? "0 0 0 3px rgba(192,57,43,.1)" : "";
   document.getElementById("taskIdNumWarn").style.display = hasNonNum ? "flex" : "none";
-  if (!hasNonNum)
-    document.getElementById("taskIdWarn").style.display = (linkTaskId && v.trim() && v.trim() !== linkTaskId) ? "flex" : "none";
-  else
+  var icon = document.getElementById("idIcon");
+  if (!hasNonNum) {
+    var differs = linkTaskId && v.trim() && v.trim() !== linkTaskId;
+    document.getElementById("taskIdWarn").style.display = differs ? "flex" : "none";
+    if (differs) {
+      icon.textContent = "\u2014"; icon.style.color = ""; icon.style.opacity = ".4";
+    } else if (linkTaskId && v.trim() && v.trim() === linkTaskId) {
+      icon.textContent = "\u2713"; icon.style.color = "var(--success)"; icon.style.opacity = "1";
+    }
+  } else {
     document.getElementById("taskIdWarn").style.display = "none";
+  }
 });
 
 // ============================================================
@@ -1239,7 +1292,15 @@ var shiftDD    = makeSearchableDropdown({btnId:"shiftBtn",    inputId:"shiftInpu
 var unitDD     = makeSearchableDropdown({btnId:"unitBtn",     inputId:"unitInput",     listId:"unitList",     hiddenId:"unit"});
 var modalityDD = makeSearchableDropdown({btnId:"modalityBtn", inputId:"modalityInput", listId:"modalityList", hiddenId:"modality"});
 var queueDD    = makeSearchableDropdown({btnId:"queueBtn",    inputId:"queueInput",    listId:"queueList",    hiddenId:"qName", displayId:"queueDisplay"});
-var passDD     = makeSearchableDropdown({btnId:"passBtn",     inputId:"passInput",     listId:"passList",     hiddenId:"pass"});
+
+// Pass dropdown — with warning check on select
+var passDD = makeSearchableDropdown({
+  btnId:"passBtn", inputId:"passInput", listId:"passList", hiddenId:"pass",
+  onSelect: function(val) {
+    checkPassWarn();
+  }
+});
+
 var qtcShiftDD = makeSearchableDropdown({
   btnId:"qtcShiftBtn", inputId:"qtcShiftInput", listId:"qtcShiftList", hiddenId:"qtcShiftSel",
   onSelect: function(val) {
@@ -1512,11 +1573,13 @@ document.getElementById("taskLink").addEventListener("input", function() {
   var hint   = document.getElementById("linkHint");
   var idEl   = document.getElementById("taskId");
   var icon   = document.getElementById("idIcon");
+
   if (url.length > 0 && !url.startsWith(PREFIX)) {
     this.style.borderColor = "var(--error)"; hint.style.color = "var(--error)";
   } else {
     this.style.borderColor = url.length > 0 ? "#1a8a5a" : ""; hint.style.color = "";
   }
+
   var idM = url.match(/\/id\/(\d+)/);
   if (idM) {
     linkTaskId = idM[1]; idEl.value = idM[1]; idEl.style.borderColor = "#1a8a5a";
@@ -1527,9 +1590,24 @@ document.getElementById("taskLink").addEventListener("input", function() {
     icon.textContent = "\u2014"; icon.style.color = ""; icon.style.opacity = ".4";
     document.getElementById("taskIdWarn").style.display = "none";
   }
+
+  // Detect pass from link and auto-fill
   var dM = url.match(/\/do\/([^\/]+)\//);
-  if (dM) { passDD.setValue(dM[1].toUpperCase().endsWith("QA") ? "QA" : "FP"); }
-  else    { passDD.reset(); }
+  if (dM) {
+    var detectedPass = dM[1].toUpperCase().endsWith("QA") ? "QA" : "FP";
+    linkPassVal = detectedPass;
+    passDD.setValue(detectedPass);
+    var pIcon = document.getElementById("passIcon");
+    pIcon.textContent = "\u2713"; pIcon.style.color = "var(--success)"; pIcon.style.opacity = "1";
+    document.getElementById("passWarn").style.display = "none";
+  } else {
+    linkPassVal = "";
+    passDD.reset();
+    document.getElementById("passWarn").style.display = "none";
+    var pIcon2 = document.getElementById("passIcon");
+    pIcon2.textContent = "\u2014"; pIcon2.style.color = ""; pIcon2.style.opacity = ".4";
+  }
+
   updateProgress();
 });
 
@@ -1709,6 +1787,7 @@ function resetForm() {
   document.getElementById("F").reset();
   tick();
   selectedQTC = null;
+  linkPassVal = "";
   document.getElementById("qtcName").value = "";
   document.getElementById("qtcGrid").innerHTML = "";
   document.getElementById("qtcSelectedDisplay").innerHTML = "";
@@ -1729,6 +1808,9 @@ function resetForm() {
   document.getElementById("taskIdWarn").style.display  = "none";
   document.getElementById("taskIdNumWarn").style.display = "none";
   document.getElementById("labNameWarn").style.display   = "none";
+  document.getElementById("passWarn").style.display      = "none";
+  var pIconR = document.getElementById("passIcon");
+  if (pIconR) { pIconR.textContent = "\u2014"; pIconR.style.color = ""; pIconR.style.opacity = ".4"; }
   document.getElementById("idIcon").textContent         = "\u2014";
   document.getElementById("idIcon").style.color         = "";
   document.getElementById("linkHint").style.color       = "";
