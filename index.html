@@ -7,15 +7,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --primary:        #1E6C93;
-  --primary-dark:   #155270;
-  --primary-light:  #2a85b5;
-  --primary-xlight: #e8f4fb;
-  --accent:         #0fa3d4;
+  --primary:        #1c4587;
+  --primary-dark:   #132f6b;
+  --primary-light:  #2557a7;
+  --primary-xlight: #eaeffb;
+  --accent:         #4a7fd4;
   --surface:        #fff;
   --bg:             #f0f4f7;
-  --border:         #ccdde8;
-  --border-focus:   #1E6C93;
+  --border:         #c5d3ec;
+  --border-focus:   #1c4587;
   --text:           #1a2733;
   --text-secondary: #4a6375;
   --text-muted:     #7a96a8;
@@ -23,10 +23,10 @@
   --error-bg:       #fdf0ee;
   --success:        #1a8a5a;
   --success-bg:     #edf7f3;
-  --input-bg:       #f7fbfd;
-  --shadow-sm:  0 1px 3px  rgba(30,108,147,.08);
-  --shadow-md:  0 4px 16px rgba(30,108,147,.12);
-  --shadow-lg:  0 8px 32px rgba(30,108,147,.16);
+  --input-bg:       #f7f9fd;
+  --shadow-sm:  0 1px 3px  rgba(28,69,135,.08);
+  --shadow-md:  0 4px 16px rgba(28,69,135,.12);
+  --shadow-lg:  0 8px 32px rgba(28,69,135,.16);
   --radius:    8px;
   --radius-lg: 12px;
 }
@@ -43,8 +43,8 @@ body::before {
   position: fixed;
   inset: 0;
   background-image:
-    radial-gradient(circle at 20% 20%, rgba(30,108,147,.04) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(15,163,212,.04) 0%, transparent 50%);
+    radial-gradient(circle at 20% 20%, rgba(28,69,135,.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(74,127,212,.04) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
 }
@@ -89,7 +89,7 @@ header.main-header {
   background: var(--primary);
   padding: 28px 48px 32px;
   display: flex; align-items: flex-end; gap: 24px;
-  box-shadow: 0 2px 12px rgba(30,108,147,.25);
+  box-shadow: 0 2px 12px rgba(28,69,135,.25);
 }
 .header-meti {
   font-family: 'Plus Jakarta Sans', sans-serif;
@@ -122,7 +122,7 @@ header.main-header {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size:1.05rem; font-weight:700; color:#fff; letter-spacing:.5px; display:block;
 }
-.progress-bar-track { width:100%; height:4px; background:rgba(30,108,147,.12) }
+.progress-bar-track { width:100%; height:4px; background:rgba(28,69,135,.12) }
 .progress-bar-fill  { height:100%; width:0%; background:var(--accent); transition:width .4s ease }
 .content {
   width: 100%;
@@ -191,7 +191,7 @@ input, select, textarea {
 input::placeholder, textarea::placeholder { color:var(--text-muted) }
 input:focus, select:focus, textarea:focus {
   border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px rgba(30,108,147,.1);
+  box-shadow: 0 0 0 3px rgba(28,69,135,.1);
   background: #fff;
 }
 input[readonly] { background:#f2f6f9; color:var(--text-muted); cursor:default }
@@ -227,7 +227,7 @@ input[type=number] { -moz-appearance:textfield }
   position:absolute; right:13px; top:50%; transform:translateY(-50%);
   color:var(--primary); pointer-events:none; font-size:.8rem; transition:transform .2s;
 }
-.sdb.open { border-color:var(--border-focus); box-shadow:0 0 0 3px rgba(30,108,147,.1); background:#fff }
+.sdb.open { border-color:var(--border-focus); box-shadow:0 0 0 3px rgba(28,69,135,.1); background:#fff }
 .sdb.open .sd-arrow { transform:translateY(-50%) rotate(180deg) }
 .sd-display {
   flex:1; min-width:0; font-size:1.05rem;
@@ -389,7 +389,7 @@ input[type=number] { -moz-appearance:textfield }
   transition: all .18s;
   letter-spacing: .3px;
 }
-.add-frames-btn:hover { background:#d6ecf8; border-color:var(--primary); border-style:solid }
+.add-frames-btn:hover { background:#d6e2f8; border-color:var(--primary); border-style:solid }
 .add-frames-btn svg { width:14px; height:14px }
 
 .atog { display:flex; gap:12px; margin-top:4px }
@@ -427,9 +427,9 @@ input[type=number] { -moz-appearance:textfield }
   letter-spacing:1px; text-transform:uppercase;
   cursor:pointer;
   transition:background .2s, transform .1s, box-shadow .2s;
-  box-shadow:0 3px 12px rgba(30,108,147,.3);
+  box-shadow:0 3px 12px rgba(28,69,135,.3);
 }
-.subbtn:hover    { background:var(--primary-light); box-shadow:0 4px 20px rgba(30,108,147,.4) }
+.subbtn:hover    { background:var(--primary-light); box-shadow:0 4px 20px rgba(28,69,135,.4) }
 .subbtn:active   { transform:scale(.99) }
 .subbtn:disabled { opacity:.6; cursor:not-allowed }
 .toast {
@@ -459,7 +459,7 @@ input[type=number] { -moz-appearance:textfield }
 #idIcon { position:absolute; right:12px; top:50%; transform:translateY(-50%); font-size:.8rem; opacity:.4 }
 #linkHint { color:var(--text-muted) }
 .form-footer {
-  background:#f7fbfd;
+  background:#f7f9fd;
   border-top:1px solid var(--border);
   padding:20px 32px;
   border-radius:0 0 var(--radius-lg) var(--radius-lg);
@@ -475,7 +475,7 @@ input[type=number] { -moz-appearance:textfield }
 }
 .storage-toggle {
   width:100%; padding:14px 20px;
-  background:#f7fbfd; border:none; cursor:pointer;
+  background:#f7f9fd; border:none; cursor:pointer;
   display:flex; align-items:center; gap:10px;
   font-family:'Plus Jakarta Sans',sans-serif;
   font-size:.85rem; font-weight:700; color:var(--primary); letter-spacing:.5px;
@@ -607,7 +607,10 @@ input[type=number] { -moz-appearance:textfield }
             </div>
             <div class="field">
               <label>PC No. <span class="req">*</span></label>
-              <input type="text" id="pcNo" placeholder="e.g. 7, 30 or QTC" required autocomplete="off">
+              <div class="acw">
+                <input type="text" id="pcNo" placeholder="e.g. 7, 30 or QTC" required autocomplete="off" data-lpignore="true">
+                <ul class="acl" id="pcAcList"></ul>
+              </div>
             </div>
           </div>
           <div class="full field">
@@ -615,6 +618,10 @@ input[type=number] { -moz-appearance:textfield }
             <div class="acw">
               <input type="text" id="labName" placeholder="Start typing a name..." required autocomplete="off" data-lpignore="true">
               <ul class="acl" id="acList"></ul>
+            </div>
+            <div id="labNameWarn" style="display:none;margin-top:6px;align-items:center;gap:6px;font-size:.75rem;color:#b45309;background:#fffbeb;border:1px solid #fcd34d;border-radius:6px;padding:6px 10px;">
+              <span style="font-size:.9rem;font-weight:700;">&#9888;</span>
+              <span>English letters only — numbers and symbols not allowed</span>
             </div>
           </div>
           <div class="g2">
@@ -648,7 +655,7 @@ input[type=number] { -moz-appearance:textfield }
             <label>QTC Name <span class="req">*</span></label>
             <div id="qtcShiftMsg" class="qtc-shift-msg">&#9432; Please select a QTC Shift first to view available names.</div>
             <div id="qtcPickerWrap" style="display:none">
-              <input type="text" id="qtcSearch" placeholder="&#128269; Search by name..." autocomplete="off" style="margin-bottom:10px;background:#f7fbfd;">
+              <input type="text" id="qtcSearch" placeholder="&#128269; Search by name..." autocomplete="off" style="margin-bottom:10px;background:#f7f9fd;">
               <div class="qtc-hint">Click on a name to select — scroll to see all</div>
               <div class="qtc-grid" id="qtcGrid"></div>
               <div class="qtc-selected-display" id="qtcSelectedDisplay"></div>
@@ -716,6 +723,10 @@ input[type=number] { -moz-appearance:textfield }
               <div class="task-id-wrap">
                 <input type="text" id="taskId" placeholder="Auto-filled" required>
                 <span id="idIcon">&#8212;</span>
+              </div>
+              <div id="taskIdNumWarn" style="display:none;margin-top:6px;align-items:center;gap:6px;font-size:.75rem;color:#b45309;background:#fffbeb;border:1px solid #fcd34d;border-radius:6px;padding:6px 10px;">
+                <span style="font-size:.9rem;font-weight:700;">&#9888;</span>
+                <span>Numbers only — letters and symbols not allowed</span>
               </div>
               <div id="taskIdWarn" style="display:none;margin-top:6px;align-items:center;gap:6px;font-size:.75rem;color:#b45309;background:#fffbeb;border:1px solid #fcd34d;border-radius:6px;padding:6px 10px;">
                 <span style="font-size:.9rem;font-weight:700;">&#9888;</span>
@@ -789,16 +800,11 @@ input[type=number] { -moz-appearance:textfield }
               </div>
             </div>
 
-            <!-- ══════════════════════════════════════════
-                 FRAMES ROW — Multi-frames with "Any other frames?" button
-                 ══════════════════════════════════════════ -->
             <div id="framesRow" style="display:none;margin-top:18px" class="field">
               <label>Issued Frames <span class="req">*</span>
                 <span class="sub">Format: 100–150 — you can add multiple ranges</span>
               </label>
-              <!-- Container for all frame range rows -->
               <div id="framesList" class="frames-list"></div>
-              <!-- Add more frames button -->
               <button type="button" class="add-frames-btn" id="addFramesBtn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
@@ -850,7 +856,7 @@ input[type=number] { -moz-appearance:textfield }
         <div class="storage-group">
           <div class="storage-group-header">
             <span class="storage-group-title">&#128187; PC No.</span>
-            <button type="button" class="storage-clear-all" id="clearPCBtn">Clear</button>
+            <button type="button" class="storage-clear-all" id="clearPCBtn">Clear All</button>
           </div>
           <div id="storagePC" class="storage-list"></div>
         </div>
@@ -866,9 +872,10 @@ input[type=number] { -moz-appearance:textfield }
 // CONFIG
 // ============================================================
 var SHEET_URL = "https://script.google.com/macros/s/AKfycbxaQdZ8lW5bylL3D4Shh--wL3_tyNPDJzoipFzGk0TTkE6OfGmYnyFbI-8qakAKLxT_kA/exec";
-var NK    = "meti_labeler_names";
-var NK_YK = "meti_yk_history";
-var NK_PC = "meti_pc_last";
+var NK      = "meti_labeler_names";
+var NK_YK   = "meti_yk_history";
+var NK_PC   = "meti_pc_last";
+var NK_PC_H = "meti_pc_history";
 var FRAME_REASONS = ["Lidar points shifting vertically"];
 
 // ============================================================
@@ -948,12 +955,15 @@ function toast(msg, type) {
 }
 function me(id) { var el = document.getElementById(id); if (el) el.classList.add("err-field"); }
 function ce(id) { var el = document.getElementById(id); if (el) el.classList.remove("err-field"); }
-function getN()  { try { return JSON.parse(localStorage.getItem(NK))    || []; } catch(e) { return []; } }
-function getYK() { try { return JSON.parse(localStorage.getItem(NK_YK)) || []; } catch(e) { return []; } }
-function saveN(n)  { if (!n.trim()) return; var a = getN();  if (a.indexOf(n) === -1) { a.unshift(n);  localStorage.setItem(NK,    JSON.stringify(a.slice(0,60))); } }
-function saveYK(v) { if (!v.trim()) return; var a = getYK(); if (a.indexOf(v) === -1) { a.unshift(v);  localStorage.setItem(NK_YK, JSON.stringify(a.slice(0,20))); } }
-function delN(n)   { localStorage.setItem(NK,    JSON.stringify(getN().filter(function(x)  { return x !== n; }))); }
-function delYK(v)  { localStorage.setItem(NK_YK, JSON.stringify(getYK().filter(function(x) { return x !== v; }))); }
+function getN()    { try { return JSON.parse(localStorage.getItem(NK))      || []; } catch(e) { return []; } }
+function getYK()   { try { return JSON.parse(localStorage.getItem(NK_YK))   || []; } catch(e) { return []; } }
+function getPCH()  { try { return JSON.parse(localStorage.getItem(NK_PC_H)) || []; } catch(e) { return []; } }
+function saveN(n)  { if (!n.trim()) return; var a = getN();   if (a.indexOf(n) === -1) { a.unshift(n); localStorage.setItem(NK,      JSON.stringify(a.slice(0,60))); } }
+function saveYK(v) { if (!v.trim()) return; var a = getYK();  if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_YK,  JSON.stringify(a.slice(0,20))); } }
+function savePCH(v){ if (!v.trim()) return; var a = getPCH(); if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_PC_H, JSON.stringify(a.slice(0,20))); } }
+function delN(n)   { localStorage.setItem(NK,      JSON.stringify(getN().filter(function(x)   { return x !== n; }))); }
+function delYK(v)  { localStorage.setItem(NK_YK,   JSON.stringify(getYK().filter(function(x)  { return x !== v; }))); }
+function delPCH(v) { localStorage.setItem(NK_PC_H, JSON.stringify(getPCH().filter(function(x) { return x !== v; }))); }
 
 // ============================================================
 // CLOCK
@@ -985,18 +995,81 @@ document.querySelectorAll("input,select,textarea").forEach(function(el) {
 });
 
 // ============================================================
-// PC NO. VALIDATION
+// LABELER NAME — warning if non-English (no blocking)
 // ============================================================
-document.getElementById("pcNo").addEventListener("input", function() {
-  var v = this.value.trim();
-  if (!v)                  { this.style.borderColor = ""; return; }
-  if (/^qtc$/i.test(v))   { this.value = "QTC"; this.style.borderColor = "#1a8a5a"; return; }
+document.getElementById("labName").addEventListener("input", function() {
+  var v = this.value;
+  var hasNonEng = v.length > 0 && /[^a-zA-Z\s]/.test(v);
+  this.style.borderColor = hasNonEng ? "var(--error)" : (v.trim() ? "#1a8a5a" : "");
+  this.style.boxShadow   = hasNonEng ? "0 0 0 3px rgba(192,57,43,.1)" : "";
+  document.getElementById("labNameWarn").style.display = hasNonEng ? "flex" : "none";
+});
+
+// ============================================================
+// TASK ID — warning if non-numeric (no blocking)
+// ============================================================
+document.getElementById("taskId").addEventListener("input", function() {
+  var v = this.value;
+  var hasNonNum = v.length > 0 && /\D/.test(v);
+  this.style.borderColor = hasNonNum ? "var(--error)" : "";
+  this.style.boxShadow   = hasNonNum ? "0 0 0 3px rgba(192,57,43,.1)" : "";
+  document.getElementById("taskIdNumWarn").style.display = hasNonNum ? "flex" : "none";
+  if (!hasNonNum)
+    document.getElementById("taskIdWarn").style.display = (linkTaskId && v.trim() && v.trim() !== linkTaskId) ? "flex" : "none";
+  else
+    document.getElementById("taskIdWarn").style.display = "none";
+});
+
+// ============================================================
+// PC NO. — Autocomplete with local storage + validation
+// ============================================================
+var pcIn    = document.getElementById("pcNo");
+var pcAcL   = document.getElementById("pcAcList");
+var pcActive = -1;
+
+function renderPCAC(q) {
+  var hits = q ? getPCH().filter(function(n) { return n.toLowerCase().indexOf(q.toLowerCase()) > -1; }) : getPCH();
+  pcActive = -1;
+  if (!hits.length) { pcAcL.innerHTML = ""; pcAcL.classList.remove("open"); return; }
+  pcAcL.innerHTML = "";
+  hits.forEach(function(val) {
+    var li = document.createElement("li");
+    var sp = document.createElement("span"); sp.textContent = val;
+    var dl = document.createElement("button"); dl.className = "delbtn"; dl.type = "button"; dl.textContent = "\u2715";
+    li.appendChild(sp); li.appendChild(dl);
+    li.addEventListener("mousedown", function(e) {
+      if (e.target === dl) {
+        e.preventDefault(); delPCH(val); renderPCAC(pcIn.value);
+        if (document.getElementById("storageBody").style.display !== "none") renderStorageManager();
+        return;
+      }
+      e.preventDefault(); pcIn.value = val; pcAcL.classList.remove("open"); pcActive = -1;
+      validatePC(val);
+    });
+    pcAcL.appendChild(li);
+  });
+  pcAcL.classList.add("open");
+}
+function validatePC(v) {
+  if (!v) { pcIn.style.borderColor = ""; return; }
+  if (/^qtc$/i.test(v)) { pcIn.value = "QTC"; pcIn.style.borderColor = "#1a8a5a"; return; }
   if (/^\d+$/.test(v)) {
     var num = parseInt(v, 10);
-    this.style.borderColor = (num >= 1 && num <= 100) ? "#1a8a5a" : "var(--error)";
+    pcIn.style.borderColor = (num >= 1 && num <= 100) ? "#1a8a5a" : "var(--error)";
   } else {
-    this.style.borderColor = "var(--error)";
+    pcIn.style.borderColor = "var(--error)";
   }
+}
+pcIn.addEventListener("input",  function() { validatePC(this.value.trim()); renderPCAC(this.value); });
+pcIn.addEventListener("focus",  function() { renderPCAC(this.value); });
+pcIn.addEventListener("blur",   function() { setTimeout(function() { pcAcL.classList.remove("open"); pcActive = -1; }, 180); });
+pcIn.addEventListener("keydown", function(e) {
+  var items = pcAcL.querySelectorAll("li");
+  if (!items.length) return;
+  if      (e.key === "ArrowDown")  { e.preventDefault(); pcActive = Math.min(pcActive+1, items.length-1); items.forEach(function(x,i){x.classList.toggle("ac-hover",i===pcActive);}); }
+  else if (e.key === "ArrowUp")    { e.preventDefault(); pcActive = Math.max(pcActive-1, 0); items.forEach(function(x,i){x.classList.toggle("ac-hover",i===pcActive);}); }
+  else if (e.key === "Enter" && pcActive >= 0) { e.preventDefault(); var v = items[pcActive].querySelector("span").textContent; pcIn.value = v; pcAcL.classList.remove("open"); pcActive = -1; validatePC(v); }
+  else if (e.key === "Escape")     { pcAcL.classList.remove("open"); pcActive = -1; }
 });
 
 // ============================================================
@@ -1132,12 +1205,10 @@ var reasonDD = makeSearchableDropdown({
     var framesRow  = document.getElementById("framesRow");
     framesRow.style.display = showFrames ? "block" : "none";
     if (showFrames) {
-      // Initialize with one frame row if empty
       if (document.getElementById("framesList").children.length === 0) {
         addFrameRow();
       }
     } else {
-      // Clear all frame rows
       document.getElementById("framesList").innerHTML = "";
     }
     document.getElementById("notesRow").style.display = showNotes ? "block" : "none";
@@ -1196,7 +1267,6 @@ function addFrameRow(fromVal, toVal) {
   removeBtn.title = "Remove this range";
   removeBtn.innerHTML = "&#10005;";
   removeBtn.addEventListener("click", function() {
-    // Keep at least one row
     if (list.children.length > 1) {
       div.remove();
     } else {
@@ -1211,7 +1281,6 @@ function addFrameRow(fromVal, toVal) {
   div.appendChild(removeBtn);
   list.appendChild(div);
 
-  // Animate in
   div.style.opacity = "0";
   div.style.transform = "translateY(-6px)";
   div.style.transition = "opacity .2s ease, transform .2s ease";
@@ -1225,7 +1294,6 @@ function addFrameRow(fromVal, toVal) {
 
 document.getElementById("addFramesBtn").addEventListener("click", function() {
   addFrameRow();
-  // Focus the new "From" input
   var rows = document.getElementById("framesList").querySelectorAll(".frames-group");
   var lastRow = rows[rows.length - 1];
   if (lastRow) {
@@ -1413,10 +1481,7 @@ document.getElementById("taskLink").addEventListener("input", function() {
   else    { passDD.reset(); }
   updateProgress();
 });
-document.getElementById("taskId").addEventListener("input", function() {
-  var v = this.value.trim();
-  document.getElementById("taskIdWarn").style.display = (linkTaskId && v && v !== linkTaskId) ? "flex" : "none";
-});
+// taskId input validation handled above in numbers-only section
 
 // ============================================================
 // ACTION: Submit / Skip
@@ -1446,7 +1511,7 @@ function setAction(val) {
     document.getElementById("objCount").required = false;
     btn.textContent = "\u23ed  Skip Task";
     btn.style.background = "var(--primary)";
-    btn.style.boxShadow  = "0 3px 12px rgba(30,108,147,.3)";
+    btn.style.boxShadow  = "0 3px 12px rgba(28,69,135,.3)";
   }
   document.getElementById("finalWrap").style.display = "block";
   updateProgress();
@@ -1532,7 +1597,6 @@ document.getElementById("F").addEventListener("submit", function(e) {
     if (document.getElementById("reason").value === "Other" && !document.getElementById("notes").value.trim()) {
       me("notes"); err = true; toast("Please write a note", "err"); return;
     }
-    // Validate frames if reason requires it
     if (FRAME_REASONS.indexOf(document.getElementById("reason").value) > -1) {
       var framesOk = validateFrames();
       if (!framesOk) { err = true; toast("Please fill all frame ranges", "err"); return; }
@@ -1545,6 +1609,7 @@ document.getElementById("F").addEventListener("submit", function(e) {
   if (err) { toast("Please fill all required fields", "err"); return; }
 
   saveN(lab); saveYK(yk);
+  savePCH(document.getElementById("pcNo").value);
   localStorage.setItem(NK_PC, document.getElementById("pcNo").value);
 
   var payload = {
@@ -1613,6 +1678,8 @@ function resetForm() {
   document.getElementById("taskId").value = "";
   document.getElementById("taskId").style.borderColor  = "";
   document.getElementById("taskIdWarn").style.display  = "none";
+  document.getElementById("taskIdNumWarn").style.display = "none";
+  document.getElementById("labNameWarn").style.display   = "none";
   document.getElementById("idIcon").textContent         = "\u2014";
   document.getElementById("idIcon").style.color         = "";
   document.getElementById("linkHint").style.color       = "";
@@ -1623,10 +1690,12 @@ function resetForm() {
     var el = document.getElementById(id);
     if (el) { el.classList.remove("err-field"); el.style.borderColor = ""; el.style.boxShadow = ""; }
   });
+  labWarn.style.display = "none";
   var ykHint = document.getElementById("ykHint");
   if (ykHint) { ykHint.style.color = "var(--text-muted)"; ykHint.textContent = "6-digit code | or email format: ME123456@meti.ai"; }
   document.getElementById("yk").style.borderColor = "";
   ykAcL.classList.remove("open");
+  pcAcL.classList.remove("open");
   var btn = document.getElementById("subBtn");
   btn.textContent = "\u23ed  Skip Task";
   btn.style.background = "var(--primary)";
@@ -1645,17 +1714,9 @@ document.getElementById("storageToggle").addEventListener("click", function() {
   if (open) renderStorageManager();
 });
 function renderStorageManager() {
-  renderStorageGroup("storageNames", getN(),  delN,  function() { renderAC(labIn.value); renderStorageManager(); });
-  renderStorageGroup("storageYK",    getYK(), delYK, function() { renderYKAC(ykIn.value); renderStorageManager(); });
-  var pcContainer = document.getElementById("storagePC");
-  pcContainer.innerHTML = "";
-  var pcVal = localStorage.getItem(NK_PC);
-  if (pcVal) {
-    pcContainer.appendChild(makeStorageItem(pcVal, function() { localStorage.removeItem(NK_PC); renderStorageManager(); }));
-  } else {
-    var empty = document.createElement("div"); empty.className = "storage-empty"; empty.textContent = "No saved PC No.";
-    pcContainer.appendChild(empty);
-  }
+  renderStorageGroup("storageNames", getN(),   delN,   function() { renderAC(labIn.value);   renderStorageManager(); });
+  renderStorageGroup("storageYK",    getYK(),  delYK,  function() { renderYKAC(ykIn.value);  renderStorageManager(); });
+  renderStorageGroup("storagePC",    getPCH(), delPCH, function() { renderPCAC(pcIn.value);  renderStorageManager(); });
 }
 function renderStorageGroup(containerId, items, delFn, afterDel) {
   var container = document.getElementById(containerId); container.innerHTML = "";
@@ -1673,13 +1734,13 @@ function makeStorageItem(label, onDel) {
   item.appendChild(txt); item.appendChild(btn);
   return item;
 }
-document.getElementById("clearNamesBtn").addEventListener("click", function() { localStorage.removeItem(NK);    renderAC(labIn.value);   renderStorageManager(); });
-document.getElementById("clearYKBtn").addEventListener("click",    function() { localStorage.removeItem(NK_YK); renderYKAC(ykIn.value);  renderStorageManager(); });
-document.getElementById("clearPCBtn").addEventListener("click",    function() { localStorage.removeItem(NK_PC); renderStorageManager(); });
+document.getElementById("clearNamesBtn").addEventListener("click", function() { localStorage.removeItem(NK);      renderAC(labIn.value);   renderStorageManager(); });
+document.getElementById("clearYKBtn").addEventListener("click",    function() { localStorage.removeItem(NK_YK);   renderYKAC(ykIn.value);  renderStorageManager(); });
+document.getElementById("clearPCBtn").addEventListener("click",    function() { localStorage.removeItem(NK_PC_H); localStorage.removeItem(NK_PC); renderPCAC(pcIn.value); renderStorageManager(); });
 
 // INIT
 var pcSaved = localStorage.getItem(NK_PC);
-if (pcSaved) { document.getElementById("pcNo").value = pcSaved; }
+if (pcSaved) { pcIn.value = pcSaved; validatePC(pcSaved); }
 </script>
 </body>
 </html>
