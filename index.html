@@ -874,7 +874,6 @@ input[type=number] { -moz-appearance:textfield }
 var SHEET_URL = "https://script.google.com/macros/s/AKfycbxaQdZ8lW5bylL3D4Shh--wL3_tyNPDJzoipFzGk0TTkE6OfGmYnyFbI-8qakAKLxT_kA/exec";
 var NK      = "meti_labeler_names";
 var NK_YK   = "meti_yk_history";
-var NK_PC   = "meti_pc_last";
 var NK_PC_H = "meti_pc_history";
 var FRAME_REASONS = ["Lidar points shifting vertically"];
 
@@ -1610,7 +1609,6 @@ document.getElementById("F").addEventListener("submit", function(e) {
 
   saveN(lab); saveYK(yk);
   savePCH(document.getElementById("pcNo").value);
-  localStorage.setItem(NK_PC, document.getElementById("pcNo").value);
 
   var payload = {
     timestamp:   document.getElementById("ts").value,
@@ -1736,11 +1734,9 @@ function makeStorageItem(label, onDel) {
 }
 document.getElementById("clearNamesBtn").addEventListener("click", function() { localStorage.removeItem(NK);      renderAC(labIn.value);   renderStorageManager(); });
 document.getElementById("clearYKBtn").addEventListener("click",    function() { localStorage.removeItem(NK_YK);   renderYKAC(ykIn.value);  renderStorageManager(); });
-document.getElementById("clearPCBtn").addEventListener("click",    function() { localStorage.removeItem(NK_PC_H); localStorage.removeItem(NK_PC); renderPCAC(pcIn.value); renderStorageManager(); });
+document.getElementById("clearPCBtn").addEventListener("click",    function() { localStorage.removeItem(NK_PC_H); renderPCAC(pcIn.value); renderStorageManager(); });
 
 // INIT
-var pcSaved = localStorage.getItem(NK_PC);
-if (pcSaved) { pcIn.value = pcSaved; validatePC(pcSaved); }
 </script>
 </body>
 </html>
