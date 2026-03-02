@@ -7,27 +7,27 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --primary:        #1c4587;
-  --primary-dark:   #132f6b;
-  --primary-light:  #2557a7;
+  --primary: #1c4587;
+  --primary-dark: #132f6b;
+  --primary-light: #2557a7;
   --primary-xlight: #eaeffb;
-  --accent:         #4a7fd4;
-  --surface:        #fff;
-  --bg:             #f0f4f7;
-  --border:         #c5d3ec;
-  --border-focus:   #1c4587;
-  --text:           #1a2733;
+  --accent: #4a7fd4;
+  --surface: #fff;
+  --bg: #f0f4f7;
+  --border: #c5d3ec;
+  --border-focus: #1c4587;
+  --text: #1a2733;
   --text-secondary: #4a6375;
-  --text-muted:     #7a96a8;
-  --error:          #c0392b;
-  --error-bg:       #fdf0ee;
-  --success:        #1a8a5a;
-  --success-bg:     #edf7f3;
-  --input-bg:       #f7f9fd;
-  --shadow-sm:  0 1px 3px  rgba(28,69,135,.08);
-  --shadow-md:  0 4px 16px rgba(28,69,135,.12);
-  --shadow-lg:  0 8px 32px rgba(28,69,135,.16);
-  --radius:    8px;
+  --text-muted: #7a96a8;
+  --error: #c0392b;
+  --error-bg: #fdf0ee;
+  --success: #1a8a5a;
+  --success-bg: #edf7f3;
+  --input-bg: #f7f9fd;
+  --shadow-sm: 0 1px 3px rgba(28,69,135,.08);
+  --shadow-md: 0 4px 16px rgba(28,69,135,.12);
+  --shadow-lg: 0 8px 32px rgba(28,69,135,.16);
+  --radius: 8px;
   --radius-lg: 12px;
 }
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
@@ -123,7 +123,7 @@ header.main-header {
   font-size:1.05rem; font-weight:700; color:#fff; letter-spacing:.5px; display:block;
 }
 .progress-bar-track { width:100%; height:4px; background:rgba(28,69,135,.12) }
-.progress-bar-fill  { height:100%; width:0%; background:var(--accent); transition:width .4s ease }
+.progress-bar-fill { height:100%; width:0%; background:var(--accent); transition:width .4s ease }
 .content {
   width: 100%;
   max-width: 1480px;
@@ -139,14 +139,14 @@ header.main-header {
 }
 @keyframes slideUp {
   from { opacity:0; transform:translateY(20px) }
-  to   { opacity:1; transform:translateY(0) }
+  to { opacity:1; transform:translateY(0) }
 }
 .card-section {
   border-bottom: 1px solid #edf2f6;
   padding: 36px 48px;
 }
 .card-section:first-child { border-radius: var(--radius-lg) var(--radius-lg) 0 0 }
-.card-section:last-child  { border-bottom:none }
+.card-section:last-child { border-bottom:none }
 .section-header { display:flex; align-items:center; gap:10px; margin-bottom:22px }
 .section-icon {
   width:30px; height:30px;
@@ -160,8 +160,8 @@ header.main-header {
   font-size:.82rem; font-weight:700;
   letter-spacing:2px; text-transform:uppercase; color:var(--primary);
 }
-.g2   { display:grid; grid-template-columns:1fr 1fr;     gap:22px; margin-bottom:22px }
-.g3   { display:grid; grid-template-columns:1fr 1fr 1fr; gap:22px; margin-bottom:22px }
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-bottom:22px }
+.g3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:22px; margin-bottom:22px }
 .full { margin-bottom:22px }
 .field label {
   display:block;
@@ -336,7 +336,7 @@ input[type=number] { -moz-appearance:textfield }
 }
 .acl li:hover .delbtn, .acl li.ac-hover .delbtn { color:var(--text-muted) }
 .delbtn:hover { color:var(--error) !important }
-.qtc-hint      { font-size:.72rem; color:var(--text-muted); margin-bottom:10px; font-style:italic }
+.qtc-hint { font-size:.72rem; color:var(--text-muted); margin-bottom:10px; font-style:italic }
 .qtc-shift-msg {
   font-size:.82rem; color:var(--primary);
   padding:12px 14px;
@@ -349,7 +349,7 @@ input[type=number] { -moz-appearance:textfield }
   grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
   gap:8px; max-height:280px; overflow-y:auto; padding:2px;
 }
-.qtc-grid::-webkit-scrollbar       { width:5px }
+.qtc-grid::-webkit-scrollbar { width:5px }
 .qtc-grid::-webkit-scrollbar-track { background:#f0f4f7; border-radius:4px }
 .qtc-grid::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px }
 .qtc-card {
@@ -361,8 +361,8 @@ input[type=number] { -moz-appearance:textfield }
   display:flex; align-items:center; gap:10px;
   user-select:none;
 }
-.qtc-card:hover          { border-color:var(--primary-light); background:var(--primary-xlight) }
-.qtc-card.selected       { border-color:var(--success); background:var(--success-bg); box-shadow:0 0 0 3px rgba(26,138,90,.1) }
+.qtc-card:hover { border-color:var(--primary-light); background:var(--primary-xlight) }
+.qtc-card.selected { border-color:var(--success); background:var(--success-bg); box-shadow:0 0 0 3px rgba(26,138,90,.1) }
 .qtc-card .qtc-check {
   width:18px; height:18px;
   border-radius:50%; border:2px solid var(--border);
@@ -370,10 +370,10 @@ input[type=number] { -moz-appearance:textfield }
   display:flex; align-items:center; justify-content:center;
   transition:all .15s; font-size:.7rem;
 }
-.qtc-card.selected .qtc-check  { border-color:var(--success); background:var(--success); color:#fff }
-.qtc-card .qtc-name             { font-size:.83rem; font-weight:600; color:var(--text); line-height:1.3 }
-.qtc-card .qtc-role             { font-size:.72rem; color:var(--primary); margin-top:1px; font-weight:500 }
-.qtc-card.selected .qtc-name   { color:var(--success) }
+.qtc-card.selected .qtc-check { border-color:var(--success); background:var(--success); color:#fff }
+.qtc-card .qtc-name { font-size:.83rem; font-weight:600; color:var(--text); line-height:1.3 }
+.qtc-card .qtc-role { font-size:.72rem; color:var(--primary); margin-top:1px; font-weight:500 }
+.qtc-card.selected .qtc-name { color:var(--success) }
 .qtc-selected-display { margin-top:10px; min-height:32px; display:flex; flex-wrap:wrap; gap:6px }
 .qtc-tag {
   background:var(--success-bg);
@@ -415,8 +415,8 @@ input[type=number] { -moz-appearance:textfield }
   transition:background .2s, transform .1s, box-shadow .2s;
   box-shadow:0 3px 12px rgba(26,138,90,.3);
 }
-.subbtn:hover    { background:#157a4e; box-shadow:0 4px 20px rgba(26,138,90,.4) }
-.subbtn:active   { transform:scale(.99) }
+.subbtn:hover { background:#157a4e; box-shadow:0 4px 20px rgba(26,138,90,.4) }
+.subbtn:active { transform:scale(.99) }
 .subbtn:disabled { opacity:.6; cursor:not-allowed }
 .toast {
   position:fixed; bottom:28px; left:50%;
@@ -428,8 +428,8 @@ input[type=number] { -moz-appearance:textfield }
   box-shadow:var(--shadow-lg);
 }
 .toast.show { opacity:1; transform:translateX(-50%) translateY(0) }
-.toast.ok   { background:var(--success-bg); border:1px solid rgba(26,138,90,.4); color:var(--success) }
-.toast.err  { background:var(--error-bg);   border:1px solid rgba(192,57,43,.3);  color:var(--error) }
+.toast.ok { background:var(--success-bg); border:1px solid rgba(26,138,90,.4); color:var(--success) }
+.toast.err { background:var(--error-bg); border:1px solid rgba(192,57,43,.3); color:var(--error) }
 .err-field {
   border-color: var(--error) !important;
   box-shadow: 0 0 0 3px rgba(192,57,43,.1) !important;
@@ -437,8 +437,8 @@ input[type=number] { -moz-appearance:textfield }
 }
 @keyframes shake {
   0%,100% { transform:translateX(0) }
-  20%,60%  { transform:translateX(-3px) }
-  40%,80%  { transform:translateX(3px) }
+  20%,60% { transform:translateX(-3px) }
+  40%,80% { transform:translateX(3px) }
 }
 .task-id-wrap { position:relative }
 .task-id-wrap input { padding-right:38px }
@@ -492,7 +492,6 @@ input[type=number] { -moz-appearance:textfield }
 }
 .storage-item-del:hover { color:var(--error) }
 .storage-empty { font-size:.78rem; color:var(--text-muted); font-style:italic; padding:4px 0 }
-
 /* ─── DUPLICATE TASK ID DIALOG ─── */
 #dupOverlay {
   display: none;
@@ -520,7 +519,7 @@ input[type=number] { -moz-appearance:textfield }
 }
 @keyframes popIn {
   from { opacity:0; transform:scale(.88) translateY(16px) }
-  to   { opacity:1; transform:scale(1)   translateY(0) }
+  to { opacity:1; transform:scale(1) translateY(0) }
 }
 .dup-icon {
   width:52px; height:52px;
@@ -573,7 +572,6 @@ input[type=number] { -moz-appearance:textfield }
   transition:all .15s; box-shadow:0 3px 10px rgba(26,138,90,.3);
 }
 .dup-btn-ok:hover { background:#157a4e; }
-
 @media(max-width:640px) {
   .g2, .g3 { grid-template-columns:1fr }
   .card-section { padding:22px 18px }
@@ -618,7 +616,6 @@ input[type=number] { -moz-appearance:textfield }
   <div class="content">
     <div class="card">
       <form id="F" autocomplete="off">
-
         <!-- SECTION 1: SESSION INFO -->
         <div class="card-section">
           <div class="section-header">
@@ -729,7 +726,6 @@ input[type=number] { -moz-appearance:textfield }
             <input type="hidden" id="qtcName">
           </div>
         </div>
-
         <!-- SECTION 2: TASK DETAILS -->
         <div class="card-section">
           <div class="section-header">
@@ -818,7 +814,6 @@ input[type=number] { -moz-appearance:textfield }
             </div>
           </div>
         </div>
-
         <!-- SECTION 3: TASK ACTION -->
         <div class="card-section">
           <div class="section-header">
@@ -835,14 +830,12 @@ input[type=number] { -moz-appearance:textfield }
             <input type="number" id="objCount" placeholder="Enter number of objects" min="0" required>
           </div>
         </div>
-
         <!-- FORM FOOTER -->
         <div class="form-footer">
           <button type="submit" class="subbtn" id="subBtn">&#10004;&nbsp; Submit Task</button>
         </div>
       </form>
     </div>
-
     <!-- SAVED DATA PANEL -->
     <div class="storage-panel">
       <button type="button" class="storage-toggle" id="storageToggle">
@@ -894,7 +887,6 @@ input[type=number] { -moz-appearance:textfield }
     </div>
   </div>
 </div>
-
 <!-- ─── DUPLICATE TASK ID DIALOG ─── -->
 <div id="dupOverlay">
   <div class="dup-dialog">
@@ -911,41 +903,37 @@ input[type=number] { -moz-appearance:textfield }
     <div class="dup-divider"></div>
     <div class="dup-btns">
       <button class="dup-btn-cancel" id="dupCancel" type="button">Cancel</button>
-      <button class="dup-btn-ok"     id="dupOk"     type="button">Ok</button>
+      <button class="dup-btn-ok" id="dupOk" type="button">Ok</button>
     </div>
   </div>
 </div>
-
 <div class="toast" id="toast"></div>
-
 <script>
 // ============================================================
 // CONFIG
 // ============================================================
 var SHEET_URL = "https://script.google.com/macros/s/AKfycbxaQdZ8lW5bylL3D4Shh--wL3_tyNPDJzoipFzGk0TTkE6OfGmYnyFbI-8qakAKLxT_kA/exec";
-var NK        = "meti_labeler_names";
-var NK_YK     = "meti_yk_history";
-var NK_PC_H   = "meti_pc_history";
-var NK_SHIFT  = "meti_shift_history";
-var NK_UNIT   = "meti_unit_history";
-
+var NK = "meti_labeler_names";
+var NK_YK = "meti_yk_history";
+var NK_PC_H = "meti_pc_history";
+var NK_SHIFT = "meti_shift_history";
+var NK_UNIT = "meti_unit_history";
 // ─── DUPLICATE TASK ID STORAGE ───
-var NK_TASK_IDS    = "meti_task_ids_history";
+var NK_TASK_IDS = "meti_task_ids_history";
 var TASK_WINDOW_MS = 2 * 60 * 60 * 1000; // 2 hours
-
 function getRecentTaskIds() {
   try { return JSON.parse(localStorage.getItem(NK_TASK_IDS)) || []; } catch(e) { return []; }
 }
 function saveTaskIdToHistory(id) {
   var list = getRecentTaskIds();
-  var now  = Date.now();
+  var now = Date.now();
   list = list.filter(function(x) { return (now - x.ts) < TASK_WINDOW_MS; });
   list.push({ id: id, ts: now });
   localStorage.setItem(NK_TASK_IDS, JSON.stringify(list));
 }
 function checkDuplicateTaskId(id) {
   var list = getRecentTaskIds();
-  var now  = Date.now();
+  var now = Date.now();
   return list.find(function(x) {
     return x.id === id && (now - x.ts) < TASK_WINDOW_MS;
   }) || null;
@@ -956,77 +944,74 @@ function formatTimeAgo(ts) {
   if (mins === 1) return "1 minute ago";
   return mins + " minutes ago";
 }
-
 // ============================================================
 // QTC DATA
 // ============================================================
 var QTC_DATA = {
   "Morning": [
-    {name:"Abdelrahman Refaat",  role:"QT"}, {name:"Hassan Mohamed",      role:"QT"},
-    {name:"Adel Ashraf",         role:"QT"}, {name:"Yousef Abass",        role:"QT"},
-    {name:"Ahmed Taha",          role:"QT"}, {name:"Bassant Sherif",      role:"QT"},
-    {name:"Amr Salah",           role:""},   {name:"Mazen Ehab",          role:""},
-    {name:"Hagar Fawzy",         role:""},   {name:"Roqia Wael",          role:""},
-    {name:"Eman Gamal",          role:""},   {name:"Kirollos Ibrahem",    role:""},
-    {name:"Rawan Elmahdy",       role:""},   {name:"Shimaa Nasser",       role:""},
-    {name:"Aya Mamdouh",         role:""},   {name:"Sara Atef",           role:""},
-    {name:"Nada Wagih",          role:""},   {name:"Nadien Mohey",        role:""},
-    {name:"Aya Yousry",          role:""},   {name:"Rahma Sayed",         role:""},
-    {name:"Hossam Hassan",       role:""},   {name:"Mira Samir",          role:""},
-    {name:"Asmaa Mohamed",       role:""},   {name:"Nesma Mustafa",       role:""},
-    {name:"Hagar Atef",          role:""},   {name:"Ahmed Adel",          role:""},
-    {name:"Asmaa Medhat",        role:""},   {name:"Moataz Ahmed",        role:""},
-    {name:"Wafaa Fathy",         role:""},   {name:"Omnia Mohamed",       role:""},
-    {name:"Eslam Ali",           role:""},   {name:"Asmaa Khaled",        role:""},
-    {name:"Donia El Said",       role:""},   {name:"Mayada Adel",         role:""},
-    {name:"Reem Samir",          role:""},   {name:"Ashiry",              role:""},
-    {name:"Abdelmonsef",         role:"SV"}, {name:"Yasmeen Nasser",      role:"SV"},
-    {name:"Mohamed Khaled",      role:"SV"}, {name:"Mohamed Abdel Azim",  role:"SV"}
+    {name:"Abdelrahman Refaat", role:"QT"}, {name:"Hassan Mohamed", role:"QT"},
+    {name:"Adel Ashraf", role:"QT"}, {name:"Yousef Abass", role:"QT"},
+    {name:"Ahmed Taha", role:"QT"}, {name:"Bassant Sherif", role:"QT"},
+    {name:"Amr Salah", role:""}, {name:"Mazen Ehab", role:""},
+    {name:"Hagar Fawzy", role:""}, {name:"Roqia Wael", role:""},
+    {name:"Eman Gamal", role:""}, {name:"Kirollos Ibrahem", role:""},
+    {name:"Rawan Elmahdy", role:""}, {name:"Shimaa Nasser", role:""},
+    {name:"Aya Mamdouh", role:""}, {name:"Sara Atef", role:""},
+    {name:"Nada Wagih", role:""}, {name:"Nadien Mohey", role:""},
+    {name:"Aya Yousry", role:""}, {name:"Rahma Sayed", role:""},
+    {name:"Hossam Hassan", role:""}, {name:"Mira Samir", role:""},
+    {name:"Asmaa Mohamed", role:""}, {name:"Nesma Mustafa", role:""},
+    {name:"Hagar Atef", role:""}, {name:"Ahmed Adel", role:""},
+    {name:"Asmaa Medhat", role:""}, {name:"Moataz Ahmed", role:""},
+    {name:"Wafaa Fathy", role:""}, {name:"Omnia Mohamed", role:""},
+    {name:"Eslam Ali", role:""}, {name:"Asmaa Khaled", role:""},
+    {name:"Donia El Said", role:""}, {name:"Mayada Adel", role:""},
+    {name:"Reem Samir", role:""}, {name:"Ashiry", role:""},
+    {name:"Abdelmonsef", role:"SV"}, {name:"Yasmeen Nasser", role:"SV"},
+    {name:"Mohamed Khaled", role:"SV"}, {name:"Mohamed Abdel Azim", role:"SV"}
   ],
   "Night": [
-    {name:"Hazem Nader",                  role:"QT"}, {name:"Mohamed Sayed",           role:"QT"},
-    {name:"Abdelrahman Adel",             role:"QT"}, {name:"Mohamed Kamal",           role:"QT"},
-    {name:"Mahmoud Khaled",               role:""},   {name:"Ibrahim Mohamed Ibrahim", role:""},
-    {name:"Kerolos Emil Shawky",          role:""},   {name:"Hussien Ali",             role:""},
-    {name:"Ahmed Nagy",                   role:""},   {name:"Ali Suliman",             role:""},
-    {name:"Mostafa Helal",                role:""},   {name:"Osama Ashraf",            role:""},
-    {name:"Marwan Mohamed",               role:""},   {name:"Tony Emad",               role:""},
-    {name:"Hesham Hassan",                role:""},   {name:"Mahmoud Adel",            role:""},
-    {name:"Abdelrahman Omar",             role:""},   {name:"Abdelrahman Tarek Abdo",  role:""},
-    {name:"Yousef Mohamed Abdelfatah",    role:""},   {name:"Mark Ashraf",             role:""},
-    {name:"Ahmed Ashraf",                 role:""},   {name:"Awad Wagdy",              role:""},
-    {name:"Yousef Ramdan",                role:""},   {name:"Ibrahim Khaled",          role:""},
-    {name:"Abdelrahman Ahmed",            role:""},   {name:"Mohamed Salem",           role:"SV"},
-    {name:"Yousef Ahmed Eliwa",           role:"SV"}, {name:"Amr Essam",              role:"SV"},
-    {name:"Shehab Ayman",                 role:"SV"}, {name:"Eslam Salah",            role:"SV"}
+    {name:"Hazem Nader", role:"QT"}, {name:"Mohamed Sayed", role:"QT"},
+    {name:"Abdelrahman Adel", role:"QT"}, {name:"Mohamed Kamal", role:"QT"},
+    {name:"Mahmoud Khaled", role:""}, {name:"Ibrahim Mohamed Ibrahim", role:""},
+    {name:"Kerolos Emil Shawky", role:""}, {name:"Hussien Ali", role:""},
+    {name:"Ahmed Nagy", role:""}, {name:"Ali Suliman", role:""},
+    {name:"Mostafa Helal", role:""}, {name:"Osama Ashraf", role:""},
+    {name:"Marwan Mohamed", role:""}, {name:"Tony Emad", role:""},
+    {name:"Hesham Hassan", role:""}, {name:"Mahmoud Adel", role:""},
+    {name:"Abdelrahman Omar", role:""}, {name:"Abdelrahman Tarek Abdo", role:""},
+    {name:"Yousef Mohamed Abdelfatah", role:""}, {name:"Mark Ashraf", role:""},
+    {name:"Ahmed Ashraf", role:""}, {name:"Awad Wagdy", role:""},
+    {name:"Yousef Ramdan", role:""}, {name:"Ibrahim Khaled", role:""},
+    {name:"Abdelrahman Ahmed", role:""}, {name:"Mohamed Salem", role:"SV"},
+    {name:"Yousef Ahmed Eliwa", role:"SV"}, {name:"Amr Essam", role:"SV"},
+    {name:"Shehab Ayman", role:"SV"}, {name:"Eslam Salah", role:"SV"}
   ],
   "Over Night": [
-    {name:"Omar Sharawy",          role:"QT"}, {name:"Mohamed Fahmy",          role:"QT"},
-    {name:"Hesham Nasser",         role:"QT"}, {name:"Ahmed Selim",            role:"QT"},
-    {name:"Islam Yasser",          role:"QT"}, {name:"El Noby",                role:""},
-    {name:"Ahmed Nagia",           role:""},   {name:"Abdalla Barbary",        role:""},
-    {name:"Mohamed Zakaria",       role:""},   {name:"Samer Neseim",           role:""},
-    {name:"Mohamed Ibrahim",       role:""},   {name:"Eyad Mohamed",           role:""},
-    {name:"Seif Waled",            role:""},   {name:"Bahi Hussien",           role:""},
-    {name:"Mohamed Nasr",          role:""},   {name:"Shreif Hossam",          role:""},
-    {name:"Mohamed Emam",          role:""},   {name:"Mahmoud Khaled Hussien", role:""},
-    {name:"Karim Gaber",           role:""},   {name:"Yousef Fathy",           role:""},
-    {name:"Yousef Mohamed Saad",   role:""},   {name:"Ahmed Alsheikh",         role:""},
-    {name:"Mohamed Fathy",         role:""},   {name:"Yousef Ashraf Shaaban",  role:""},
-    {name:"Ahmed Sobhy",           role:""},   {name:"Hossam Taha",            role:""},
-    {name:"Shehab Alaa",           role:""},   {name:"Yousef Saber",           role:""},
-    {name:"Eslam Khaled",          role:"SV"}, {name:"Mahmoud Mohamed Mousa",  role:"SV"},
-    {name:"ATITO",                 role:"SV"}
+    {name:"Omar Sharawy", role:"QT"}, {name:"Mohamed Fahmy", role:"QT"},
+    {name:"Hesham Nasser", role:"QT"}, {name:"Ahmed Selim", role:"QT"},
+    {name:"Islam Yasser", role:"QT"}, {name:"El Noby", role:""},
+    {name:"Ahmed Nagia", role:""}, {name:"Abdalla Barbary", role:""},
+    {name:"Mohamed Zakaria", role:""}, {name:"Samer Neseim", role:""},
+    {name:"Mohamed Ibrahim", role:""}, {name:"Eyad Mohamed", role:""},
+    {name:"Seif Waled", role:""}, {name:"Bahi Hussien", role:""},
+    {name:"Mohamed Nasr", role:""}, {name:"Shreif Hossam", role:""},
+    {name:"Mohamed Emam", role:""}, {name:"Mahmoud Khaled Hussien", role:""},
+    {name:"Karim Gaber", role:""}, {name:"Yousef Fathy", role:""},
+    {name:"Yousef Mohamed Saad", role:""}, {name:"Ahmed Alsheikh", role:""},
+    {name:"Mohamed Fathy", role:""}, {name:"Yousef Ashraf Shaaban", role:""},
+    {name:"Ahmed Sobhy", role:""}, {name:"Hossam Taha", role:""},
+    {name:"Shehab Alaa", role:""}, {name:"Yousef Saber", role:""},
+    {name:"Eslam Khaled", role:"SV"}, {name:"Mahmoud Mohamed Mousa", role:"SV"},
+    {name:"ATITO", role:"SV"}
   ]
 };
-
 // ============================================================
 // HELPERS
 // ============================================================
-var selectedQTC  = null;
-var linkTaskId   = "";
-var linkPassVal  = "";
-
+var selectedQTC = null;
+var linkTaskId = "";
+var linkPassVal = "";
 function toast(msg, type) {
   var t = document.getElementById("toast");
   t.textContent = msg;
@@ -1035,41 +1020,39 @@ function toast(msg, type) {
 }
 function me(id) { var el = document.getElementById(id); if (el) el.classList.add("err-field"); }
 function ce(id) { var el = document.getElementById(id); if (el) el.classList.remove("err-field"); }
-function getN()       { try { return JSON.parse(localStorage.getItem(NK))      || []; } catch(e) { return []; } }
-function getYK()      { try { return JSON.parse(localStorage.getItem(NK_YK))   || []; } catch(e) { return []; } }
-function getPCH()     { try { return JSON.parse(localStorage.getItem(NK_PC_H)) || []; } catch(e) { return []; } }
-function getShiftH()  { try { return JSON.parse(localStorage.getItem(NK_SHIFT))|| []; } catch(e) { return []; } }
-function getUnitH()   { try { return JSON.parse(localStorage.getItem(NK_UNIT)) || []; } catch(e) { return []; } }
-function saveN(n)     { if (!n.trim()) return; var a = getN();      if (a.indexOf(n) === -1) { a.unshift(n); localStorage.setItem(NK,      JSON.stringify(a.slice(0,60))); } }
-function saveYK(v)    { if (!v.trim()) return; var a = getYK();     if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_YK,   JSON.stringify(a.slice(0,20))); } }
-function savePCH(v)   { if (!v.trim()) return; var a = getPCH();    if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_PC_H, JSON.stringify(a.slice(0,20))); } }
+function getN() { try { return JSON.parse(localStorage.getItem(NK)) || []; } catch(e) { return []; } }
+function getYK() { try { return JSON.parse(localStorage.getItem(NK_YK)) || []; } catch(e) { return []; } }
+function getPCH() { try { return JSON.parse(localStorage.getItem(NK_PC_H)) || []; } catch(e) { return []; } }
+function getShiftH() { try { return JSON.parse(localStorage.getItem(NK_SHIFT))|| []; } catch(e) { return []; } }
+function getUnitH() { try { return JSON.parse(localStorage.getItem(NK_UNIT)) || []; } catch(e) { return []; } }
+function saveN(n) { if (!n.trim()) return; var a = getN(); if (a.indexOf(n) === -1) { a.unshift(n); localStorage.setItem(NK, JSON.stringify(a.slice(0,60))); } }
+function saveYK(v) { if (!v.trim()) return; var a = getYK(); if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_YK, JSON.stringify(a.slice(0,20))); } }
+function savePCH(v) { if (!v.trim()) return; var a = getPCH(); if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_PC_H, JSON.stringify(a.slice(0,20))); } }
 function saveShiftH(v){ if (!v.trim()) return; var a = getShiftH(); if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_SHIFT,JSON.stringify(a.slice(0,10))); } }
-function saveUnitH(v) { if (!v.trim()) return; var a = getUnitH();  if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_UNIT, JSON.stringify(a.slice(0,10))); } }
-function delN(n)      { localStorage.setItem(NK,      JSON.stringify(getN().filter(function(x)      { return x !== n; }))); }
-function delYK(v)     { localStorage.setItem(NK_YK,   JSON.stringify(getYK().filter(function(x)     { return x !== v; }))); }
-function delPCH(v)    { localStorage.setItem(NK_PC_H, JSON.stringify(getPCH().filter(function(x)    { return x !== v; }))); }
+function saveUnitH(v) { if (!v.trim()) return; var a = getUnitH(); if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_UNIT, JSON.stringify(a.slice(0,10))); } }
+function delN(n) { localStorage.setItem(NK, JSON.stringify(getN().filter(function(x) { return x !== n; }))); }
+function delYK(v) { localStorage.setItem(NK_YK, JSON.stringify(getYK().filter(function(x) { return x !== v; }))); }
+function delPCH(v) { localStorage.setItem(NK_PC_H, JSON.stringify(getPCH().filter(function(x) { return x !== v; }))); }
 function delShiftH(v) { localStorage.setItem(NK_SHIFT,JSON.stringify(getShiftH().filter(function(x) { return x !== v; }))); }
-function delUnitH(v)  { localStorage.setItem(NK_UNIT, JSON.stringify(getUnitH().filter(function(x)  { return x !== v; }))); }
-
+function delUnitH(v) { localStorage.setItem(NK_UNIT, JSON.stringify(getUnitH().filter(function(x) { return x !== v; }))); }
 function checkPassWarn() {
   var currentPass = document.getElementById("pass").value;
-  var warn  = document.getElementById("passWarn");
+  var warn = document.getElementById("passWarn");
   var pIcon = document.getElementById("passIcon");
   if (linkPassVal && currentPass && currentPass !== linkPassVal) {
-    warn.style.display   = "flex";
-    pIcon.textContent    = "\u2014";
-    pIcon.style.color    = "";
-    pIcon.style.opacity  = ".4";
+    warn.style.display = "flex";
+    pIcon.textContent = "\u2014";
+    pIcon.style.color = "";
+    pIcon.style.opacity = ".4";
   } else {
     warn.style.display = "none";
     if (linkPassVal && currentPass && currentPass === linkPassVal) {
-      pIcon.textContent   = "\u2713";
-      pIcon.style.color   = "var(--success)";
+      pIcon.textContent = "\u2713";
+      pIcon.style.color = "var(--success)";
       pIcon.style.opacity = "1";
     }
   }
 }
-
 // ============================================================
 // CLOCK
 // ============================================================
@@ -1077,31 +1060,11 @@ function tick() {
   var d = new Date();
   var el = document.getElementById("ts");
   var top = document.getElementById("topTime");
-
-  if (el) {
-    el.value = d.toLocaleString("en-US", {
-      month: "2-digit",
-      day: "2-digit",
-      year: "numeric",
-      hour: "numeric",          // ← التغيير الرئيسي هنا
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: true
-    });
-  }
-
-  if (top) {
-    top.textContent = d.toLocaleString("en-US", {
-      weekday: "short",
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true
-    });
-  }
+  if (el) el.value = d.toLocaleString("en-US", {month:"2-digit",day:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:true});
+  if (top) top.textContent = d.toLocaleString("en-US", {weekday:"short",month:"short",day:"numeric",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:true});
 }
+tick();
+setInterval(tick, 1000);
 // ============================================================
 // PROGRESS BAR
 // ============================================================
@@ -1114,10 +1077,9 @@ function updateProgress() {
   document.getElementById("progressBar").style.width = Math.round(filled / fields.length * 100) + "%";
 }
 document.querySelectorAll("input,select,textarea").forEach(function(el) {
-  el.addEventListener("input",  updateProgress);
+  el.addEventListener("input", updateProgress);
   el.addEventListener("change", updateProgress);
 });
-
 // ============================================================
 // LABELER NAME — warning if non-English
 // ============================================================
@@ -1125,10 +1087,9 @@ document.getElementById("labName").addEventListener("input", function() {
   var v = this.value;
   var hasNonEng = v.length > 0 && /[^a-zA-Z\s]/.test(v);
   this.style.borderColor = hasNonEng ? "var(--error)" : (v.trim() ? "#1a8a5a" : "");
-  this.style.boxShadow   = hasNonEng ? "0 0 0 3px rgba(192,57,43,.1)" : "";
+  this.style.boxShadow = hasNonEng ? "0 0 0 3px rgba(192,57,43,.1)" : "";
   document.getElementById("labNameWarn").style.display = hasNonEng ? "flex" : "none";
 });
-
 // ============================================================
 // TASK ID — warning if non-numeric
 // ============================================================
@@ -1136,7 +1097,7 @@ document.getElementById("taskId").addEventListener("input", function() {
   var v = this.value;
   var hasNonNum = v.length > 0 && /\D/.test(v);
   this.style.borderColor = hasNonNum ? "var(--error)" : "";
-  this.style.boxShadow   = hasNonNum ? "0 0 0 3px rgba(192,57,43,.1)" : "";
+  this.style.boxShadow = hasNonNum ? "0 0 0 3px rgba(192,57,43,.1)" : "";
   document.getElementById("taskIdNumWarn").style.display = hasNonNum ? "flex" : "none";
   var icon = document.getElementById("idIcon");
   if (!hasNonNum) {
@@ -1151,14 +1112,12 @@ document.getElementById("taskId").addEventListener("input", function() {
     document.getElementById("taskIdWarn").style.display = "none";
   }
 });
-
 // ============================================================
 // PC NO. — Autocomplete
 // ============================================================
-var pcIn    = document.getElementById("pcNo");
-var pcAcL   = document.getElementById("pcAcList");
+var pcIn = document.getElementById("pcNo");
+var pcAcL = document.getElementById("pcAcList");
 var pcActive = -1;
-
 function renderPCAC(q) {
   var hits = q ? getPCH().filter(function(n) { return n.toLowerCase().indexOf(q.toLowerCase()) > -1; }) : getPCH();
   pcActive = -1;
@@ -1185,7 +1144,7 @@ function renderPCAC(q) {
 function validatePC(v) {
   if (!v) { pcIn.style.borderColor = ""; return; }
   if (/^qtc$/i.test(v)) { pcIn.value = "QTC"; pcIn.style.borderColor = "#1a8a5a"; return; }
-  if (/^sv$/i.test(v))  { pcIn.value = "SV";  pcIn.style.borderColor = "#1a8a5a"; return; }
+  if (/^sv$/i.test(v)) { pcIn.value = "SV"; pcIn.style.borderColor = "#1a8a5a"; return; }
   if (/^\d+$/.test(v)) {
     var num = parseInt(v, 10);
     pcIn.style.borderColor = (num >= 1 && num <= 100) ? "#1a8a5a" : "var(--error)";
@@ -1193,31 +1152,29 @@ function validatePC(v) {
     pcIn.style.borderColor = "var(--error)";
   }
 }
-pcIn.addEventListener("input",  function() { validatePC(this.value.trim()); renderPCAC(this.value); });
-pcIn.addEventListener("focus",  function() { renderPCAC(this.value); });
-pcIn.addEventListener("blur",   function() { setTimeout(function() { pcAcL.classList.remove("open"); pcActive = -1; }, 180); });
+pcIn.addEventListener("input", function() { validatePC(this.value.trim()); renderPCAC(this.value); });
+pcIn.addEventListener("focus", function() { renderPCAC(this.value); });
+pcIn.addEventListener("blur", function() { setTimeout(function() { pcAcL.classList.remove("open"); pcActive = -1; }, 180); });
 pcIn.addEventListener("keydown", function(e) {
   var items = pcAcL.querySelectorAll("li");
   if (!items.length) return;
-  if      (e.key === "ArrowDown")  { e.preventDefault(); pcActive = Math.min(pcActive+1, items.length-1); items.forEach(function(x,i){x.classList.toggle("ac-hover",i===pcActive);}); }
-  else if (e.key === "ArrowUp")    { e.preventDefault(); pcActive = Math.max(pcActive-1, 0); items.forEach(function(x,i){x.classList.toggle("ac-hover",i===pcActive);}); }
+  if (e.key === "ArrowDown") { e.preventDefault(); pcActive = Math.min(pcActive+1, items.length-1); items.forEach(function(x,i){x.classList.toggle("ac-hover",i===pcActive);}); }
+  else if (e.key === "ArrowUp") { e.preventDefault(); pcActive = Math.max(pcActive-1, 0); items.forEach(function(x,i){x.classList.toggle("ac-hover",i===pcActive);}); }
   else if (e.key === "Enter" && pcActive >= 0) { e.preventDefault(); var v = items[pcActive].querySelector("span").textContent; pcIn.value = v; pcAcL.classList.remove("open"); pcActive = -1; validatePC(v); }
-  else if (e.key === "Escape")     { pcAcL.classList.remove("open"); pcActive = -1; }
+  else if (e.key === "Escape") { pcAcL.classList.remove("open"); pcActive = -1; }
 });
-
 // ============================================================
 // SEARCHABLE DROPDOWN FACTORY
 // ============================================================
 function makeSearchableDropdown(opts) {
-  var btn     = document.getElementById(opts.btnId);
-  var inp     = document.getElementById(opts.inputId);
-  var list    = document.getElementById(opts.listId);
-  var hidden  = document.getElementById(opts.hiddenId);
-  var dispEl  = opts.displayId ? document.getElementById(opts.displayId) : null;
+  var btn = document.getElementById(opts.btnId);
+  var inp = document.getElementById(opts.inputId);
+  var list = document.getElementById(opts.listId);
+  var hidden = document.getElementById(opts.hiddenId);
+  var dispEl = opts.displayId ? document.getElementById(opts.displayId) : null;
   var allItems = Array.from(list.querySelectorAll("li[data-v]"));
   var activeIdx = -1;
   var selectedVal = "";
-
   function open() {
     btn.classList.add("open");
     list.classList.add("open");
@@ -1246,7 +1203,7 @@ function makeSearchableDropdown(opts) {
   function filterItems(q) {
     var count = 0;
     allItems.forEach(function(li) {
-      var text  = (li.dataset.v + " " + li.textContent).toLowerCase();
+      var text = (li.dataset.v + " " + li.textContent).toLowerCase();
       var match = !q || text.indexOf(q.toLowerCase()) > -1;
       li.style.display = match ? "" : "none";
       if (match) count++;
@@ -1285,19 +1242,19 @@ function makeSearchableDropdown(opts) {
     dispEl.addEventListener("mousedown", function(e) { e.preventDefault(); open(); });
     dispEl.style.cursor = "pointer";
   }
-  inp.addEventListener("focus", function()  { if (!list.classList.contains("open")) open(); });
-  inp.addEventListener("input", function()  {
+  inp.addEventListener("focus", function() { if (!list.classList.contains("open")) open(); });
+  inp.addEventListener("input", function() {
     filterItems(this.value);
     hidden.value = ""; btn.style.borderColor = ""; selectedVal = "";
     if (dispEl) { dispEl.innerHTML = ""; dispEl.style.display = "none"; }
   });
-  inp.addEventListener("blur",  function()  { setTimeout(close, 160); });
+  inp.addEventListener("blur", function() { setTimeout(close, 160); });
   inp.addEventListener("keydown", function(e) {
     var visible = allItems.filter(function(li) { return li.style.display !== "none"; });
-    if      (e.key === "ArrowDown")  { e.preventDefault(); activeIdx = Math.min(activeIdx+1, visible.length-1); updateHover(); if(visible[activeIdx]) visible[activeIdx].scrollIntoView({block:"nearest"}); }
-    else if (e.key === "ArrowUp")    { e.preventDefault(); activeIdx = Math.max(activeIdx-1, 0); updateHover(); if(visible[activeIdx]) visible[activeIdx].scrollIntoView({block:"nearest"}); }
-    else if (e.key === "Enter")      { e.preventDefault(); if(activeIdx>=0 && visible[activeIdx]) selectItem(visible[activeIdx]); }
-    else if (e.key === "Escape")     { close(); }
+    if (e.key === "ArrowDown") { e.preventDefault(); activeIdx = Math.min(activeIdx+1, visible.length-1); updateHover(); if(visible[activeIdx]) visible[activeIdx].scrollIntoView({block:"nearest"}); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); activeIdx = Math.max(activeIdx-1, 0); updateHover(); if(visible[activeIdx]) visible[activeIdx].scrollIntoView({block:"nearest"}); }
+    else if (e.key === "Enter") { e.preventDefault(); if(activeIdx>=0 && visible[activeIdx]) selectItem(visible[activeIdx]); }
+    else if (e.key === "Escape") { close(); }
   });
   allItems.forEach(function(li) {
     li.addEventListener("mousedown", function(e) { e.preventDefault(); selectItem(li); });
@@ -1316,12 +1273,11 @@ function makeSearchableDropdown(opts) {
     getValue: function() { return hidden.value; }
   };
 }
-
-var shiftDD    = makeSearchableDropdown({btnId:"shiftBtn",    inputId:"shiftInput",    listId:"shiftList",    hiddenId:"shift",    onSelect: function(v){ saveShiftH(v); }});
-var unitDD     = makeSearchableDropdown({btnId:"unitBtn",     inputId:"unitInput",     listId:"unitList",     hiddenId:"unit",     onSelect: function(v){ saveUnitH(v);  }});
+var shiftDD = makeSearchableDropdown({btnId:"shiftBtn", inputId:"shiftInput", listId:"shiftList", hiddenId:"shift", onSelect: function(v){ saveShiftH(v); }});
+var unitDD = makeSearchableDropdown({btnId:"unitBtn", inputId:"unitInput", listId:"unitList", hiddenId:"unit", onSelect: function(v){ saveUnitH(v); }});
 var modalityDD = makeSearchableDropdown({btnId:"modalityBtn", inputId:"modalityInput", listId:"modalityList", hiddenId:"modality"});
-var queueDD    = makeSearchableDropdown({btnId:"queueBtn",    inputId:"queueInput",    listId:"queueList",    hiddenId:"qName", displayId:"queueDisplay"});
-var passDD     = makeSearchableDropdown({
+var queueDD = makeSearchableDropdown({btnId:"queueBtn", inputId:"queueInput", listId:"queueList", hiddenId:"qName", displayId:"queueDisplay"});
+var passDD = makeSearchableDropdown({
   btnId:"passBtn", inputId:"passInput", listId:"passList", hiddenId:"pass",
   onSelect: function(val) { checkPassWarn(); }
 });
@@ -1333,7 +1289,6 @@ var qtcShiftDD = makeSearchableDropdown({
     if (s) s.value = "";
   }
 });
-
 document.addEventListener("click", function(e) {
   ["shiftBtn","unitBtn","qtcShiftBtn","modalityBtn","queueBtn","passBtn"].forEach(function(id) {
     var b = document.getElementById(id);
@@ -1344,14 +1299,12 @@ document.addEventListener("click", function(e) {
     }
   });
 });
-
 // ============================================================
 // AUTOCOMPLETE — Labeler Name
 // ============================================================
-var labIn   = document.getElementById("labName");
-var acL     = document.getElementById("acList");
+var labIn = document.getElementById("labName");
+var acL = document.getElementById("acList");
 var acActive = -1;
-
 function renderAC(q) {
   var hits = q ? getN().filter(function(n) { return n.toLowerCase().indexOf(q.toLowerCase()) > -1; }) : getN();
   acActive = -1;
@@ -1370,25 +1323,23 @@ function renderAC(q) {
   });
   acL.classList.add("open");
 }
-labIn.addEventListener("input",  function() { renderAC(this.value); });
-labIn.addEventListener("focus",  function() { renderAC(this.value); });
-labIn.addEventListener("blur",   function() { setTimeout(function() { acL.classList.remove("open"); acActive = -1; }, 180); });
+labIn.addEventListener("input", function() { renderAC(this.value); });
+labIn.addEventListener("focus", function() { renderAC(this.value); });
+labIn.addEventListener("blur", function() { setTimeout(function() { acL.classList.remove("open"); acActive = -1; }, 180); });
 labIn.addEventListener("keydown", function(e) {
   var items = acL.querySelectorAll("li");
   if (!items.length) return;
-  if      (e.key === "ArrowDown")  { e.preventDefault(); acActive = Math.min(acActive+1, items.length-1); items.forEach(function(x,i){x.classList.toggle("ac-hover",i===acActive);}); }
-  else if (e.key === "ArrowUp")    { e.preventDefault(); acActive = Math.max(acActive-1, 0); items.forEach(function(x,i){x.classList.toggle("ac-hover",i===acActive);}); }
+  if (e.key === "ArrowDown") { e.preventDefault(); acActive = Math.min(acActive+1, items.length-1); items.forEach(function(x,i){x.classList.toggle("ac-hover",i===acActive);}); }
+  else if (e.key === "ArrowUp") { e.preventDefault(); acActive = Math.max(acActive-1, 0); items.forEach(function(x,i){x.classList.toggle("ac-hover",i===acActive);}); }
   else if (e.key === "Enter" && acActive >= 0) { e.preventDefault(); labIn.value = items[acActive].querySelector("span").textContent; acL.classList.remove("open"); acActive = -1; }
-  else if (e.key === "Escape")     { acL.classList.remove("open"); acActive = -1; }
+  else if (e.key === "Escape") { acL.classList.remove("open"); acActive = -1; }
 });
-
 // ============================================================
 // YUBIKEY AUTOCOMPLETE + VALIDATION
 // ============================================================
-var ykIn    = document.getElementById("yk");
-var ykAcL   = document.getElementById("ykAcList");
+var ykIn = document.getElementById("yk");
+var ykAcL = document.getElementById("ykAcList");
 var ykActive = -1;
-
 function validateYK(v) {
   var hint = document.getElementById("ykHint");
   if (!v) { ykIn.style.borderColor = ""; hint.style.color = "var(--text-muted)"; hint.removeAttribute("dir"); hint.textContent = "6-digit code | or email format: me123456@meti.ai"; return; }
@@ -1418,18 +1369,17 @@ function renderYKAC(q) {
   });
   ykAcL.classList.add("open");
 }
-ykIn.addEventListener("input",   function() { validateYK(this.value.trim()); renderYKAC(this.value); });
-ykIn.addEventListener("focus",   function() { renderYKAC(this.value); });
-ykIn.addEventListener("blur",    function() { setTimeout(function() { ykAcL.classList.remove("open"); ykActive = -1; }, 180); });
+ykIn.addEventListener("input", function() { validateYK(this.value.trim()); renderYKAC(this.value); });
+ykIn.addEventListener("focus", function() { renderYKAC(this.value); });
+ykIn.addEventListener("blur", function() { setTimeout(function() { ykAcL.classList.remove("open"); ykActive = -1; }, 180); });
 ykIn.addEventListener("keydown", function(e) {
   var items = ykAcL.querySelectorAll("li");
   if (!items.length) return;
-  if      (e.key === "ArrowDown")  { e.preventDefault(); ykActive = Math.min(ykActive+1, items.length-1); items.forEach(function(x,i){x.classList.toggle("ac-hover",i===ykActive);}); }
-  else if (e.key === "ArrowUp")    { e.preventDefault(); ykActive = Math.max(ykActive-1, 0); items.forEach(function(x,i){x.classList.toggle("ac-hover",i===ykActive);}); }
+  if (e.key === "ArrowDown") { e.preventDefault(); ykActive = Math.min(ykActive+1, items.length-1); items.forEach(function(x,i){x.classList.toggle("ac-hover",i===ykActive);}); }
+  else if (e.key === "ArrowUp") { e.preventDefault(); ykActive = Math.max(ykActive-1, 0); items.forEach(function(x,i){x.classList.toggle("ac-hover",i===ykActive);}); }
   else if (e.key === "Enter" && ykActive >= 0) { e.preventDefault(); var v = items[ykActive].querySelector("span").textContent; ykIn.value = v; ykAcL.classList.remove("open"); ykActive = -1; validateYK(v); }
-  else if (e.key === "Escape")     { ykAcL.classList.remove("open"); ykActive = -1; }
+  else if (e.key === "Escape") { ykAcL.classList.remove("open"); ykActive = -1; }
 });
-
 // ============================================================
 // QTC GRID BUILDER
 // ============================================================
@@ -1437,8 +1387,8 @@ function buildQTCGrid(shift) {
   var grid = document.getElementById("qtcGrid");
   var disp = document.getElementById("qtcSelectedDisplay");
   var wrap = document.getElementById("qtcPickerWrap");
-  var msg  = document.getElementById("qtcShiftMsg");
-  var hid  = document.getElementById("qtcName");
+  var msg = document.getElementById("qtcShiftMsg");
+  var hid = document.getElementById("qtcName");
   selectedQTC = null; hid.value = ""; disp.innerHTML = ""; grid.innerHTML = "";
   var list = QTC_DATA[shift];
   if (!list) { wrap.style.display = "none"; msg.style.display = "block"; return; }
@@ -1470,23 +1420,20 @@ document.getElementById("qtcSearch").addEventListener("input", function() {
     card.style.display = (q === "" || name.indexOf(q) > -1) ? "" : "none";
   });
 });
-
 // ============================================================
 // TASK LINK — Auto-fill ID and Pass
 // ============================================================
 document.getElementById("taskLink").addEventListener("input", function() {
-  var url    = this.value.trim();
+  var url = this.value.trim();
   var PREFIX = "https://labeling.robot.car/#";
-  var hint   = document.getElementById("linkHint");
-  var idEl   = document.getElementById("taskId");
-  var icon   = document.getElementById("idIcon");
-
+  var hint = document.getElementById("linkHint");
+  var idEl = document.getElementById("taskId");
+  var icon = document.getElementById("idIcon");
   if (url.length > 0 && !url.startsWith(PREFIX)) {
     this.style.borderColor = "var(--error)"; hint.style.color = "var(--error)";
   } else {
     this.style.borderColor = url.length > 0 ? "#1a8a5a" : ""; hint.style.color = "";
   }
-
   var idM = url.match(/\/id\/(\d+)/);
   if (idM) {
     linkTaskId = idM[1]; idEl.value = idM[1]; idEl.style.borderColor = "#1a8a5a";
@@ -1497,7 +1444,6 @@ document.getElementById("taskLink").addEventListener("input", function() {
     icon.textContent = "\u2014"; icon.style.color = ""; icon.style.opacity = ".4";
     document.getElementById("taskIdWarn").style.display = "none";
   }
-
   var dM = url.match(/\/do\/([^\/]+)\//);
   if (dM) {
     var detectedPass = dM[1].toUpperCase().endsWith("QA") ? "QA" : "FP";
@@ -1513,10 +1459,8 @@ document.getElementById("taskLink").addEventListener("input", function() {
     var pIcon2 = document.getElementById("passIcon");
     pIcon2.textContent = "\u2014"; pIcon2.style.color = ""; pIcon2.style.opacity = ".4";
   }
-
   updateProgress();
 });
-
 // ============================================================
 // ACTUAL FETCH — separated so dialog can call it
 // ============================================================
@@ -1538,48 +1482,42 @@ function doSubmit(payload, btn) {
     btn.textContent = "\u2714\u00a0 Submit Task";
   });
 }
-
 // ============================================================
 // FORM SUBMISSION
 // ============================================================
 document.getElementById("F").addEventListener("submit", function(e) {
   e.preventDefault();
   var err = false;
-  function chk(id, val)        { if (!val) { me(id); err = true; } else ce(id); }
+  function chk(id, val) { if (!val) { me(id); err = true; } else ce(id); }
   function chkDD(hidId, btnId) {
     if (!document.getElementById(hidId).value) {
       document.getElementById(btnId).style.borderColor = "var(--error)";
-      document.getElementById(btnId).style.boxShadow   = "0 0 0 3px rgba(192,57,43,.1)";
+      document.getElementById(btnId).style.boxShadow = "0 0 0 3px rgba(192,57,43,.1)";
       err = true;
     } else {
       document.getElementById(btnId).style.borderColor = "";
-      document.getElementById(btnId).style.boxShadow   = "";
+      document.getElementById(btnId).style.boxShadow = "";
     }
   }
   var lab = document.getElementById("labName").value.trim();
   var lnk = document.getElementById("taskLink").value.trim();
-  var yk  = document.getElementById("yk").value.trim();
+  var yk = document.getElementById("yk").value.trim();
   var obj = document.getElementById("objCount").value;
-
   chkDD("shift", "shiftBtn");
-  chkDD("unit",  "unitBtn");
-
+  chkDD("unit", "unitBtn");
   var pcVal = document.getElementById("pcNo").value.trim();
   if (!pcVal) { me("pcNo"); err = true; }
   else if (/^qtc$/i.test(pcVal)) { document.getElementById("pcNo").value = "QTC"; ce("pcNo"); }
-  else if (/^sv$/i.test(pcVal))  { document.getElementById("pcNo").value = "SV";  ce("pcNo"); }
+  else if (/^sv$/i.test(pcVal)) { document.getElementById("pcNo").value = "SV"; ce("pcNo"); }
   else if (/^\d+$/.test(pcVal)) {
     var pcNum = parseInt(pcVal, 10);
     if (pcNum < 1 || pcNum > 100) { me("pcNo"); err = true; toast("PC No. must be between 1 and 100", "err"); return; }
     else { ce("pcNo"); }
   } else { me("pcNo"); err = true; toast("PC No.: Enter a number (1-100), QTC or SV", "err"); return; }
-
   if (!lab) { me("labName"); err = true; }
   else if (!/^[a-zA-Z\s]+$/.test(lab)) { me("labName"); err = true; toast("Labeler Name: English letters only", "err"); return; }
   else { ce("labName"); }
-
   chkDD("qtcShiftSel", "qtcShiftBtn");
-
   if (!document.getElementById("qtcName").value) {
     var w = document.getElementById("qtcPickerWrap");
     w.style.border = "1.5px solid var(--error)"; w.style.borderRadius = "8px"; w.style.padding = "8px";
@@ -1588,7 +1526,6 @@ document.getElementById("F").addEventListener("submit", function(e) {
     var w2 = document.getElementById("qtcPickerWrap");
     w2.style.border = ""; w2.style.padding = "";
   }
-
   if (!yk) { me("yk"); err = true; }
   else {
     var is6 = /^\d{6}$/.test(yk);
@@ -1596,45 +1533,38 @@ document.getElementById("F").addEventListener("submit", function(e) {
     if (!is6 && !isE) { me("yk"); err = true; toast("Yubikey: لازم يكون 6 ارقام او me123456@meti.ai", "err"); return; }
     else { ce("yk"); }
   }
-
   chkDD("modality", "modalityBtn");
-  chkDD("qName",    "queueBtn");
+  chkDD("qName", "queueBtn");
   if (!lnk.startsWith("https://labeling.robot.car/#")) { me("taskLink"); err = true; } else { ce("taskLink"); }
   chk("taskId", document.getElementById("taskId").value);
   chkDD("pass", "passBtn");
-
   if (obj === "") { me("objCount"); err = true; toast("Please enter number of objects", "err"); return; }
-
   if (err) { toast("Please fill all required fields", "err"); return; }
-
   saveN(lab); saveYK(yk);
   savePCH(document.getElementById("pcNo").value);
   saveShiftH(document.getElementById("shift").value);
   saveUnitH(document.getElementById("unit").value);
-
   var payload = {
-    timestamp:    document.getElementById("ts").value,
-    shift:        document.getElementById("shift").value,
-    unit:         document.getElementById("unit").value,
-    qtcName:      document.getElementById("qtcName").value,
+    timestamp: document.getElementById("ts").value,
+    shift: document.getElementById("shift").value,
+    unit: document.getElementById("unit").value,
+    qtcName: document.getElementById("qtcName").value,
     yubikeyEmail: yk,
-    labelerName:  lab,
-    pcNo:         document.getElementById("pcNo").value,
-    modality:     document.getElementById("modality").value,
-    queueName:    document.getElementById("qName").value,
-    taskLink:     lnk,
-    taskId:       document.getElementById("taskId").value,
-    pass:         document.getElementById("pass").value,
-    action:       "Submit",
-    objectCount:  obj,
-    reason:       "",
-    otherNotes:   "",
+    labelerName: lab,
+    pcNo: document.getElementById("pcNo").value,
+    modality: document.getElementById("modality").value,
+    queueName: document.getElementById("qName").value,
+    taskLink: lnk,
+    taskId: document.getElementById("taskId").value,
+    pass: document.getElementById("pass").value,
+    action: "Submit",
+    objectCount: obj,
+    reason: "",
+    otherNotes: "",
     issuedFrames: ""
   };
-
   var btn = document.getElementById("subBtn");
   btn.disabled = true; btn.textContent = "Submitting...";
-
   // ─── CHECK DUPLICATE TASK ID ───
   var dupEntry = checkDuplicateTaskId(payload.taskId);
   if (dupEntry) {
@@ -1655,11 +1585,9 @@ document.getElementById("F").addEventListener("submit", function(e) {
     };
     return;
   }
-
   // ─── NO DUPLICATE ───
   doSubmit(payload, btn);
 });
-
 // ============================================================
 // RESET FORM
 // ============================================================
@@ -1672,28 +1600,28 @@ function resetForm() {
   document.getElementById("qtcGrid").innerHTML = "";
   document.getElementById("qtcSelectedDisplay").innerHTML = "";
   document.getElementById("qtcPickerWrap").style.display = "none";
-  document.getElementById("qtcPickerWrap").style.border  = "";
+  document.getElementById("qtcPickerWrap").style.border = "";
   document.getElementById("qtcPickerWrap").style.padding = "";
-  document.getElementById("qtcShiftMsg").style.display   = "block";
+  document.getElementById("qtcShiftMsg").style.display = "block";
   linkTaskId = "";
   document.getElementById("taskId").value = "";
-  document.getElementById("taskId").style.borderColor  = "";
-  document.getElementById("taskIdWarn").style.display  = "none";
+  document.getElementById("taskId").style.borderColor = "";
+  document.getElementById("taskIdWarn").style.display = "none";
   document.getElementById("taskIdNumWarn").style.display = "none";
-  document.getElementById("labNameWarn").style.display   = "none";
-  document.getElementById("passWarn").style.display      = "none";
+  document.getElementById("labNameWarn").style.display = "none";
+  document.getElementById("passWarn").style.display = "none";
   var pIconR = document.getElementById("passIcon");
   if (pIconR) { pIconR.textContent = "\u2014"; pIconR.style.color = ""; pIconR.style.opacity = ".4"; }
-  document.getElementById("idIcon").textContent         = "\u2014";
-  document.getElementById("idIcon").style.color         = "";
-  document.getElementById("linkHint").style.color       = "";
+  document.getElementById("idIcon").textContent = "\u2014";
+  document.getElementById("idIcon").style.color = "";
+  document.getElementById("linkHint").style.color = "";
   document.getElementById("taskLink").style.borderColor = "";
   var prevShift = document.getElementById("shift").value;
-  var prevUnit  = document.getElementById("unit").value;
+  var prevUnit = document.getElementById("unit").value;
   shiftDD.reset(); unitDD.reset(); qtcShiftDD.reset();
   modalityDD.reset(); queueDD.reset(); passDD.reset();
   if (prevShift) shiftDD.setValue(prevShift);
-  if (prevUnit)  unitDD.setValue(prevUnit);
+  if (prevUnit) unitDD.setValue(prevUnit);
   ["labName","yk","pcNo","taskLink","taskId","objCount"].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) { el.classList.remove("err-field"); el.style.borderColor = ""; el.style.boxShadow = ""; }
@@ -1708,24 +1636,23 @@ function resetForm() {
   btn.style.background = "var(--success)";
   document.getElementById("progressBar").style.width = "0%";
 }
-
 // ============================================================
 // STORAGE MANAGER
 // ============================================================
 document.getElementById("storageToggle").addEventListener("click", function() {
-  var body  = document.getElementById("storageBody");
+  var body = document.getElementById("storageBody");
   var arrow = document.getElementById("storageArrow");
-  var open  = body.style.display === "none";
+  var open = body.style.display === "none";
   body.style.display = open ? "block" : "none";
   arrow.classList.toggle("open", open);
   if (open) renderStorageManager();
 });
 function renderStorageManager() {
-  renderStorageGroup("storageNames", getN(),        delN,       function() { renderAC(labIn.value);   renderStorageManager(); });
-  renderStorageGroup("storageYK",    getYK(),       delYK,      function() { renderYKAC(ykIn.value);  renderStorageManager(); });
-  renderStorageGroup("storagePC",    getPCH(),      delPCH,     function() { renderPCAC(pcIn.value);  renderStorageManager(); });
-  renderStorageGroup("storageShift", getShiftH(),   delShiftH,  function() {                          renderStorageManager(); });
-  renderStorageGroup("storageUnit",  getUnitH(),    delUnitH,   function() {                          renderStorageManager(); });
+  renderStorageGroup("storageNames", getN(), delN, function() { renderAC(labIn.value); renderStorageManager(); });
+  renderStorageGroup("storageYK", getYK(), delYK, function() { renderYKAC(ykIn.value); renderStorageManager(); });
+  renderStorageGroup("storagePC", getPCH(), delPCH, function() { renderPCAC(pcIn.value); renderStorageManager(); });
+  renderStorageGroup("storageShift", getShiftH(), delShiftH, function() { renderStorageManager(); });
+  renderStorageGroup("storageUnit", getUnitH(), delUnitH, function() { renderStorageManager(); });
 }
 function renderStorageGroup(containerId, items, delFn, afterDel) {
   var container = document.getElementById(containerId); container.innerHTML = "";
@@ -1737,17 +1664,17 @@ function renderStorageGroup(containerId, items, delFn, afterDel) {
 }
 function makeStorageItem(label, onDel) {
   var item = document.createElement("div"); item.className = "storage-item";
-  var txt  = document.createElement("span"); txt.textContent = label;
-  var btn  = document.createElement("button"); btn.className = "storage-item-del"; btn.type = "button"; btn.textContent = "\u2715"; btn.title = "Delete";
+  var txt = document.createElement("span"); txt.textContent = label;
+  var btn = document.createElement("button"); btn.className = "storage-item-del"; btn.type = "button"; btn.textContent = "\u2715"; btn.title = "Delete";
   btn.addEventListener("click", onDel);
   item.appendChild(txt); item.appendChild(btn);
   return item;
 }
-document.getElementById("clearNamesBtn").addEventListener("click", function() { localStorage.removeItem(NK);      renderAC(labIn.value);   renderStorageManager(); });
-document.getElementById("clearYKBtn").addEventListener("click",    function() { localStorage.removeItem(NK_YK);   renderYKAC(ykIn.value);  renderStorageManager(); });
-document.getElementById("clearPCBtn").addEventListener("click",    function() { localStorage.removeItem(NK_PC_H);  renderPCAC(pcIn.value);  renderStorageManager(); });
-document.getElementById("clearShiftBtn").addEventListener("click", function() { localStorage.removeItem(NK_SHIFT);                          renderStorageManager(); });
-document.getElementById("clearUnitBtn").addEventListener("click",  function() { localStorage.removeItem(NK_UNIT);                           renderStorageManager(); });
+document.getElementById("clearNamesBtn").addEventListener("click", function() { localStorage.removeItem(NK); renderAC(labIn.value); renderStorageManager(); });
+document.getElementById("clearYKBtn").addEventListener("click", function() { localStorage.removeItem(NK_YK); renderYKAC(ykIn.value); renderStorageManager(); });
+document.getElementById("clearPCBtn").addEventListener("click", function() { localStorage.removeItem(NK_PC_H); renderPCAC(pcIn.value); renderStorageManager(); });
+document.getElementById("clearShiftBtn").addEventListener("click", function() { localStorage.removeItem(NK_SHIFT); renderStorageManager(); });
+document.getElementById("clearUnitBtn").addEventListener("click", function() { localStorage.removeItem(NK_UNIT); renderStorageManager(); });
 </script>
 </body>
 </html>
