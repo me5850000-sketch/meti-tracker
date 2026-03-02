@@ -920,7 +920,7 @@ var NK_SHIFT = "meti_shift_history";
 var NK_UNIT = "meti_unit_history";
 // ─── DUPLICATE TASK ID STORAGE ───
 var NK_TASK_IDS = "meti_task_ids_history";
-var TASK_WINDOW_MS = 2 * 60 * 60 * 1000; // 2 hours
+var TASK_WINDOW_MS = 8 * 60 * 60 * 1000; // 2 hours
 function getRecentTaskIds() {
   try { return JSON.parse(localStorage.getItem(NK_TASK_IDS)) || []; } catch(e) { return []; }
 }
@@ -939,10 +939,18 @@ function checkDuplicateTaskId(id) {
   }) || null;
 }
 function formatTimeAgo(ts) {
-  var mins = Math.round((Date.now() - ts) / 60000);
-  if (mins === 0) return "less than a minute ago";
-  if (mins === 1) return "1 minute ago";
-  return mins + " minutes ago";
+  var diff = Date.now() - ts;
+  var mins = Math.floor(diff / 60000);
+  var hours = Math.floor(diff / (60 * 60 * 1000));
+  var days = Math.floor(diff / (24 * 60 * 60 * 1000));
+  if (mins < 1) return "less than a minute ago";
+  if (mins < 60) {
+    return mins === 1 ? "1 minute ago" : mins + " minutes ago";
+  }
+  if (hours < 24) {
+    return hours === 1 ? "1 hour ago" : hours + " hours ago";
+  }
+  return days === 1 ? "1 day ago" : days + " days ago";
 }
 // ============================================================
 // QTC DATA
@@ -1054,14 +1062,14 @@ function checkPassWarn() {
   }
 }
 // ============================================================
-// CLOCK
+// CLOCK — always Egypt time (Africa/Cairo)
 // ============================================================
 function tick() {
   var d = new Date();
   var el = document.getElementById("ts");
   var top = document.getElementById("topTime");
-  if (el) el.value = d.toLocaleString("en-US", {month:"2-digit",day:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:true});
-  if (top) top.textContent = d.toLocaleString("en-US", {weekday:"short",month:"short",day:"numeric",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:true});
+  if (el) el.value = d.toLocaleString("en-US", {timeZone:"Africa/Cairo", month:"2-digit",day:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:true});
+  if (top) top.textContent = d.toLocaleString("en-US", {timeZone:"Africa/Cairo", weekday:"short",month:"short",day:"numeric",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:true});
 }
 tick();
 setInterval(tick, 1000);
