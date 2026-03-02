@@ -1075,14 +1075,33 @@ function checkPassWarn() {
 // ============================================================
 function tick() {
   var d = new Date();
-  var el  = document.getElementById("ts");
+  var el = document.getElementById("ts");
   var top = document.getElementById("topTime");
-  if (el)  el.value = d.toLocaleString("en-US", {month:"2-digit",day:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:true});
-  if (top) top.textContent = d.toLocaleString("en-US", {weekday:"short",month:"short",day:"numeric",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:true});
-}
-tick();
-setInterval(tick, 1000);
 
+  if (el) {
+    el.value = d.toLocaleString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+      hour: "numeric",          // ← التغيير الرئيسي هنا
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true
+    });
+  }
+
+  if (top) {
+    top.textContent = d.toLocaleString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true
+    });
+  }
+}
 // ============================================================
 // PROGRESS BAR
 // ============================================================
