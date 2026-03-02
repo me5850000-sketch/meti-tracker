@@ -492,6 +492,88 @@ input[type=number] { -moz-appearance:textfield }
 }
 .storage-item-del:hover { color:var(--error) }
 .storage-empty { font-size:.78rem; color:var(--text-muted); font-style:italic; padding:4px 0 }
+
+/* ─── DUPLICATE TASK ID DIALOG ─── */
+#dupOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15,30,60,.18);
+  backdrop-filter: blur(1px);
+}
+#dupOverlay.show { display: flex; }
+.dup-dialog {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px 32px 24px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow:
+    0 2px 8px rgba(28,69,135,.08),
+    0 12px 40px rgba(28,69,135,.18),
+    0 32px 64px rgba(0,0,0,.14);
+  text-align: center;
+  animation: popIn .38s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes popIn {
+  from { opacity:0; transform:scale(.88) translateY(16px) }
+  to   { opacity:1; transform:scale(1)   translateY(0) }
+}
+.dup-icon {
+  width:52px; height:52px;
+  background:#fff8ec; border:2px solid #fcd34d; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  margin:0 auto 16px; font-size:1.4rem;
+}
+.dup-title {
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:1.1rem; font-weight:800; color:#1a2733;
+  margin-bottom:20px; letter-spacing:-.3px;
+}
+.dup-body {
+  display:flex; flex-direction:column;
+  align-items:center; gap:10px; margin-bottom:22px;
+}
+.dup-id-label {
+  font-size:.75rem; color:#7a96a8;
+  font-weight:600; letter-spacing:1px; text-transform:uppercase;
+}
+.dup-id-badge {
+  display:inline-block;
+  background:var(--primary-xlight); border:1.5px solid var(--border);
+  color:var(--primary); font-weight:800; border-radius:8px;
+  padding:4px 18px; font-size:1.2rem; letter-spacing:1px;
+  font-family:'Plus Jakarta Sans',sans-serif; margin-top:4px;
+}
+.dup-submit-line { font-size:.88rem; color:#4a6375; font-weight:500; line-height:1.6; }
+.dup-time-badge {
+  display:inline-flex; align-items:center; gap:4px;
+  background:#fff8ec; border:1.5px solid #fcd34d;
+  color:#b45309; font-weight:700; border-radius:20px;
+  padding:2px 10px; font-size:.83rem; vertical-align:middle;
+}
+.dup-question { font-size:.88rem; color:#4a6375; direction:rtl; margin-top:2px; }
+.dup-divider { height:1px; background:#edf2f6; margin:0 -32px 20px; }
+.dup-btns { display:flex; gap:10px; }
+.dup-btn-cancel {
+  flex:1; padding:11px; border-radius:8px;
+  border:1.5px solid var(--border); background:#f7f9fd;
+  color:var(--text-secondary); font-weight:600; font-size:.88rem;
+  cursor:pointer; font-family:'Inter',sans-serif; transition:all .15s;
+}
+.dup-btn-cancel:hover { background:#edf2f6; border-color:#a0b4cc; color:var(--text); }
+.dup-btn-ok {
+  flex:1; padding:11px; border-radius:8px; border:none;
+  background:var(--success); color:#fff;
+  font-weight:700; font-size:.88rem;
+  cursor:pointer; font-family:'Plus Jakarta Sans',sans-serif;
+  transition:all .15s; box-shadow:0 3px 10px rgba(26,138,90,.3);
+}
+.dup-btn-ok:hover { background:#157a4e; }
+
 @media(max-width:640px) {
   .g2, .g3 { grid-template-columns:1fr }
   .card-section { padding:22px 18px }
@@ -499,6 +581,8 @@ input[type=number] { -moz-appearance:textfield }
   .qtc-grid { grid-template-columns:1fr 1fr }
   .content { padding:24px 16px 16px }
   .storage-panel { margin:12px 0 32px }
+  .dup-dialog { padding:26px 20px 20px }
+  .dup-divider { margin:0 -20px 18px }
 }
 </style>
 </head>
@@ -563,6 +647,9 @@ input[type=number] { -moz-appearance:textfield }
                   <li data-v="Over Night">Over Night</li>
                   <li data-v="Morning 12 H">Morning 12 H</li>
                   <li data-v="Over Night 12 H">Over Night 12 H</li>
+                  <li data-v="Over Shift (M)">Over Shift (M)</li>
+                  <li data-v="Over Shift (N)">Over Shift (N)</li>
+                  <li data-v="Over Shift (ON)">Over Shift (ON)</li>
                 </ul>
                 <input type="hidden" id="shift">
               </div>
@@ -600,7 +687,7 @@ input[type=number] { -moz-appearance:textfield }
             </div>
             <div id="labNameWarn" class="warn-box">
               <span class="warn-icon">&#9888;</span>
-              <span>English letters only — numbers and symbols not allowed</span>
+              <span>اسمك باللغه الانجلزيه</span>
             </div>
           </div>
           <div class="g2">
@@ -701,13 +788,13 @@ input[type=number] { -moz-appearance:textfield }
                 <input type="text" id="taskId" placeholder="Auto-filled" required>
                 <span id="idIcon">&#8212;</span>
               </div>
-              <div id="taskIdNumWarn" class="warn-box">
+              <div id="taskIdNumWarn" class="warn-box" dir="rtl">
                 <span class="warn-icon">&#9888;</span>
-                <span>Numbers only — letters and symbols not allowed</span>
+                <span>ارقام بس</span>
               </div>
-              <div id="taskIdWarn" class="warn-box">
+              <div id="taskIdWarn" class="warn-box" dir="rtl">
                 <span class="warn-icon">&#9888;</span>
-                <span>Heads up — this ID differs from the one in the link</span>
+                <span>خلي بالك الـ <span dir="ltr">Task ID</span> مختلف عن اللي في الـ <span dir="ltr">Link</span></span>
               </div>
             </div>
             <div class="field">
@@ -724,15 +811,15 @@ input[type=number] { -moz-appearance:textfield }
                 <input type="hidden" id="pass">
                 <span id="passIcon" style="position:absolute;right:56px;top:50%;transform:translateY(-50%);font-size:.8rem;opacity:.4;pointer-events:none;z-index:10;">&#8212;</span>
               </div>
-              <div id="passWarn" class="warn-box">
+              <div id="passWarn" class="warn-box" dir="rtl">
                 <span class="warn-icon">&#9888;</span>
-                <span id="passWarnText">Heads up — this Pass differs from the one in the link</span>
+                <span id="passWarnText">خلي بالك الـ <span dir="ltr">Pass</span> مختلف عن اللي في الـ <span dir="ltr">Link</span></span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- SECTION 3: TASK ACTION — Submit Only -->
+        <!-- SECTION 3: TASK ACTION -->
         <div class="card-section">
           <div class="section-header">
             <div class="section-icon">
@@ -808,9 +895,30 @@ input[type=number] { -moz-appearance:textfield }
   </div>
 </div>
 
+<!-- ─── DUPLICATE TASK ID DIALOG ─── -->
+<div id="dupOverlay">
+  <div class="dup-dialog">
+    <div class="dup-icon">⚠️</div>
+    <div class="dup-title">Task ID متكرر</div>
+    <div class="dup-body">
+      <div>
+        <div class="dup-id-label">Task ID</div>
+        <div class="dup-id-badge" id="dupIdBadge">—</div>
+      </div>
+      <div class="dup-submit-line" id="dupSubmitLine" dir="rtl"></div>
+      <div class="dup-question" dir="rtl">عاوز تبعت نفس الـ <span dir="ltr">Task ID</span> تاني؟</div>
+    </div>
+    <div class="dup-divider"></div>
+    <div class="dup-btns">
+      <button class="dup-btn-cancel" id="dupCancel" type="button">Cancel</button>
+      <button class="dup-btn-ok"     id="dupOk"     type="button">Ok</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ============================================================
 // CONFIG
 // ============================================================
@@ -820,6 +928,34 @@ var NK_YK     = "meti_yk_history";
 var NK_PC_H   = "meti_pc_history";
 var NK_SHIFT  = "meti_shift_history";
 var NK_UNIT   = "meti_unit_history";
+
+// ─── DUPLICATE TASK ID STORAGE ───
+var NK_TASK_IDS    = "meti_task_ids_history";
+var TASK_WINDOW_MS = 2 * 60 * 60 * 1000; // 2 hours
+
+function getRecentTaskIds() {
+  try { return JSON.parse(localStorage.getItem(NK_TASK_IDS)) || []; } catch(e) { return []; }
+}
+function saveTaskIdToHistory(id) {
+  var list = getRecentTaskIds();
+  var now  = Date.now();
+  list = list.filter(function(x) { return (now - x.ts) < TASK_WINDOW_MS; });
+  list.push({ id: id, ts: now });
+  localStorage.setItem(NK_TASK_IDS, JSON.stringify(list));
+}
+function checkDuplicateTaskId(id) {
+  var list = getRecentTaskIds();
+  var now  = Date.now();
+  return list.find(function(x) {
+    return x.id === id && (now - x.ts) < TASK_WINDOW_MS;
+  }) || null;
+}
+function formatTimeAgo(ts) {
+  var mins = Math.round((Date.now() - ts) / 60000);
+  if (mins === 0) return "less than a minute ago";
+  if (mins === 1) return "1 minute ago";
+  return mins + " minutes ago";
+}
 
 // ============================================================
 // QTC DATA
@@ -899,21 +1035,21 @@ function toast(msg, type) {
 }
 function me(id) { var el = document.getElementById(id); if (el) el.classList.add("err-field"); }
 function ce(id) { var el = document.getElementById(id); if (el) el.classList.remove("err-field"); }
-function getN()    { try { return JSON.parse(localStorage.getItem(NK))      || []; } catch(e) { return []; } }
-function getYK()      { try { return JSON.parse(localStorage.getItem(NK_YK))    || []; } catch(e) { return []; } }
-function getPCH()     { try { return JSON.parse(localStorage.getItem(NK_PC_H))  || []; } catch(e) { return []; } }
-function getShiftH()  { try { return JSON.parse(localStorage.getItem(NK_SHIFT)) || []; } catch(e) { return []; } }
-function getUnitH()   { try { return JSON.parse(localStorage.getItem(NK_UNIT))  || []; } catch(e) { return []; } }
-function saveN(n)  { if (!n.trim()) return; var a = getN();   if (a.indexOf(n) === -1) { a.unshift(n); localStorage.setItem(NK,      JSON.stringify(a.slice(0,60))); } }
-function saveYK(v)    { if (!v.trim()) return; var a = getYK();     if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_YK,    JSON.stringify(a.slice(0,20))); } }
-function savePCH(v)   { if (!v.trim()) return; var a = getPCH();    if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_PC_H,  JSON.stringify(a.slice(0,20))); } }
-function saveShiftH(v){ if (!v.trim()) return; var a = getShiftH(); if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_SHIFT, JSON.stringify(a.slice(0,10))); } }
-function saveUnitH(v) { if (!v.trim()) return; var a = getUnitH();  if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_UNIT,  JSON.stringify(a.slice(0,10))); } }
-function delN(n)   { localStorage.setItem(NK,      JSON.stringify(getN().filter(function(x)   { return x !== n; }))); }
-function delYK(v)     { localStorage.setItem(NK_YK,    JSON.stringify(getYK().filter(function(x)     { return x !== v; }))); }
-function delPCH(v)    { localStorage.setItem(NK_PC_H,  JSON.stringify(getPCH().filter(function(x)    { return x !== v; }))); }
-function delShiftH(v) { localStorage.setItem(NK_SHIFT, JSON.stringify(getShiftH().filter(function(x) { return x !== v; }))); }
-function delUnitH(v)  { localStorage.setItem(NK_UNIT,  JSON.stringify(getUnitH().filter(function(x)  { return x !== v; }))); }
+function getN()       { try { return JSON.parse(localStorage.getItem(NK))      || []; } catch(e) { return []; } }
+function getYK()      { try { return JSON.parse(localStorage.getItem(NK_YK))   || []; } catch(e) { return []; } }
+function getPCH()     { try { return JSON.parse(localStorage.getItem(NK_PC_H)) || []; } catch(e) { return []; } }
+function getShiftH()  { try { return JSON.parse(localStorage.getItem(NK_SHIFT))|| []; } catch(e) { return []; } }
+function getUnitH()   { try { return JSON.parse(localStorage.getItem(NK_UNIT)) || []; } catch(e) { return []; } }
+function saveN(n)     { if (!n.trim()) return; var a = getN();      if (a.indexOf(n) === -1) { a.unshift(n); localStorage.setItem(NK,      JSON.stringify(a.slice(0,60))); } }
+function saveYK(v)    { if (!v.trim()) return; var a = getYK();     if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_YK,   JSON.stringify(a.slice(0,20))); } }
+function savePCH(v)   { if (!v.trim()) return; var a = getPCH();    if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_PC_H, JSON.stringify(a.slice(0,20))); } }
+function saveShiftH(v){ if (!v.trim()) return; var a = getShiftH(); if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_SHIFT,JSON.stringify(a.slice(0,10))); } }
+function saveUnitH(v) { if (!v.trim()) return; var a = getUnitH();  if (a.indexOf(v) === -1) { a.unshift(v); localStorage.setItem(NK_UNIT, JSON.stringify(a.slice(0,10))); } }
+function delN(n)      { localStorage.setItem(NK,      JSON.stringify(getN().filter(function(x)      { return x !== n; }))); }
+function delYK(v)     { localStorage.setItem(NK_YK,   JSON.stringify(getYK().filter(function(x)     { return x !== v; }))); }
+function delPCH(v)    { localStorage.setItem(NK_PC_H, JSON.stringify(getPCH().filter(function(x)    { return x !== v; }))); }
+function delShiftH(v) { localStorage.setItem(NK_SHIFT,JSON.stringify(getShiftH().filter(function(x) { return x !== v; }))); }
+function delUnitH(v)  { localStorage.setItem(NK_UNIT, JSON.stringify(getUnitH().filter(function(x)  { return x !== v; }))); }
 
 function checkPassWarn() {
   var currentPass = document.getElementById("pass").value;
@@ -1236,13 +1372,13 @@ var ykActive = -1;
 
 function validateYK(v) {
   var hint = document.getElementById("ykHint");
-  if (!v) { ykIn.style.borderColor = ""; hint.style.color = "var(--text-muted)"; hint.textContent = "6-digit code | or email format: me123456@meti.ai"; return; }
+  if (!v) { ykIn.style.borderColor = ""; hint.style.color = "var(--text-muted)"; hint.removeAttribute("dir"); hint.textContent = "6-digit code | or email format: me123456@meti.ai"; return; }
   var is6 = /^\d{6}$/.test(v);
   var isE = /^[a-zA-Z]{2}\d+@meti\.ai$/i.test(v);
   if (is6 || isE) {
-    ykIn.style.borderColor = "#1a8a5a"; hint.style.color = "var(--success)"; hint.textContent = is6 ? "\u2713 Valid 6-digit code" : "\u2713 Valid email"; ce("yk");
+    ykIn.style.borderColor = "#1a8a5a"; hint.style.color = "var(--success)"; hint.removeAttribute("dir"); hint.textContent = is6 ? "\u2713 Valid 6-digit code" : "\u2713 Valid email"; ce("yk");
   } else {
-    ykIn.style.borderColor = "var(--error)"; hint.style.color = "var(--error)"; hint.textContent = "Must be 6 digits or email like me123456@meti.ai";
+    ykIn.style.borderColor = "var(--error)"; hint.style.color = "var(--error)"; hint.setAttribute("dir","rtl"); hint.textContent = "\u0644\u0627\u0632\u0645 \u064a\u0643\u0648\u0646 6 \u0627\u0631\u0642\u0627\u0645 \u0627\u0648 \u0627\u0644\u0634\u0643\u0644 \u062f\u0647 me123456@meti.ai";
   }
 }
 function renderYKAC(q) {
@@ -1363,7 +1499,29 @@ document.getElementById("taskLink").addEventListener("input", function() {
 });
 
 // ============================================================
-// FORM SUBMISSION — Submit Only
+// ACTUAL FETCH — separated so dialog can call it
+// ============================================================
+function doSubmit(payload, btn) {
+  fetch(SHEET_URL, {
+    method: "POST", mode: "no-cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  })
+  .then(function() {
+    saveTaskIdToHistory(payload.taskId);
+    toast("\u2713 Submitted successfully", "ok");
+    resetForm();
+    btn.disabled = false;
+  })
+  .catch(function() {
+    toast("Submission failed. Check connection.", "err");
+    btn.disabled = false;
+    btn.textContent = "\u2714\u00a0 Submit Task";
+  });
+}
+
+// ============================================================
+// FORM SUBMISSION
 // ============================================================
 document.getElementById("F").addEventListener("submit", function(e) {
   e.preventDefault();
@@ -1416,7 +1574,7 @@ document.getElementById("F").addEventListener("submit", function(e) {
   else {
     var is6 = /^\d{6}$/.test(yk);
     var isE = /^[a-zA-Z]{2}\d+@meti\.ai$/i.test(yk);
-    if (!is6 && !isE) { me("yk"); err = true; toast("Yubikey: must be 6 digits or me123456@meti.ai", "err"); return; }
+    if (!is6 && !isE) { me("yk"); err = true; toast("Yubikey: لازم يكون 6 ارقام او me123456@meti.ai", "err"); return; }
     else { ce("yk"); }
   }
 
@@ -1436,43 +1594,51 @@ document.getElementById("F").addEventListener("submit", function(e) {
   saveUnitH(document.getElementById("unit").value);
 
   var payload = {
-    timestamp:   document.getElementById("ts").value,
-    shift:       document.getElementById("shift").value,
-    unit:        document.getElementById("unit").value,
-    qtcName:     document.getElementById("qtcName").value,
+    timestamp:    document.getElementById("ts").value,
+    shift:        document.getElementById("shift").value,
+    unit:         document.getElementById("unit").value,
+    qtcName:      document.getElementById("qtcName").value,
     yubikeyEmail: yk,
-    labelerName: lab,
-    pcNo:        document.getElementById("pcNo").value,
-    modality:    document.getElementById("modality").value,
-    queueName:   document.getElementById("qName").value,
-    taskLink:    lnk,
-    taskId:      document.getElementById("taskId").value,
-    pass:        document.getElementById("pass").value,
-    action:      "Submit",
-    objectCount: obj,
-    reason:      "",
-    otherNotes:  "",
-    issuedFrames:""
+    labelerName:  lab,
+    pcNo:         document.getElementById("pcNo").value,
+    modality:     document.getElementById("modality").value,
+    queueName:    document.getElementById("qName").value,
+    taskLink:     lnk,
+    taskId:       document.getElementById("taskId").value,
+    pass:         document.getElementById("pass").value,
+    action:       "Submit",
+    objectCount:  obj,
+    reason:       "",
+    otherNotes:   "",
+    issuedFrames: ""
   };
 
   var btn = document.getElementById("subBtn");
   btn.disabled = true; btn.textContent = "Submitting...";
 
-  fetch(SHEET_URL, {
-    method: "POST", mode: "no-cors",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  })
-  .then(function() {
-    toast("\u2713 Submitted successfully", "ok");
-    resetForm();
-    btn.disabled = false;
-  })
-  .catch(function() {
-    toast("Submission failed. Check connection.", "err");
-    btn.disabled = false;
-    btn.textContent = "\u2714\u00a0 Submit Task";
-  });
+  // ─── CHECK DUPLICATE TASK ID ───
+  var dupEntry = checkDuplicateTaskId(payload.taskId);
+  if (dupEntry) {
+    var timeStr = formatTimeAgo(dupEntry.ts);
+    document.getElementById("dupIdBadge").textContent = payload.taskId;
+    document.getElementById("dupSubmitLine").innerHTML =
+      'انت بعت الـ <span dir="ltr">Task ID</span> ده مره بالفعل من ' +
+      '<span class="dup-time-badge">&#9201; ' + timeStr + '</span>';
+    var overlay = document.getElementById("dupOverlay");
+    overlay.classList.add("show");
+    document.getElementById("dupCancel").onclick = function() {
+      overlay.classList.remove("show");
+      btn.disabled = false; btn.textContent = "\u2714\u00a0 Submit Task";
+    };
+    document.getElementById("dupOk").onclick = function() {
+      overlay.classList.remove("show");
+      doSubmit(payload, btn);
+    };
+    return;
+  }
+
+  // ─── NO DUPLICATE ───
+  doSubmit(payload, btn);
 });
 
 // ============================================================
