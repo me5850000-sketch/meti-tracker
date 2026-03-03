@@ -160,6 +160,21 @@ header.main-header {
   font-size:.82rem; font-weight:700;
   letter-spacing:2px; text-transform:uppercase; color:var(--primary);
 }
+/* ── Stage inline ── */
+.stage-wrap { margin-left:auto; display:flex; align-items:center; gap:10px; flex-shrink:0 }
+.stage-label { font-size:.72rem; font-weight:700; color:var(--text-secondary); letter-spacing:1.5px; text-transform:uppercase; white-space:nowrap }
+.stage-box { position:relative }
+#stageField {
+  width:215px; background:#f2f6f9 !important; cursor:default !important;
+  font-size:.88rem; font-weight:500; padding:9px 34px 9px 14px;
+  border-radius:var(--radius); transition:border-color .2s,color .2s;
+}
+#stageField.filled { font-weight:600 }
+#stageIcon {
+  position:absolute; right:11px; top:50%; transform:translateY(-50%);
+  font-size:.8rem; opacity:.4; pointer-events:none; transition:opacity .2s,color .2s;
+}
+/* ── end Stage ── */
 .g2 { display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-bottom:22px }
 .g3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:22px; margin-bottom:22px }
 .full { margin-bottom:22px }
@@ -555,23 +570,29 @@ input[type=number] { -moz-appearance:textfield }
   padding:2px 10px; font-size:.83rem; vertical-align:middle;
 }
 .dup-question { font-size:.88rem; color:#4a6375; direction:rtl; margin-top:2px; }
+.dup-explain {
+  font-size:.78rem; color:#7a96a8; direction:rtl; margin-top:8px;
+  line-height:1.7; background:#f7f9fd; border:1px solid #e2eaf4;
+  border-radius:8px; padding:8px 12px; text-align:right;
+}
 .dup-divider { height:1px; background:#edf2f6; margin:0 -32px 20px; }
-.dup-btns { display:flex; gap:10px; }
+.dup-btns { display:flex; flex-direction:column; gap:8px; }
 .dup-btn-cancel {
-  flex:1; padding:11px; border-radius:8px;
-  border:1.5px solid var(--border); background:#f7f9fd;
-  color:var(--text-secondary); font-weight:600; font-size:.88rem;
-  cursor:pointer; font-family:'Inter',sans-serif; transition:all .15s;
+  width:100%; padding:13px; border-radius:8px;
+  border:1.5px solid #f5c6c6; background:#fdf0ee;
+  color:var(--error); font-weight:700; font-size:.95rem;
+  cursor:pointer; font-family:'Plus Jakarta Sans',sans-serif; transition:all .15s;
 }
-.dup-btn-cancel:hover { background:#edf2f6; border-color:#a0b4cc; color:var(--text); }
+.dup-btn-cancel:hover { background:#fae0dd; border-color:#e0a0a0; }
 .dup-btn-ok {
-  flex:1; padding:11px; border-radius:8px; border:none;
-  background:var(--success); color:#fff;
-  font-weight:700; font-size:.88rem;
-  cursor:pointer; font-family:'Plus Jakarta Sans',sans-serif;
-  transition:all .15s; box-shadow:0 3px 10px rgba(26,138,90,.3);
+  width:fit-content; align-self:center;
+  padding:6px 24px; border-radius:20px; border:none;
+  background:transparent; color:var(--text-muted);
+  font-weight:500; font-size:.78rem;
+  cursor:pointer; font-family:'Inter',sans-serif;
+  transition:all .15s; text-decoration:underline; text-underline-offset:3px;
 }
-.dup-btn-ok:hover { background:#157a4e; }
+.dup-btn-ok:hover { color:var(--error); background:transparent; }
 @media(max-width:640px) {
   .g2, .g3 { grid-template-columns:1fr }
   .card-section { padding:22px 18px }
@@ -581,6 +602,7 @@ input[type=number] { -moz-appearance:textfield }
   .storage-panel { margin:12px 0 32px }
   .dup-dialog { padding:26px 20px 20px }
   .dup-divider { margin:0 -20px 18px }
+  .stage-wrap { display:none }
 }
 </style>
 </head>
@@ -726,18 +748,29 @@ input[type=number] { -moz-appearance:textfield }
             <input type="hidden" id="qtcName">
           </div>
         </div>
-        <!-- SECTION 2: TASK DETAILS -->
+
+        <!-- SECTION 2: TASK DETAILS — with Stage inline in header -->
         <div class="card-section">
-          <div class="section-header">
-            <div class="section-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                <polyline points="14 2 14 8 20 8"/>
-                <line x1="16" y1="13" x2="8" y2="13"/>
-                <line x1="16" y1="17" x2="8" y2="17"/>
-              </svg>
+          <div class="section-header" style="justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+              <div class="section-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+              </div>
+              <span class="section-title">Task Details</span>
             </div>
-            <span class="section-title">Task Details</span>
+            <!-- ── Stage read-only ── -->
+            <div class="stage-wrap">
+              <span class="stage-label">Stage</span>
+              <div class="stage-box">
+                <input type="text" id="stageField" readonly placeholder="Auto-filled from link...">
+                <span id="stageIcon">&#8212;</span>
+              </div>
+            </div>
           </div>
           <div class="g2">
             <div class="field">
@@ -814,6 +847,7 @@ input[type=number] { -moz-appearance:textfield }
             </div>
           </div>
         </div>
+
         <!-- SECTION 3: TASK ACTION -->
         <div class="card-section">
           <div class="section-header">
@@ -830,6 +864,7 @@ input[type=number] { -moz-appearance:textfield }
             <input type="number" id="objCount" placeholder="Enter number of objects" min="0" required>
           </div>
         </div>
+
         <!-- FORM FOOTER -->
         <div class="form-footer">
           <button type="submit" class="subbtn" id="subBtn">&#10004;&nbsp; Submit Task</button>
@@ -898,6 +933,7 @@ input[type=number] { -moz-appearance:textfield }
         <div class="dup-id-badge" id="dupIdBadge">—</div>
       </div>
       <div class="dup-submit-line" id="dupSubmitLine" dir="rtl"></div>
+      <div class="dup-explain" dir="rtl">ده معناه إنك بعت نفس الـ Task مرة قبل كده، أو إن الـ Link اللي معاك اتعملله Copy من الـ Link القديم — اتأكد إن الـ Link بتاعك ده بتاع الـ Task الجديد فعلاً</div>
       <div class="dup-question" dir="rtl">عاوز تبعت نفس الـ <span dir="ltr">Task ID</span> تاني؟</div>
     </div>
     <div class="dup-divider"></div>
@@ -918,9 +954,9 @@ var NK_YK = "meti_yk_history";
 var NK_PC_H = "meti_pc_history";
 var NK_SHIFT = "meti_shift_history";
 var NK_UNIT = "meti_unit_history";
-// ─── DUPLICATE TASK ID STORAGE ───
 var NK_TASK_IDS = "meti_task_ids_history";
-var TASK_WINDOW_MS = 8 * 60 * 60 * 1000; // 2 hours
+var TASK_WINDOW_MS = 8 * 60 * 60 * 1000;
+
 function getRecentTaskIds() {
   try { return JSON.parse(localStorage.getItem(NK_TASK_IDS)) || []; } catch(e) { return []; }
 }
@@ -944,14 +980,11 @@ function formatTimeAgo(ts) {
   var hours = Math.floor(diff / (60 * 60 * 1000));
   var days = Math.floor(diff / (24 * 60 * 60 * 1000));
   if (mins < 1) return "less than a minute ago";
-  if (mins < 60) {
-    return mins === 1 ? "1 minute ago" : mins + " minutes ago";
-  }
-  if (hours < 24) {
-    return hours === 1 ? "1 hour ago" : hours + " hours ago";
-  }
+  if (mins < 60) return mins === 1 ? "1 minute ago" : mins + " minutes ago";
+  if (hours < 24) return hours === 1 ? "1 hour ago" : hours + " hours ago";
   return days === 1 ? "1 day ago" : days + " days ago";
 }
+
 // ============================================================
 // QTC DATA
 // ============================================================
@@ -1015,12 +1048,14 @@ var QTC_DATA = {
     {name:"ATITO", role:"SV"}
   ]
 };
+
 // ============================================================
 // HELPERS
 // ============================================================
 var selectedQTC = null;
 var linkTaskId = "";
 var linkPassVal = "";
+
 function toast(msg, type) {
   var t = document.getElementById("toast");
   t.textContent = msg;
@@ -1044,26 +1079,58 @@ function delYK(v) { localStorage.setItem(NK_YK, JSON.stringify(getYK().filter(fu
 function delPCH(v) { localStorage.setItem(NK_PC_H, JSON.stringify(getPCH().filter(function(x) { return x !== v; }))); }
 function delShiftH(v) { localStorage.setItem(NK_SHIFT,JSON.stringify(getShiftH().filter(function(x) { return x !== v; }))); }
 function delUnitH(v) { localStorage.setItem(NK_UNIT, JSON.stringify(getUnitH().filter(function(x) { return x !== v; }))); }
+
 function checkPassWarn() {
   var currentPass = document.getElementById("pass").value;
   var warn = document.getElementById("passWarn");
   var pIcon = document.getElementById("passIcon");
   if (linkPassVal && currentPass && currentPass !== linkPassVal) {
     warn.style.display = "flex";
-    pIcon.textContent = "\u2014";
-    pIcon.style.color = "";
-    pIcon.style.opacity = ".4";
+    pIcon.textContent = "\u2014"; pIcon.style.color = ""; pIcon.style.opacity = ".4";
   } else {
     warn.style.display = "none";
     if (linkPassVal && currentPass && currentPass === linkPassVal) {
-      pIcon.textContent = "\u2713";
-      pIcon.style.color = "var(--success)";
-      pIcon.style.opacity = "1";
+      pIcon.textContent = "\u2713"; pIcon.style.color = "var(--success)"; pIcon.style.opacity = "1";
     }
   }
 }
+
 // ============================================================
-// CLOCK — always Egypt time (Africa/Cairo)
+// STAGE AUTO-DETECT ← NEW
+// ============================================================
+function detectStage(url) {
+  var u = url.toUpperCase();
+  if (u.includes("SELLIVANDAR"))    return "Lidar Stage";
+  if (u.includes("SELLMSL"))        return "Image Stage";
+  if (u.includes("SELLRELABELING")) return "Relabeling Stage";
+  return "";
+}
+
+function updateStageField(url) {
+  var el   = document.getElementById("stageField");
+  var icon = document.getElementById("stageIcon");
+  var stage = detectStage(url);
+  el.classList.remove("filled");
+  if (stage) {
+    el.value = stage;
+    el.classList.add("filled");
+    el.style.borderColor = "#6dbf9a";
+    el.style.color = "var(--text)";
+    icon.textContent = "\u2713";
+    icon.style.color = "#6dbf9a";
+    icon.style.opacity = "1";
+  } else {
+    el.value = "";
+    el.style.borderColor = "";
+    el.style.color = "var(--text-muted)";
+    icon.textContent = "\u2014";
+    icon.style.color = "";
+    icon.style.opacity = ".4";
+  }
+}
+
+// ============================================================
+// CLOCK
 // ============================================================
 function tick() {
   var d = new Date();
@@ -1074,6 +1141,7 @@ function tick() {
 }
 tick();
 setInterval(tick, 1000);
+
 // ============================================================
 // PROGRESS BAR
 // ============================================================
@@ -1089,8 +1157,9 @@ document.querySelectorAll("input,select,textarea").forEach(function(el) {
   el.addEventListener("input", updateProgress);
   el.addEventListener("change", updateProgress);
 });
+
 // ============================================================
-// LABELER NAME — warning if non-English
+// LABELER NAME
 // ============================================================
 document.getElementById("labName").addEventListener("input", function() {
   var v = this.value;
@@ -1099,8 +1168,9 @@ document.getElementById("labName").addEventListener("input", function() {
   this.style.boxShadow = hasNonEng ? "0 0 0 3px rgba(192,57,43,.1)" : "";
   document.getElementById("labNameWarn").style.display = hasNonEng ? "flex" : "none";
 });
+
 // ============================================================
-// TASK ID — warning if non-numeric
+// TASK ID
 // ============================================================
 document.getElementById("taskId").addEventListener("input", function() {
   var v = this.value;
@@ -1121,8 +1191,9 @@ document.getElementById("taskId").addEventListener("input", function() {
     document.getElementById("taskIdWarn").style.display = "none";
   }
 });
+
 // ============================================================
-// PC NO. — Autocomplete
+// PC NO. AUTOCOMPLETE
 // ============================================================
 var pcIn = document.getElementById("pcNo");
 var pcAcL = document.getElementById("pcAcList");
@@ -1143,8 +1214,7 @@ function renderPCAC(q) {
         if (document.getElementById("storageBody").style.display !== "none") renderStorageManager();
         return;
       }
-      e.preventDefault(); pcIn.value = val; pcAcL.classList.remove("open"); pcActive = -1;
-      validatePC(val);
+      e.preventDefault(); pcIn.value = val; pcAcL.classList.remove("open"); pcActive = -1; validatePC(val);
     });
     pcAcL.appendChild(li);
   });
@@ -1172,6 +1242,7 @@ pcIn.addEventListener("keydown", function(e) {
   else if (e.key === "Enter" && pcActive >= 0) { e.preventDefault(); var v = items[pcActive].querySelector("span").textContent; pcIn.value = v; pcAcL.classList.remove("open"); pcActive = -1; validatePC(v); }
   else if (e.key === "Escape") { pcAcL.classList.remove("open"); pcActive = -1; }
 });
+
 // ============================================================
 // SEARCHABLE DROPDOWN FACTORY
 // ============================================================
@@ -1185,18 +1256,13 @@ function makeSearchableDropdown(opts) {
   var activeIdx = -1;
   var selectedVal = "";
   function open() {
-    btn.classList.add("open");
-    list.classList.add("open");
-    if (dispEl) { dispEl.style.display = "none"; }
-    inp.style.display = "";
-    inp.value = "";
-    filterItems("");
-    activeIdx = -1;
+    btn.classList.add("open"); list.classList.add("open");
+    if (dispEl) dispEl.style.display = "none";
+    inp.style.display = ""; inp.value = ""; filterItems(""); activeIdx = -1;
     setTimeout(function() { inp.focus(); }, 0);
   }
   function close() {
-    btn.classList.remove("open");
-    list.classList.remove("open");
+    btn.classList.remove("open"); list.classList.remove("open");
     if (!hidden.value) {
       inp.value = ""; inp.style.display = "";
       if (dispEl) { dispEl.innerHTML = ""; dispEl.style.display = "none"; }
@@ -1230,11 +1296,9 @@ function makeSearchableDropdown(opts) {
     visible.forEach(function(li, i) { li.classList.toggle("sd-hover", i === activeIdx); });
   }
   function selectItem(li) {
-    selectedVal = li.dataset.v;
-    hidden.value = selectedVal;
+    selectedVal = li.dataset.v; hidden.value = selectedVal;
     allItems.forEach(function(x) { x.classList.remove("sel"); });
-    li.classList.add("sel");
-    btn.style.borderColor = "#1a8a5a";
+    li.classList.add("sel"); btn.style.borderColor = "#1a8a5a";
     if (dispEl) {
       dispEl.innerHTML = li.innerHTML; dispEl.style.display = "flex"; inp.style.display = "none"; inp.value = selectedVal;
     } else { inp.value = selectedVal; }
@@ -1253,8 +1317,7 @@ function makeSearchableDropdown(opts) {
   }
   inp.addEventListener("focus", function() { if (!list.classList.contains("open")) open(); });
   inp.addEventListener("input", function() {
-    filterItems(this.value);
-    hidden.value = ""; btn.style.borderColor = ""; selectedVal = "";
+    filterItems(this.value); hidden.value = ""; btn.style.borderColor = ""; selectedVal = "";
     if (dispEl) { dispEl.innerHTML = ""; dispEl.style.display = "none"; }
   });
   inp.addEventListener("blur", function() { setTimeout(close, 160); });
@@ -1282,32 +1345,24 @@ function makeSearchableDropdown(opts) {
     getValue: function() { return hidden.value; }
   };
 }
+
 var shiftDD = makeSearchableDropdown({btnId:"shiftBtn", inputId:"shiftInput", listId:"shiftList", hiddenId:"shift", onSelect: function(v){ saveShiftH(v); }});
 var unitDD = makeSearchableDropdown({btnId:"unitBtn", inputId:"unitInput", listId:"unitList", hiddenId:"unit", onSelect: function(v){ saveUnitH(v); }});
 var modalityDD = makeSearchableDropdown({btnId:"modalityBtn", inputId:"modalityInput", listId:"modalityList", hiddenId:"modality"});
 var queueDD = makeSearchableDropdown({btnId:"queueBtn", inputId:"queueInput", listId:"queueList", hiddenId:"qName", displayId:"queueDisplay"});
-var passDD = makeSearchableDropdown({
-  btnId:"passBtn", inputId:"passInput", listId:"passList", hiddenId:"pass",
-  onSelect: function(val) { checkPassWarn(); }
+var passDD = makeSearchableDropdown({btnId:"passBtn", inputId:"passInput", listId:"passList", hiddenId:"pass", onSelect: function(val) { checkPassWarn(); }});
+var qtcShiftDD = makeSearchableDropdown({btnId:"qtcShiftBtn", inputId:"qtcShiftInput", listId:"qtcShiftList", hiddenId:"qtcShiftSel",
+  onSelect: function(val) { buildQTCGrid(val); var s = document.getElementById("qtcSearch"); if (s) s.value = ""; }
 });
-var qtcShiftDD = makeSearchableDropdown({
-  btnId:"qtcShiftBtn", inputId:"qtcShiftInput", listId:"qtcShiftList", hiddenId:"qtcShiftSel",
-  onSelect: function(val) {
-    buildQTCGrid(val);
-    var s = document.getElementById("qtcSearch");
-    if (s) s.value = "";
-  }
-});
+
 document.addEventListener("click", function(e) {
   ["shiftBtn","unitBtn","qtcShiftBtn","modalityBtn","queueBtn","passBtn"].forEach(function(id) {
     var b = document.getElementById(id);
     var l = document.getElementById(id.replace("Btn","List"));
-    if (b && !b.contains(e.target)) {
-      b.classList.remove("open");
-      if (l) l.classList.remove("open");
-    }
+    if (b && !b.contains(e.target)) { b.classList.remove("open"); if (l) l.classList.remove("open"); }
   });
 });
+
 // ============================================================
 // AUTOCOMPLETE — Labeler Name
 // ============================================================
@@ -1343,6 +1398,7 @@ labIn.addEventListener("keydown", function(e) {
   else if (e.key === "Enter" && acActive >= 0) { e.preventDefault(); labIn.value = items[acActive].querySelector("span").textContent; acL.classList.remove("open"); acActive = -1; }
   else if (e.key === "Escape") { acL.classList.remove("open"); acActive = -1; }
 });
+
 // ============================================================
 // YUBIKEY AUTOCOMPLETE + VALIDATION
 // ============================================================
@@ -1389,6 +1445,7 @@ ykIn.addEventListener("keydown", function(e) {
   else if (e.key === "Enter" && ykActive >= 0) { e.preventDefault(); var v = items[ykActive].querySelector("span").textContent; ykIn.value = v; ykAcL.classList.remove("open"); ykActive = -1; validateYK(v); }
   else if (e.key === "Escape") { ykAcL.classList.remove("open"); ykActive = -1; }
 });
+
 // ============================================================
 // QTC GRID BUILDER
 // ============================================================
@@ -1429,8 +1486,9 @@ document.getElementById("qtcSearch").addEventListener("input", function() {
     card.style.display = (q === "" || name.indexOf(q) > -1) ? "" : "none";
   });
 });
+
 // ============================================================
-// TASK LINK — Auto-fill ID and Pass
+// TASK LINK — Auto-fill ID, Pass, and Stage ← UPDATED
 // ============================================================
 document.getElementById("taskLink").addEventListener("input", function() {
   var url = this.value.trim();
@@ -1438,11 +1496,17 @@ document.getElementById("taskLink").addEventListener("input", function() {
   var hint = document.getElementById("linkHint");
   var idEl = document.getElementById("taskId");
   var icon = document.getElementById("idIcon");
+
   if (url.length > 0 && !url.startsWith(PREFIX)) {
     this.style.borderColor = "var(--error)"; hint.style.color = "var(--error)";
   } else {
     this.style.borderColor = url.length > 0 ? "#1a8a5a" : ""; hint.style.color = "";
   }
+
+  // ── Stage auto-fill ──
+  updateStageField(url);
+
+  // ── Task ID ──
   var idM = url.match(/\/id\/(\d+)/);
   if (idM) {
     linkTaskId = idM[1]; idEl.value = idM[1]; idEl.style.borderColor = "#1a8a5a";
@@ -1453,6 +1517,8 @@ document.getElementById("taskLink").addEventListener("input", function() {
     icon.textContent = "\u2014"; icon.style.color = ""; icon.style.opacity = ".4";
     document.getElementById("taskIdWarn").style.display = "none";
   }
+
+  // ── Pass ──
   var dM = url.match(/\/do\/([^\/]+)\//);
   if (dM) {
     var detectedPass = dM[1].toUpperCase().endsWith("QA") ? "QA" : "FP";
@@ -1462,16 +1528,17 @@ document.getElementById("taskLink").addEventListener("input", function() {
     pIcon.textContent = "\u2713"; pIcon.style.color = "var(--success)"; pIcon.style.opacity = "1";
     document.getElementById("passWarn").style.display = "none";
   } else {
-    linkPassVal = "";
-    passDD.reset();
+    linkPassVal = ""; passDD.reset();
     document.getElementById("passWarn").style.display = "none";
     var pIcon2 = document.getElementById("passIcon");
     pIcon2.textContent = "\u2014"; pIcon2.style.color = ""; pIcon2.style.opacity = ".4";
   }
+
   updateProgress();
 });
+
 // ============================================================
-// ACTUAL FETCH — separated so dialog can call it
+// SUBMIT
 // ============================================================
 function doSubmit(payload, btn) {
   fetch(SHEET_URL, {
@@ -1491,9 +1558,7 @@ function doSubmit(payload, btn) {
     btn.textContent = "\u2714\u00a0 Submit Task";
   });
 }
-// ============================================================
-// FORM SUBMISSION
-// ============================================================
+
 document.getElementById("F").addEventListener("submit", function(e) {
   e.preventDefault();
   var err = false;
@@ -1566,6 +1631,7 @@ document.getElementById("F").addEventListener("submit", function(e) {
     taskLink: lnk,
     taskId: document.getElementById("taskId").value,
     pass: document.getElementById("pass").value,
+    stage: document.getElementById("stageField").value,   // ← Stage included in payload
     action: "Submit",
     objectCount: obj,
     reason: "",
@@ -1574,7 +1640,6 @@ document.getElementById("F").addEventListener("submit", function(e) {
   };
   var btn = document.getElementById("subBtn");
   btn.disabled = true; btn.textContent = "Submitting...";
-  // ─── CHECK DUPLICATE TASK ID ───
   var dupEntry = checkDuplicateTaskId(payload.taskId);
   if (dupEntry) {
     var timeStr = formatTimeAgo(dupEntry.ts);
@@ -1594,11 +1659,11 @@ document.getElementById("F").addEventListener("submit", function(e) {
     };
     return;
   }
-  // ─── NO DUPLICATE ───
   doSubmit(payload, btn);
 });
+
 // ============================================================
-// RESET FORM
+// RESET FORM ← UPDATED to clear Stage
 // ============================================================
 function resetForm() {
   document.getElementById("F").reset();
@@ -1625,6 +1690,7 @@ function resetForm() {
   document.getElementById("idIcon").style.color = "";
   document.getElementById("linkHint").style.color = "";
   document.getElementById("taskLink").style.borderColor = "";
+  updateStageField(""); // ← reset Stage
   var prevShift = document.getElementById("shift").value;
   var prevUnit = document.getElementById("unit").value;
   shiftDD.reset(); unitDD.reset(); qtcShiftDD.reset();
@@ -1645,6 +1711,7 @@ function resetForm() {
   btn.style.background = "var(--success)";
   document.getElementById("progressBar").style.width = "0%";
 }
+
 // ============================================================
 // STORAGE MANAGER
 // ============================================================
