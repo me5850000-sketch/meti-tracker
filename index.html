@@ -109,7 +109,6 @@ header.main-header {
   letter-spacing:1.5px; text-transform:uppercase;
 }
 .header-dept { font-size:.75rem; color:rgba(255,255,255,.5); font-weight:400; letter-spacing:.5px }
-/* ── Header Badge (Tasks Counter) ── */
 .header-badge {
   margin-left: auto;
   background: linear-gradient(135deg, rgba(255,255,255,.13) 0%, rgba(255,255,255,.07) 100%);
@@ -167,7 +166,6 @@ header.main-header {
   from { box-shadow: 0 0 0 0 rgba(252,211,77,.3); }
   to   { box-shadow: 0 0 0 4px rgba(252,211,77,.0); }
 }
-/* ── Instructions Button ── */
 .instructions-btn {
   display: flex; align-items: center; gap: 9px;
   background: linear-gradient(135deg, rgba(255,255,255,.13) 0%, rgba(255,255,255,.07) 100%);
@@ -187,7 +185,6 @@ header.main-header {
   color:#6ee7b7; background:rgba(110,231,183,.15); border:1px solid rgba(110,231,183,.35);
   border-radius:20px; padding:2px 8px; margin-left:2px;
 }
-/* ── Floating Counter ── */
 #floatingCounter {
   position: fixed;
   top: -80px;
@@ -216,7 +213,6 @@ header.main-header {
   text-shadow: 0 2px 8px rgba(0,0,0,.25);
 }
 #floatingCounter .fc-count.bump { transform: scale(1.3); color: #6ee7b7; }
-/* ── Section Counter ── */
 .sec-counter {
   display:flex; align-items:center; gap:10px;
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
@@ -241,7 +237,6 @@ header.main-header {
 .sec-counter-btn:hover { background:rgba(255,255,255,.22); border-color:rgba(255,255,255,.4); color:#fff }
 .sec-counter-btn.undo { color:#fcd34d; border-color:rgba(252,211,77,.5); background:rgba(252,211,77,.15); animation:undoPulse 1s ease infinite alternate }
 .sec-counter-btn.undo:hover { background:rgba(252,211,77,.28); color:#fde68a }
-/* ── Progress Bar ── */
 .progress-bar-track { width:100%; height:4px; background:rgba(28,69,135,.12) }
 .progress-bar-fill { height:100%; width:0%; background:var(--accent); transition:width .4s ease }
 .content {
@@ -662,7 +657,6 @@ input[type=number] { -moz-appearance:textfield }
 <body>
 <div class="page">
 
-  <!-- TOPBAR -->
   <div class="topbar">
     <div class="topbar-brand">
       <div class="topbar-logo-box">
@@ -677,7 +671,6 @@ input[type=number] { -moz-appearance:textfield }
     <span class="topbar-time" id="topTime">Loading...</span>
   </div>
 
-  <!-- MAIN HEADER -->
   <header class="main-header">
     <div class="header-meti">METI</div>
     <div class="header-divider"></div>
@@ -685,8 +678,6 @@ input[type=number] { -moz-appearance:textfield }
       <div class="header-full-name">Micro Engineering</div>
       <div class="header-dept">Labeling Operations · Internal System</div>
     </div>
-
-    <!-- Instructions Button -->
     <a href="https://docs.google.com/presentation/d/1LQT6yVzWC5tpyijlq0pq1TPJ3j5VVRpi/edit?slide=id.p1#slide=id.p1" target="_blank" class="instructions-btn" id="instructionsBtn" style="margin-left:auto;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="9 18 15 12 9 6"/>
@@ -694,15 +685,12 @@ input[type=number] { -moz-appearance:textfield }
       <span>Form Filling Instructions</span>
       <span class="instructions-read">Read Me</span>
     </a>
-
-
   </header>
 
   <div class="progress-bar-track">
     <div class="progress-bar-fill" id="progressBar"></div>
   </div>
 
-  <!-- Floating Counter -->
   <div id="floatingCounter">
     <span class="fc-label">Tasks</span>
     <span class="fc-count" id="floatingCount">0</span>
@@ -712,7 +700,6 @@ input[type=number] { -moz-appearance:textfield }
     <div class="card">
       <form id="F" autocomplete="off">
 
-        <!-- SECTION 1: SESSION INFO -->
         <div class="card-section">
           <div class="section-header" style="justify-content:space-between;">
             <div style="display:flex;align-items:center;gap:10px;">
@@ -723,7 +710,6 @@ input[type=number] { -moz-appearance:textfield }
               </div>
               <span class="section-title">Session Information</span>
             </div>
-            <!-- Section Counter -->
             <div class="sec-counter">
               <span class="sec-counter-label">Tasks Done</span>
               <span class="sec-counter-num" id="taskCounter">0</span>
@@ -817,7 +803,7 @@ input[type=number] { -moz-appearance:textfield }
                 <ul class="acl" id="ykAcList"></ul>
               </div>
               <div id="ykHint" style="font-size:.72rem;color:var(--text-muted);margin-top:5px;">
-                6-digit code <span style="color:var(--border)">|</span> or email format: me123456@meti.ai
+                6-digit code <span style="color:var(--border)">|</span> or email format: me123456&#64;meti&#46;ai
               </div>
             </div>
           </div>
@@ -834,7 +820,6 @@ input[type=number] { -moz-appearance:textfield }
           </div>
         </div>
 
-        <!-- SECTION 2: TASK DETAILS -->
         <div class="card-section">
           <div class="section-header" style="justify-content:space-between;">
             <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
@@ -932,7 +917,6 @@ input[type=number] { -moz-appearance:textfield }
           </div>
         </div>
 
-        <!-- SECTION 3: TASK ACTION -->
         <div class="card-section">
           <div class="section-header">
             <div class="section-icon">
@@ -945,18 +929,16 @@ input[type=number] { -moz-appearance:textfield }
           </div>
           <div class="full field">
             <label>How Many Objects? <span class="req">*</span></label>
-            <input type="number" id="objCount" placeholder="Enter number of objects" min="0" required>
+            <input type="number" id="objCount" placeholder="Enter number of objects" min="0" max="9999" required oninput="if(this.value.length>4)this.value=this.value.slice(0,4)">
           </div>
         </div>
 
-        <!-- FORM FOOTER -->
         <div class="form-footer">
           <button type="submit" class="subbtn" id="subBtn">&#10004;&nbsp; Submit Task</button>
         </div>
       </form>
     </div>
 
-    <!-- SAVED DATA PANEL -->
     <div class="storage-panel">
       <button type="button" class="storage-toggle" id="storageToggle">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0">
@@ -1008,7 +990,6 @@ input[type=number] { -moz-appearance:textfield }
   </div>
 </div>
 
-<!-- DUPLICATE DIALOG -->
 <div id="dupOverlay">
   <div class="dup-dialog">
     <div class="dup-icon">⚠️</div>
@@ -1068,7 +1049,6 @@ function getCounter() {
   } catch(e) { return { count: 0, startTs: Date.now() }; }
 }
 function saveCounter(d) { localStorage.setItem(NK_COUNTER, JSON.stringify(d)); }
-
 function incrementCounter() {
   var d = getCounter(); d.count++; saveCounter(d);
   renderCounter();
@@ -1101,8 +1081,8 @@ function undoCounter() {
 }
 function renderCounter() {
   var d = getCounter();
-  document.getElementById("taskCounter").textContent    = d.count;
-  document.getElementById("floatingCount").textContent  = d.count;
+  document.getElementById("taskCounter").textContent   = d.count;
+  document.getElementById("floatingCount").textContent = d.count;
 }
 setInterval(function() { getCounter(); renderCounter(); }, 60000);
 
@@ -1431,7 +1411,18 @@ function renderYKAC(q){
   });
   ykAcL.classList.add("open");
 }
-ykIn.addEventListener("input",function(){validateYK(this.value.trim());renderYKAC(this.value);});
+ykIn.addEventListener("input",function(){
+  var v = this.value;
+  if(/^\d+$/.test(v) && v.length > 6){
+    this.value = v.slice(0, 6);
+  }
+  // لو email format — حوّله lowercase فوراً
+  if(/@meti\.ai$/i.test(v)){
+    this.value = v.toLowerCase().trim();
+  }
+  validateYK(this.value.trim());
+  renderYKAC(this.value);
+});
 ykIn.addEventListener("focus",function(){renderYKAC(this.value);});
 ykIn.addEventListener("blur",function(){setTimeout(function(){ykAcL.classList.remove("open");ykActive=-1;},180);});
 ykIn.addEventListener("keydown",function(e){
@@ -1496,9 +1487,106 @@ document.getElementById("taskLink").addEventListener("input",function(){
 });
 
 // ============================================================
-// SUBMIT — ✅ FIXED: cors + real error handling
+// SEND FUNCTIONS — 3-layer fallback لحماية البيانات
+// ============================================================
+
+var _activeBtn = null; // مرجع للزر عشان نحدّث النص أثناء الـ retry
+
+// المحاولة 1: fetch + keepalive:true + timeout 12s
+function sendWithFetchKeepalive(payload, callback) {
+  var controller = new AbortController();
+  var timer = setTimeout(function() { controller.abort(); }, 12000);
+
+  fetch(SHEET_URL, {
+    method:    "POST",
+    mode:      "cors",
+    headers:   { "Content-Type": "text/plain" },
+    body:      JSON.stringify(payload),
+    keepalive: true,
+    signal:    controller.signal
+  })
+  .then(function(res) {
+    clearTimeout(timer);
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    return res.json();
+  })
+  .then(function(json) {
+    console.log("[attempt-1 keepalive] OK:", JSON.stringify(json));
+    callback(json && json.status === "ok");
+  })
+  .catch(function(err) {
+    clearTimeout(timer);
+    console.warn("[attempt-1 keepalive] failed:", err.message);
+    callback(false);
+  });
+}
+
+// المحاولة 2: fetch عادي — بيحاول 3 مرات مع انتظار 2s → 4s → 8s
+function sendWithFetch(payload, callback) {
+  var attempts    = 0;
+  var maxAttempts = 3;
+  var delays      = [2000, 4000, 8000];
+
+  function tryOnce() {
+    attempts++;
+    console.log("[attempt-2 fetch] try #" + attempts);
+
+    var controller = new AbortController();
+    var timer = setTimeout(function() { controller.abort(); }, 10000);
+
+    fetch(SHEET_URL, {
+      method:  "POST",
+      mode:    "cors",
+      headers: { "Content-Type": "text/plain" },
+      body:    JSON.stringify(payload),
+      signal:  controller.signal
+    })
+    .then(function(res) {
+      clearTimeout(timer);
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return res.json();
+    })
+    .then(function(json) {
+      console.log("[attempt-2 fetch] OK on try #" + attempts);
+      callback(json && json.status === "ok");
+    })
+    .catch(function(err) {
+      clearTimeout(timer);
+      console.warn("[attempt-2 fetch] try #" + attempts + " failed:", err.message);
+      if (attempts < maxAttempts) {
+        console.log("[attempt-2 fetch] retrying in " + delays[attempts-1] + "ms...");
+        if (_activeBtn) _activeBtn.textContent = "\u27f3 Retrying... (" + (attempts + 1) + "/3)";
+        setTimeout(tryOnce, delays[attempts - 1]);
+      } else {
+        console.warn("[attempt-2 fetch] all retries exhausted");
+        callback(false);
+      }
+    });
+  }
+
+  tryOnce();
+}
+
+// المحاولة 3: sendBeacon — صامت تماماً، آخر فرصة
+function sendWithBeacon(payload) {
+  try {
+    var sent = navigator.sendBeacon(
+      SHEET_URL,
+      new Blob([JSON.stringify(payload)], { type: "text/plain" })
+    );
+    console.log("[attempt-3 beacon] sent:", sent);
+    return sent;
+  } catch(e) {
+    console.warn("[attempt-3 beacon] failed:", e.message);
+    return false;
+  }
+}
+
+// ============================================================
+// MAIN SUBMIT — تنسيق المحاولات الثلاث
 // ============================================================
 function doSubmit(payload, btn) {
+  _activeBtn      = btn;
   btn.disabled    = true;
   btn.textContent = "Submitting...";
   btn.classList.remove("error-state");
@@ -1506,39 +1594,34 @@ function doSubmit(payload, btn) {
   function onSuccess() {
     saveTaskIdToHistory(payload.taskId);
     incrementCounter();
-    var _sp = (payload.labelerName && payload.labelerName.toLowerCase() === "radwa hassan") && (payload.pcNo && payload.pcNo.toString() === "12");
+    var _sp = (payload.labelerName && payload.labelerName.toLowerCase() === "radwa hassan")
+           && (payload.pcNo && payload.pcNo.toString() === "12");
     toast(_sp ? "🦉\u2713 Saved successfully🦉" : "\u2714 Saved successfully!", "ok");
     btn.disabled    = false;
     btn.textContent = "\u2714\u00a0 Submit Task";
     resetForm();
   }
 
-  function onError(msg) {
+  function onError() {
+    sendWithBeacon(payload);
     btn.disabled    = false;
     btn.textContent = "\u26a0\ufe0f Error \u2014 Please Try Again";
     btn.classList.add("error-state");
-    toast("\u26a0 Failed to submit \u2014 " + (msg || "please try again"), "err");
-    setTimeout(function(){
+    toast("\u26a0 Failed to submit \u2014 please check your connection and try again", "err");
+    setTimeout(function() {
       btn.textContent = "\u2714\u00a0 Submit Task";
       btn.classList.remove("error-state");
     }, 6000);
   }
 
-  fetch(SHEET_URL, {
-    method:  "POST",
-    mode:    "cors",
-    headers: { "Content-Type": "text/plain" },
-    body:    JSON.stringify(payload)
-  })
-  .then(function(res) {
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    return res.json();
-  })
-  .then(function(json) {
-    if (json && json.status === "ok") { onSuccess(); }
-    else { onError(json && json.message ? json.message : "server error"); }
-  })
-  .catch(function(err) { onError(err.message || "network error"); });
+  // الترتيب: keepalive → fetch (3 retries) → beacon+error
+  sendWithFetchKeepalive(payload, function(ok1) {
+    if (ok1) { onSuccess(); return; }
+    sendWithFetch(payload, function(ok2) {
+      if (ok2) { onSuccess(); return; }
+      onError();
+    });
+  });
 }
 
 // ============================================================
@@ -1653,7 +1736,6 @@ function resetForm(){
   if(prevShift)shiftDD.setValue(prevShift);
   if(prevUnit)unitDD.setValue(prevUnit);
 
-  // Auto-fill last labeler & PC
   var lastLab=localStorage.getItem(NK_LAST_LAB), lastPC=localStorage.getItem(NK_LAST_PC);
   if(lastLab)document.getElementById("labName").value=lastLab;
   if(lastPC){document.getElementById("pcNo").value=lastPC;validatePC(lastPC);}
@@ -1706,17 +1788,14 @@ document.getElementById("clearPCBtn").addEventListener("click",   function(){loc
 document.getElementById("clearShiftBtn").addEventListener("click",function(){localStorage.removeItem(NK_SHIFT);renderStorageManager();});
 document.getElementById("clearUnitBtn").addEventListener("click", function(){localStorage.removeItem(NK_UNIT); renderStorageManager();});
 
-// Counter buttons
 document.getElementById("counterResetBtn").addEventListener("click",function(){resetCounter();});
 document.getElementById("counterUndoBtn").addEventListener("click", function(){undoCounter();});
-
 
 // ============================================================
 // INIT
 // ============================================================
 renderCounter();
 
-// Auto-fill last session
 (function(){
   var lastShift=getShiftH()[0], lastUnit=getUnitH()[0];
   var lastLab=localStorage.getItem(NK_LAST_LAB), lastPC=localStorage.getItem(NK_LAST_PC);
@@ -1726,7 +1805,6 @@ renderCounter();
   if(lastPC)    {document.getElementById("pcNo").value=lastPC; validatePC(lastPC);}
 })();
 
-// Floating counter scroll
 (function(){
   var header=document.querySelector("header.main-header"), floating=document.getElementById("floatingCounter");
   window.addEventListener("scroll",function(){floating.classList.toggle("visible",header.getBoundingClientRect().bottom<0);},{passive:true});
