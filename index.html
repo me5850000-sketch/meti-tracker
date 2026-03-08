@@ -302,7 +302,7 @@ input[type=number] { -moz-appearance:textfield }
 .sdb input.sd-input::placeholder { color:var(--text-muted) }
 .sdb .sd-arrow {
   display: flex; align-items: center; justify-content: center;
-  width: 48px; min-width: 48px; flex-shrink: 0;
+  width: 80px; min-width: 80px; flex-shrink: 0; /* ← enlarged from 48px */
   background: var(--primary-xlight);
   border-left: 1.5px solid var(--border);
   color: var(--primary);
@@ -853,7 +853,7 @@ input[type=number] { -moz-appearance:textfield }
                   <li data-v="QA">QA</li>
                 </ul>
                 <input type="hidden" id="pass">
-                <span id="passIcon" style="position:absolute;right:56px;top:50%;transform:translateY(-50%);font-size:.8rem;opacity:.4;pointer-events:none;z-index:10;">&#8212;</span>
+                <span id="passIcon" style="position:absolute;right:90px;top:50%;transform:translateY(-50%);font-size:.8rem;opacity:.4;pointer-events:none;z-index:10;">&#8212;</span>
               </div>
               <div id="passWarn" class="warn-box" dir="rtl">
                 <span class="warn-icon">&#9888;</span>
@@ -960,9 +960,6 @@ input[type=number] { -moz-appearance:textfield }
 <div class="toast" id="toast"></div>
 
 <script>
-// ============================================================
-// CONFIG — Supabase Direct
-// ============================================================
 var SUPABASE_URL  = "https://mlncwxzugxjulxxuhmsd.supabase.co";
 var SUPABASE_KEY  = "sb_publishable_RtZHLhzm4qLWYbIGIU54Eg_Schs3Nxy";
 var SUPABASE_ENDPOINT = SUPABASE_URL + "/rest/v1/meti_tasks";
@@ -981,11 +978,9 @@ var NK_UNIT     = "meti_unit_history";
 var NK_TASK_IDS = "meti_task_ids_history";
 var NK_LAST_LAB = "meti_last_labeler";
 var NK_LAST_PC  = "meti_last_pc";
+var NK_QTC_SHIFT = "meti_qtc_shift_last";
 var TASK_WINDOW_MS = 8 * 60 * 60 * 1000;
 
-// ============================================================
-// BUILD ROW — map payload → Supabase columns
-// ============================================================
 function buildRow(b) {
   return {
     timestamp:     b.timestamp    || "",
@@ -1005,9 +1000,6 @@ function buildRow(b) {
   };
 }
 
-// ============================================================
-// TASK COUNTER
-// ============================================================
 var NK_COUNTER     = "meti_task_counter";
 var COUNTER_WINDOW = 16 * 60 * 60 * 1000;
 var counterUndoVal = null;
@@ -1063,9 +1055,6 @@ function renderCounter() {
 }
 setInterval(function() { getCounter(); renderCounter(); }, 60000);
 
-// ============================================================
-// TASK ID HISTORY
-// ============================================================
 function getRecentTaskIds() {
   try { return JSON.parse(localStorage.getItem(NK_TASK_IDS)) || []; } catch(e) { return []; }
 }
@@ -1088,9 +1077,6 @@ function formatTimeAgo(ts) {
   return days + " day" + (days > 1 ? "s" : "") + " ago";
 }
 
-// ============================================================
-// QTC DATA
-// ============================================================
 var QTC_DATA = {
   "Morning": [
     {name:"Abdelrahman Refaat",role:"QT"},{name:"Hassan Mohamed",role:"QT"},
@@ -1150,9 +1136,6 @@ var QTC_DATA = {
   ]
 };
 
-// ============================================================
-// HELPERS
-// ============================================================
 var selectedQTC = null, linkTaskId = "", linkPassVal = "";
 
 function toast(msg, type) {
@@ -1184,9 +1167,6 @@ function checkPassWarn() {
   else{warn.style.display="none";if(linkPassVal&&cur&&cur===linkPassVal){pi.textContent="\u2713";pi.style.color="var(--success)";pi.style.opacity="1";}}
 }
 
-// ============================================================
-// STAGE AUTO-DETECT
-// ============================================================
 function detectStage(url) {
   var u=(url||"").toUpperCase();
   if(u.indexOf("SELLIVANDAR")>-1)    return "Lidar Stage";
@@ -1201,9 +1181,6 @@ function updateStageField(url) {
   else{el.value="";el.style.borderColor="";el.style.color="var(--text-muted)";icon.textContent="\u2014";icon.style.color="";icon.style.opacity=".4";}
 }
 
-// ============================================================
-// CLOCK
-// ============================================================
 function tick() {
   var d=new Date();
   var el=document.getElementById("ts"), top=document.getElementById("topTime");
@@ -1212,9 +1189,6 @@ function tick() {
 }
 tick(); setInterval(tick,1000);
 
-// ============================================================
-// PROGRESS BAR
-// ============================================================
 function updateProgress() {
   var fields=["shift","unit","pcNo","labName","yk","modality","taskLink","taskId","pass","qtcName","objCount"];
   var filled=fields.filter(function(id){var el=document.getElementById(id);return el&&el.value&&el.value.trim();}).length;
@@ -1224,11 +1198,7 @@ document.querySelectorAll("input,select,textarea").forEach(function(el){
   el.addEventListener("input",updateProgress); el.addEventListener("change",updateProgress);
 });
 
-// ============================================================
-// LABELER NAME
-// ============================================================
 document.getElementById("labName").addEventListener("input",function(){
-  // Auto-capitalize first letter of each word
   var pos=this.selectionStart;
   this.value=this.value.replace(/\b([a-zA-Z])/g,function(c){return c.toUpperCase();});
   this.setSelectionRange(pos,pos);
@@ -1238,9 +1208,6 @@ document.getElementById("labName").addEventListener("input",function(){
   document.getElementById("labNameWarn").style.display=hasNonEng?"flex":"none";
 });
 
-// ============================================================
-// TASK ID
-// ============================================================
 document.getElementById("taskId").addEventListener("input",function(){
   var v=this.value, hasNonNum=v.length>0&&/\D/.test(v);
   this.style.borderColor=hasNonNum?"var(--error)":"";
@@ -1255,9 +1222,6 @@ document.getElementById("taskId").addEventListener("input",function(){
   } else {document.getElementById("taskIdWarn").style.display="none";}
 });
 
-// ============================================================
-// PC NO. AUTOCOMPLETE
-// ============================================================
 var pcIn=document.getElementById("pcNo"), pcAcL=document.getElementById("pcAcList"), pcActive=-1;
 function renderPCAC(q){
   var hits=q?getPCH().filter(function(n){return n.toLowerCase().indexOf(q.toLowerCase())>-1;}):getPCH();
@@ -1293,9 +1257,6 @@ pcIn.addEventListener("keydown",function(e){
   else if(e.key==="Escape"){pcAcL.classList.remove("open");pcActive=-1;}
 });
 
-// ============================================================
-// SEARCHABLE DROPDOWN FACTORY
-// ============================================================
 function makeSearchableDropdown(opts){
   var btn=document.getElementById(opts.btnId),inp=document.getElementById(opts.inputId),
       list=document.getElementById(opts.listId),hidden=document.getElementById(opts.hiddenId),
@@ -1325,7 +1286,11 @@ var unitDD     = makeSearchableDropdown({btnId:"unitBtn",     inputId:"unitInput
 var modalityDD = makeSearchableDropdown({btnId:"modalityBtn", inputId:"modalityInput", listId:"modalityList", hiddenId:"modality"});
 var queueDD    = makeSearchableDropdown({btnId:"queueBtn",    inputId:"queueInput",    listId:"queueList",    hiddenId:"qName",       displayId:"queueDisplay"});
 var passDD     = makeSearchableDropdown({btnId:"passBtn",     inputId:"passInput",     listId:"passList",     hiddenId:"pass",        onSelect:function(){checkPassWarn();}});
-var qtcShiftDD = makeSearchableDropdown({btnId:"qtcShiftBtn", inputId:"qtcShiftInput", listId:"qtcShiftList", hiddenId:"qtcShiftSel", onSelect:function(val){buildQTCGrid(val);var s=document.getElementById("qtcSearch");if(s)s.value="";}});
+var qtcShiftDD = makeSearchableDropdown({btnId:"qtcShiftBtn", inputId:"qtcShiftInput", listId:"qtcShiftList", hiddenId:"qtcShiftSel", onSelect:function(val){
+  buildQTCGrid(val);
+  var s=document.getElementById("qtcSearch");if(s)s.value="";
+  localStorage.setItem(NK_QTC_SHIFT, val);
+}});
 
 document.addEventListener("click",function(e){
   ["shiftBtn","unitBtn","qtcShiftBtn","modalityBtn","queueBtn","passBtn"].forEach(function(id){
@@ -1334,9 +1299,6 @@ document.addEventListener("click",function(e){
   });
 });
 
-// ============================================================
-// AUTOCOMPLETE — Labeler Name
-// ============================================================
 var labIn=document.getElementById("labName"),acL=document.getElementById("acList"),acActive=-1;
 function renderAC(q){
   var hits=q?getN().filter(function(n){return n.toLowerCase().indexOf(q.toLowerCase())>-1;}):getN();
@@ -1365,9 +1327,6 @@ labIn.addEventListener("keydown",function(e){
   else if(e.key==="Escape"){acL.classList.remove("open");acActive=-1;}
 });
 
-// ============================================================
-// YUBIKEY AUTOCOMPLETE + VALIDATION
-// ============================================================
 var ykIn=document.getElementById("yk"),ykAcL=document.getElementById("ykAcList"),ykActive=-1;
 function validateYK(v){
   var hint=document.getElementById("ykHint");
@@ -1395,7 +1354,6 @@ function renderYKAC(q){
 ykIn.addEventListener("input",function(){
   var v = this.value;
   if(/^\d+$/.test(v) && v.length > 6){ v = v.slice(0, 6); }
-  // Auto-convert 6 digits → me123456@meti.ai
   if(/^\d{6}$/.test(v)){ v = "me" + v + "@meti.ai"; }
   if(/@meti\.ai$/i.test(v)){ v = v.toLowerCase().trim(); }
   this.value = v;
@@ -1412,9 +1370,6 @@ ykIn.addEventListener("keydown",function(e){
   else if(e.key==="Escape"){ykAcL.classList.remove("open");ykActive=-1;}
 });
 
-// ============================================================
-// QTC GRID
-// ============================================================
 function buildQTCGrid(shift){
   var grid=document.getElementById("qtcGrid"),disp=document.getElementById("qtcSelectedDisplay"),
       wrap=document.getElementById("qtcPickerWrap"),msg=document.getElementById("qtcShiftMsg"),
@@ -1447,16 +1402,10 @@ document.getElementById("qtcSearch").addEventListener("input",function(){
   });
 });
 
-// ============================================================
-// TASK LINK — Auto-fill ID, Pass, Stage
-// ============================================================
 document.getElementById("taskLink").addEventListener("input",function(){
   var url=this.value.trim(), PREFIX="https://labeling.robot.car/#";
-  // Trim URL to keep only up to /id/XXXXXXXXX
   var idMatch=url.match(/(https:\/\/labeling\.robot\.car\/#\/tasks\/do\/[^\/]+\/id\/\d+)/);
-  if(idMatch && url.length > idMatch[1].length){
-    this.value=idMatch[1]; url=idMatch[1];
-  }
+  if(idMatch && url.length > idMatch[1].length){ this.value=idMatch[1]; url=idMatch[1]; }
   var hint=document.getElementById("linkHint"),idEl=document.getElementById("taskId"),icon=document.getElementById("idIcon");
   if(url.length>0&&!url.startsWith(PREFIX)){this.style.borderColor="var(--error)";hint.style.color="var(--error)";}
   else{this.style.borderColor=url.length>0?"#1a8a5a":"";hint.style.color="";}
@@ -1470,112 +1419,44 @@ document.getElementById("taskLink").addEventListener("input",function(){
   updateProgress();
 });
 
-// ============================================================
-// SEND TO SUPABASE — 3-layer fallback
-// ============================================================
 var _activeBtn = null;
 
 function sendWithFetchKeepalive(row, callback) {
   var controller = new AbortController();
   var timer = setTimeout(function() { controller.abort(); }, 12000);
-  fetch(SUPABASE_ENDPOINT, {
-    method: "POST", mode: "cors",
-    headers: SUPABASE_HEADERS,
-    body: JSON.stringify(row),
-    keepalive: true, signal: controller.signal
-  })
-  .then(function(res) {
-    clearTimeout(timer);
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    callback(true);
-  })
-  .catch(function(err) {
-    clearTimeout(timer);
-    console.warn("[attempt-1 keepalive] failed:", err.message);
-    callback(false);
-  });
+  fetch(SUPABASE_ENDPOINT, { method:"POST", mode:"cors", headers:SUPABASE_HEADERS, body:JSON.stringify(row), keepalive:true, signal:controller.signal })
+  .then(function(res){ clearTimeout(timer); if(!res.ok)throw new Error("HTTP "+res.status); callback(true); })
+  .catch(function(err){ clearTimeout(timer); console.warn("[attempt-1 keepalive] failed:",err.message); callback(false); });
 }
-
 function sendWithFetch(row, callback) {
   var controller = new AbortController();
   var timer = setTimeout(function() { controller.abort(); }, 10000);
-  fetch(SUPABASE_ENDPOINT, {
-    method: "POST", mode: "cors",
-    headers: SUPABASE_HEADERS,
-    body: JSON.stringify(row),
-    signal: controller.signal
-  })
-  .then(function(res) {
-    clearTimeout(timer);
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    callback(true);
-  })
-  .catch(function(err) {
-    clearTimeout(timer);
-    console.warn("[attempt-2 fetch] failed:", err.message);
-    callback(false);
-  });
+  fetch(SUPABASE_ENDPOINT, { method:"POST", mode:"cors", headers:SUPABASE_HEADERS, body:JSON.stringify(row), signal:controller.signal })
+  .then(function(res){ clearTimeout(timer); if(!res.ok)throw new Error("HTTP "+res.status); callback(true); })
+  .catch(function(err){ clearTimeout(timer); console.warn("[attempt-2 fetch] failed:",err.message); callback(false); });
 }
-
 function sendWithBeacon(row) {
-  try {
-    var sent = navigator.sendBeacon(
-      SUPABASE_ENDPOINT + "?apikey=" + SUPABASE_KEY,
-      new Blob([JSON.stringify(row)], { type: "application/json" })
-    );
-    console.log("[attempt-3 beacon] sent:", sent);
-    return sent;
-  } catch(e) {
-    console.warn("[attempt-3 beacon] failed:", e.message);
-    return false;
-  }
+  try { var sent=navigator.sendBeacon(SUPABASE_ENDPOINT+"?apikey="+SUPABASE_KEY, new Blob([JSON.stringify(row)],{type:"application/json"})); console.log("[attempt-3 beacon] sent:",sent); return sent; }
+  catch(e){ console.warn("[attempt-3 beacon] failed:",e.message); return false; }
 }
 
-// ============================================================
-// MAIN SUBMIT
-// ============================================================
 function doSubmit(payload, btn) {
-  _activeBtn = btn;
-  btn.disabled = true;
-  btn.textContent = "Submitting...";
-  btn.classList.remove("error-state");
-
+  _activeBtn = btn; btn.disabled=true; btn.textContent="Submitting..."; btn.classList.remove("error-state");
   var row = buildRow(payload);
-
   function onSuccess() {
-    saveTaskIdToHistory(payload.taskId);
-    incrementCounter();
-    var _sp = (payload.labelerName && payload.labelerName.toLowerCase() === "radwa hassan")
-           && (payload.pcNo && payload.pcNo.toString() === "12");
-    toast(_sp ? "🦉\u2713 Saved successfully🦉" : "\u2714 Saved successfully!", "ok");
-    btn.disabled = false;
-    btn.textContent = "\u2714\u00a0 Submit Task";
-    resetForm();
+    saveTaskIdToHistory(payload.taskId); incrementCounter();
+    var _sp=(payload.labelerName&&payload.labelerName.toLowerCase()==="radwa hassan")&&(payload.pcNo&&payload.pcNo.toString()==="12");
+    toast(_sp?"🦉\u2713 Saved successfully🦉":"\u2714 Saved successfully!","ok");
+    btn.disabled=false; btn.textContent="\u2714\u00a0 Submit Task"; resetForm();
   }
   function onError() {
-    sendWithBeacon(row);
-    btn.disabled = false;
-    btn.textContent = "\u26a0\ufe0f Error \u2014 Please Try Again";
-    btn.classList.add("error-state");
-    toast("\u26a0 Failed to submit \u2014 please check your connection and try again", "err");
-    setTimeout(function() {
-      btn.textContent = "\u2714\u00a0 Submit Task";
-      btn.classList.remove("error-state");
-    }, 6000);
+    sendWithBeacon(row); btn.disabled=false; btn.textContent="\u26a0\ufe0f Error \u2014 Please Try Again"; btn.classList.add("error-state");
+    toast("\u26a0 Failed to submit \u2014 please check your connection and try again","err");
+    setTimeout(function(){ btn.textContent="\u2714\u00a0 Submit Task"; btn.classList.remove("error-state"); },6000);
   }
-
-  sendWithFetchKeepalive(row, function(ok1) {
-    if (ok1) { onSuccess(); return; }
-    sendWithFetch(row, function(ok2) {
-      if (ok2) { onSuccess(); return; }
-      onError();
-    });
-  });
+  sendWithFetchKeepalive(row,function(ok1){ if(ok1){onSuccess();return;} sendWithFetch(row,function(ok2){ if(ok2){onSuccess();return;} onError(); }); });
 }
 
-// ============================================================
-// FORM SUBMIT HANDLER
-// ============================================================
 document.getElementById("F").addEventListener("submit",function(e){
   e.preventDefault();
   var err=false;
@@ -1606,41 +1487,27 @@ document.getElementById("F").addEventListener("submit",function(e){
   chkDD("pass","passBtn");
   if(obj===""){me("objCount");err=true;toast("Please enter number of objects","err");return;}
   if(err){toast("Please fill all required fields","err");return;}
-
   saveN(lab); saveYK(yk);
   savePCH(document.getElementById("pcNo").value);
   saveShiftH(document.getElementById("shift").value);
   saveUnitH(document.getElementById("unit").value);
   localStorage.setItem(NK_LAST_LAB, lab);
-  localStorage.setItem(NK_LAST_PC,  document.getElementById("pcNo").value);
-
+  localStorage.setItem(NK_LAST_PC, document.getElementById("pcNo").value);
   var payload={
-    timestamp:    document.getElementById("ts").value,
-    shift:        document.getElementById("shift").value,
-    unit:         document.getElementById("unit").value,
-    qtcName:      document.getElementById("qtcName").value,
-    yubikeyEmail: yk,
-    labelerName:  lab,
-    pcNo:         document.getElementById("pcNo").value,
-    modality:     document.getElementById("modality").value,
-    queueName:    document.getElementById("qName").value,
-    taskLink:     lnk,
-    taskId:       taskIdVal,
-    pass:         document.getElementById("pass").value,
-    stage:        document.getElementById("stageField").value,
-    objectCount:  obj
+    timestamp:document.getElementById("ts").value, shift:document.getElementById("shift").value,
+    unit:document.getElementById("unit").value, qtcName:document.getElementById("qtcName").value,
+    yubikeyEmail:yk, labelerName:lab, pcNo:document.getElementById("pcNo").value,
+    modality:document.getElementById("modality").value, queueName:document.getElementById("qName").value,
+    taskLink:lnk, taskId:taskIdVal, pass:document.getElementById("pass").value,
+    stage:document.getElementById("stageField").value, objectCount:obj
   };
-
-  var btn=document.getElementById("subBtn");
-  btn.disabled=true;
-
+  var btn=document.getElementById("subBtn"); btn.disabled=true;
   var dupEntry=checkDuplicateTaskId(payload.taskId);
   if(dupEntry){
     var timeStr=formatTimeAgo(dupEntry.ts);
     document.getElementById("dupIdBadge").textContent=payload.taskId;
     document.getElementById("dupSubmitLine").innerHTML='انت بعت الـ <span dir="ltr">Task ID</span> ده مره بالفعل من <span class="dup-time-badge">&#9201; '+timeStr+'</span>';
-    var overlay=document.getElementById("dupOverlay");
-    overlay.classList.add("show");
+    var overlay=document.getElementById("dupOverlay"); overlay.classList.add("show");
     document.getElementById("dupCancel").onclick=function(){overlay.classList.remove("show");btn.disabled=false;btn.textContent="\u2714\u00a0 Submit Task";};
     document.getElementById("dupOk").onclick=function(){overlay.classList.remove("show");doSubmit(payload,btn);};
     return;
@@ -1648,9 +1515,6 @@ document.getElementById("F").addEventListener("submit",function(e){
   doSubmit(payload,btn);
 });
 
-// ============================================================
-// RESET FORM
-// ============================================================
 function resetForm(){
   document.getElementById("F").reset();
   tick(); selectedQTC=null; linkPassVal="";
@@ -1677,11 +1541,13 @@ function resetForm(){
   updateStageField("");
   var prevShift=document.getElementById("shift").value, prevUnit=document.getElementById("unit").value;
   shiftDD.reset();unitDD.reset();qtcShiftDD.reset();modalityDD.reset();queueDD.reset();passDD.reset();
-  if(prevShift)shiftDD.setValue(prevShift);
-  if(prevUnit)unitDD.setValue(prevUnit);
+  if(prevShift) shiftDD.setValue(prevShift);
+  if(prevUnit)  unitDD.setValue(prevUnit);
+  var savedQtcShift=localStorage.getItem(NK_QTC_SHIFT);
+  if(savedQtcShift) setTimeout(function(){ qtcShiftDD.setValue(savedQtcShift); buildQTCGrid(savedQtcShift); },0);
   var lastLab=localStorage.getItem(NK_LAST_LAB), lastPC=localStorage.getItem(NK_LAST_PC);
-  if(lastLab)document.getElementById("labName").value=lastLab;
-  if(lastPC){document.getElementById("pcNo").value=lastPC;validatePC(lastPC);}
+  if(lastLab) document.getElementById("labName").value=lastLab;
+  if(lastPC)  { document.getElementById("pcNo").value=lastPC; validatePC(lastPC); }
   ["labName","yk","pcNo","taskLink","taskId","objCount"].forEach(function(id){
     var el=document.getElementById(id);
     if(el){el.classList.remove("err-field");el.style.borderColor="";el.style.boxShadow="";}
@@ -1691,14 +1557,10 @@ function resetForm(){
   document.getElementById("yk").style.borderColor="";
   ykAcL.classList.remove("open"); pcAcL.classList.remove("open");
   var btn=document.getElementById("subBtn");
-  btn.textContent="\u2714\u00a0 Submit Task";
-  btn.classList.remove("error-state");
+  btn.textContent="\u2714\u00a0 Submit Task"; btn.classList.remove("error-state");
   document.getElementById("progressBar").style.width="0%";
 }
 
-// ============================================================
-// STORAGE MANAGER
-// ============================================================
 document.getElementById("storageToggle").addEventListener("click",function(){
   var body=document.getElementById("storageBody"),arrow=document.getElementById("storageArrow"),open=body.style.display==="none";
   body.style.display=open?"block":"none"; arrow.classList.toggle("open",open);
@@ -1732,17 +1594,18 @@ document.getElementById("clearUnitBtn").addEventListener("click", function(){loc
 document.getElementById("counterResetBtn").addEventListener("click",function(){resetCounter();});
 document.getElementById("counterUndoBtn").addEventListener("click", function(){undoCounter();});
 
-// ============================================================
-// INIT
-// ============================================================
 renderCounter();
 (function(){
-  var lastShift=getShiftH()[0], lastUnit=getUnitH()[0];
-  var lastLab=localStorage.getItem(NK_LAST_LAB), lastPC=localStorage.getItem(NK_LAST_PC);
-  if(lastShift) setTimeout(function(){shiftDD.setValue(lastShift);},0);
-  if(lastUnit)  setTimeout(function(){unitDD.setValue(lastUnit);},0);
-  if(lastLab)   document.getElementById("labName").value=lastLab;
-  if(lastPC)    {document.getElementById("pcNo").value=lastPC; validatePC(lastPC);}
+  var lastShift    = getShiftH()[0];
+  var lastUnit     = getUnitH()[0];
+  var lastQtcShift = localStorage.getItem(NK_QTC_SHIFT);
+  var lastLab      = localStorage.getItem(NK_LAST_LAB);
+  var lastPC       = localStorage.getItem(NK_LAST_PC);
+  if(lastShift)    setTimeout(function(){ shiftDD.setValue(lastShift); }, 0);
+  if(lastUnit)     setTimeout(function(){ unitDD.setValue(lastUnit); }, 0);
+  if(lastQtcShift) setTimeout(function(){ qtcShiftDD.setValue(lastQtcShift); buildQTCGrid(lastQtcShift); }, 0);
+  if(lastLab)      document.getElementById("labName").value = lastLab;
+  if(lastPC)       { document.getElementById("pcNo").value = lastPC; validatePC(lastPC); }
 })();
 (function(){
   var header=document.querySelector("header.main-header"), floating=document.getElementById("floatingCounter");
