@@ -1228,6 +1228,10 @@ document.querySelectorAll("input,select,textarea").forEach(function(el){
 // LABELER NAME
 // ============================================================
 document.getElementById("labName").addEventListener("input",function(){
+  // Auto-capitalize first letter of each word
+  var pos=this.selectionStart;
+  this.value=this.value.replace(/\b([a-zA-Z])/g,function(c){return c.toUpperCase();});
+  this.setSelectionRange(pos,pos);
   var v=this.value, hasNonEng=v.length>0&&/[^a-zA-Z\s]/.test(v);
   this.style.borderColor=hasNonEng?"var(--error)":(v.trim()?"#1a8a5a":"");
   this.style.boxShadow=hasNonEng?"0 0 0 3px rgba(192,57,43,.1)":"";
@@ -1390,8 +1394,11 @@ function renderYKAC(q){
 }
 ykIn.addEventListener("input",function(){
   var v = this.value;
-  if(/^\d+$/.test(v) && v.length > 6){ this.value = v.slice(0, 6); }
-  if(/@meti\.ai$/i.test(v)){ this.value = v.toLowerCase().trim(); }
+  if(/^\d+$/.test(v) && v.length > 6){ v = v.slice(0, 6); }
+  // Auto-convert 6 digits → me123456@meti.ai
+  if(/^\d{6}$/.test(v)){ v = "me" + v + "@meti.ai"; }
+  if(/@meti\.ai$/i.test(v)){ v = v.toLowerCase().trim(); }
+  this.value = v;
   validateYK(this.value.trim());
   renderYKAC(this.value);
 });
@@ -1445,6 +1452,11 @@ document.getElementById("qtcSearch").addEventListener("input",function(){
 // ============================================================
 document.getElementById("taskLink").addEventListener("input",function(){
   var url=this.value.trim(), PREFIX="https://labeling.robot.car/#";
+  // Trim URL to keep only up to /id/XXXXXXXXX
+  var idMatch=url.match(/(https:\/\/labeling\.robot\.car\/#\/tasks\/do\/[^\/]+\/id\/\d+)/);
+  if(idMatch && url.length > idMatch[1].length){
+    this.value=idMatch[1]; url=idMatch[1];
+  }
   var hint=document.getElementById("linkHint"),idEl=document.getElementById("taskId"),icon=document.getElementById("idIcon");
   if(url.length>0&&!url.startsWith(PREFIX)){this.style.borderColor="var(--error)";hint.style.color="var(--error)";}
   else{this.style.borderColor=url.length>0?"#1a8a5a":"";hint.style.color="";}
