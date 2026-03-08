@@ -1590,7 +1590,7 @@ function doSubmit(payload, btn) {
   btn.disabled    = true;
   btn.textContent = "Submitting...";
   btn.classList.remove("error-state");
-
+ payload._requestId = Date.now() + "-" + Math.random().toString(36).slice(2, 9);
   function onSuccess() {
     saveTaskIdToHistory(payload.taskId);
     incrementCounter();
