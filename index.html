@@ -1450,7 +1450,7 @@ document.getElementById("taskLink").addEventListener("input",function(){
   if(dM){var dp=dM[1].toUpperCase().endsWith("QA")?"QA":"FP";linkPassVal=dp;passDD.setValue(dp);var pi=document.getElementById("passIcon");pi.textContent="\u2713";pi.style.color="var(--success)";pi.style.opacity="1";document.getElementById("passWarn").style.display="none";}
   else{linkPassVal="";passDD.reset();document.getElementById("passWarn").style.display="none";var pi2=document.getElementById("passIcon");pi2.textContent="\u2014";pi2.style.color="";pi2.style.opacity=".4";}
   // ── Real-time warnings ──
-  var hasArabic=/[؀-ۿ]/.test(url);
+  var hasArabic=/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/.test(url);
   var hasStage=!!detectStage(url), idMatch2=url.match(/\/id\/(\d+)/);
   var hasId=!!idMatch2, idVal=idMatch2?idMatch2[1]:"", idTooShort=hasId&&idVal.length<10;
   var taskIdEl=document.getElementById("taskId");
@@ -1480,7 +1480,7 @@ var _activeBtn = null;
 function sendWithFetchKeepalive(row, callback) {
   var controller = new AbortController();
   var timer = setTimeout(function() { controller.abort(); }, 12000);
-  fetch(SUPABASE_ENDPOINT, { method:"POST", mode:"cors", headers:SUPABASE_HEADERS, body:JSON.stringify(row), signal:controller.signal })
+  fetch(SUPABASE_ENDPOINT, { method:"POST", mode:"cors", headers:SUPABASE_HEADERS, body:JSON.stringify(row), keepalive:true, signal:controller.signal })
   .then(function(res){ clearTimeout(timer); if(!res.ok)throw new Error("HTTP "+res.status); callback(true); })
   .catch(function(err){ clearTimeout(timer); console.warn("[attempt-1 keepalive] failed:",err.message); callback(false); });
 }
@@ -1543,7 +1543,7 @@ document.getElementById("F").addEventListener("submit",function(e){
   chkDD("pass","passBtn");
 
   // ── Arabic check ──
-  if(/[؀-ۿ]/.test(lnk)){me("taskLink");toast("الـ Link مش بيقبل حروف عربية","err");return;}
+  if(/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/.test(lnk)){me("taskLink");toast("الـ Link مش بيقبل حروف عربية","err");return;}
   // ── Stage + Task ID validation (both required in link) ──
   var stageVal=document.getElementById("stageField").value.trim();
   var taskIdInLink=!!document.getElementById("taskLink").value.trim().match(/\/id\/\d+/);
