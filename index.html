@@ -1569,11 +1569,10 @@ document.getElementById("F").addEventListener("submit",function(e){
     // check ID length >= 10
     var idInLink=lnk.match(/\/id\/(\d+)/);
     if(idInLink && idInLink[1].length < 10){
-      me("taskLink");
+      me("taskLink"); me("taskId");
       toast("الـ Task ID لازم يكون 10 أرقام على الأقل","err");
       return;
     }
-  } if(true) {
     var sfEl2=document.getElementById("stageField");
     sfEl2.style.borderColor="#1a8a5a";
     sfEl2.style.boxShadow="";
