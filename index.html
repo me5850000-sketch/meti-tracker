@@ -1480,7 +1480,7 @@ var _activeBtn = null;
 function sendWithFetchKeepalive(row, callback) {
   var controller = new AbortController();
   var timer = setTimeout(function() { controller.abort(); }, 12000);
-  fetch(SUPABASE_ENDPOINT, { method:"POST", mode:"cors", headers:SUPABASE_HEADERS, body:JSON.stringify(row), keepalive:true, signal:controller.signal })
+  fetch(SUPABASE_ENDPOINT, { method:"POST", mode:"cors", headers:SUPABASE_HEADERS, body:JSON.stringify(row), signal:controller.signal })
   .then(function(res){ clearTimeout(timer); if(!res.ok)throw new Error("HTTP "+res.status); callback(true); })
   .catch(function(err){ clearTimeout(timer); console.warn("[attempt-1 keepalive] failed:",err.message); callback(false); });
 }
