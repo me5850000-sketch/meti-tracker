@@ -87,10 +87,14 @@ body::before {
 header.main-header {
   width: 100%;
   background: var(--primary);
-  padding: 28px 48px 32px;
-  display: flex; align-items: flex-end; gap: 24px;
+  padding: 20px 48px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
   box-shadow: 0 2px 12px rgba(28,69,135,.25);
 }
+.header-top-row { display:none }
+.header-brand { display:none }
 .header-meti {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 3rem; font-weight: 800;
@@ -748,9 +752,7 @@ input[type=number] { -moz-appearance:textfield }
       <div class="header-full-name">Micro Engineering</div>
       <div class="header-dept">Labeling Operations · Internal System</div>
     </div>
-
-    <!-- ══ NEW INSTRUCTIONS BUTTON ══ -->
-    <div class="instructions-btn-wrap" style="margin-left:auto;">
+    <div class="instructions-btn-wrap">
       <span class="instructions-arabic-label">
         لو متلغبط اقرا الأول
         <span class="arrow-down-anim">👇</span>
@@ -767,8 +769,6 @@ input[type=number] { -moz-appearance:textfield }
         <span class="btn-arrow-big">➜</span>
       </a>
     </div>
-    <!-- ══════════════════════════════ -->
-
   </header>
 
   <div class="progress-bar-track">
