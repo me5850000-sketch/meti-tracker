@@ -302,7 +302,7 @@ input[type=number] { -moz-appearance:textfield }
 .sdb input.sd-input::placeholder { color:var(--text-muted) }
 .sdb .sd-arrow {
   display: flex; align-items: center; justify-content: center;
-  width: 80px; min-width: 80px; flex-shrink: 0; /* ← enlarged from 48px */
+  width: 80px; min-width: 80px; flex-shrink: 0;
   background: var(--primary-xlight);
   border-left: 1.5px solid var(--border);
   color: var(--primary);
@@ -780,7 +780,7 @@ input[type=number] { -moz-appearance:textfield }
               <span class="section-title">Task Details</span>
             </div>
             <div class="stage-wrap">
-              <span class="stage-label">Stage</span>
+              <span class="stage-label">Stage <span style="color:var(--error);font-size:.8rem;">*</span></span>
               <div class="stage-box">
                 <input type="text" id="stageField" readonly placeholder="Auto-filled from link...">
                 <span id="stageIcon">&#8212;</span>
@@ -824,6 +824,23 @@ input[type=number] { -moz-appearance:textfield }
               <span class="sub" id="linkHint">Must start with: https://labeling.robot.car/#</span>
             </label>
             <input type="text" id="taskLink" placeholder="https://labeling.robot.car/#..." required autocomplete="off">
+            <div id="linkNoStageWarn" class="warn-box" dir="rtl" style="display:none">
+              <span class="warn-icon">&#9888;</span>
+              <span>فين الـ <span dir="ltr">Stage</span> اللي في الـ <span dir="ltr">Link</span> (<span dir="ltr">SellIvandar / SellMsl / SellRelabeling</span>)</span>
+            </div>
+            <div id="linkNoIdWarn" class="warn-box" dir="rtl" style="display:none">
+              <span class="warn-icon">&#9888;</span>
+              <span>فين الـ <span dir="ltr">Task ID</span> اللي في الـ <span dir="ltr">Link</span></span>
+            </div>
+            <div id="linkShortIdWarn" class="warn-box" dir="rtl" style="display:none">
+              <span class="warn-icon">&#9888;</span>
+              <span>الـ <span dir="ltr">Task ID</span> لازم يكون <span dir="ltr">10</span> أرقام على الأقل</span>
+            </div>
+
+            <div id="linkArabicWarn" class="warn-box" dir="rtl" style="display:none">
+              <span class="warn-icon">&#9888;</span>
+              <span>الـ <span dir="ltr">Link</span> مش بيقبل حروف عربية</span>
+            </div>
           </div>
           <div class="g2">
             <div class="field">
@@ -839,6 +856,10 @@ input[type=number] { -moz-appearance:textfield }
               <div id="taskIdWarn" class="warn-box" dir="rtl">
                 <span class="warn-icon">&#9888;</span>
                 <span>خلي بالك الـ <span dir="ltr">Task ID</span> مختلف عن اللي في الـ <span dir="ltr">Link</span></span>
+              </div>
+              <div id="taskIdShortWarn" class="warn-box" dir="rtl" style="display:none">
+                <span class="warn-icon">&#9888;</span>
+                <span>الـ <span dir="ltr">Task ID</span> لازم يكون <span dir="ltr">10</span> أرقام على الأقل</span>
               </div>
             </div>
             <div class="field">
@@ -1177,8 +1198,16 @@ function detectStage(url) {
 function updateStageField(url) {
   var el=document.getElementById("stageField"), icon=document.getElementById("stageIcon"), stage=detectStage(url);
   el.classList.remove("filled");
-  if(stage){el.value=stage;el.classList.add("filled");el.style.borderColor="#6dbf9a";el.style.color="var(--text)";icon.textContent="\u2713";icon.style.color="#6dbf9a";icon.style.opacity="1";}
-  else{el.value="";el.style.borderColor="";el.style.color="var(--text-muted)";icon.textContent="\u2014";icon.style.color="";icon.style.opacity=".4";}
+  if(stage){
+    el.value=stage;el.classList.add("filled");
+    el.style.borderColor="#6dbf9a";el.style.color="var(--text)";
+    el.style.boxShadow="";
+    icon.textContent="\u2713";icon.style.color="#6dbf9a";icon.style.opacity="1";
+  } else {
+    el.value="";el.style.borderColor="";el.style.color="var(--text-muted)";
+    el.style.boxShadow="";
+    icon.textContent="\u2014";icon.style.color="";icon.style.opacity=".4";
+  }
 }
 
 function tick() {
@@ -1190,7 +1219,7 @@ function tick() {
 tick(); setInterval(tick,1000);
 
 function updateProgress() {
-  var fields=["shift","unit","pcNo","labName","yk","modality","taskLink","taskId","pass","qtcName","objCount"];
+  var fields=["shift","unit","pcNo","labName","yk","modality","taskLink","taskId","pass","qtcName","objCount","stageField"];
   var filled=fields.filter(function(id){var el=document.getElementById(id);return el&&el.value&&el.value.trim();}).length;
   document.getElementById("progressBar").style.width=Math.round(filled/fields.length*100)+"%";
 }
@@ -1217,9 +1246,10 @@ document.getElementById("taskId").addEventListener("input",function(){
   if(!hasNonNum){
     var differs=linkTaskId&&v.trim()&&v.trim()!==linkTaskId;
     document.getElementById("taskIdWarn").style.display=differs?"flex":"none";
+    document.getElementById("taskIdShortWarn").style.display=(!differs&&v.trim().length>0&&v.trim().length<10)?"flex":"none";
     if(differs){icon.textContent="\u2014";icon.style.color="";icon.style.opacity=".4";}
     else if(linkTaskId&&v.trim()&&v.trim()===linkTaskId){icon.textContent="\u2713";icon.style.color="var(--success)";icon.style.opacity="1";}
-  } else {document.getElementById("taskIdWarn").style.display="none";}
+  } else {document.getElementById("taskIdWarn").style.display="none";document.getElementById("taskIdShortWarn").style.display="none";}
 });
 
 var pcIn=document.getElementById("pcNo"), pcAcL=document.getElementById("pcAcList"), pcActive=-1;
@@ -1407,8 +1437,11 @@ document.getElementById("taskLink").addEventListener("input",function(){
   var idMatch=url.match(/(https:\/\/labeling\.robot\.car\/#\/tasks\/do\/[^\/]+\/id\/\d+)/);
   if(idMatch && url.length > idMatch[1].length){ this.value=idMatch[1]; url=idMatch[1]; }
   var hint=document.getElementById("linkHint"),idEl=document.getElementById("taskId"),icon=document.getElementById("idIcon");
-  if(url.length>0&&!url.startsWith(PREFIX)){this.style.borderColor="var(--error)";hint.style.color="var(--error)";}
-  else{this.style.borderColor=url.length>0?"#1a8a5a":"";hint.style.color="";}
+  var hasStage=detectStage(url)!=="", hasId=!!url.match(/\/id\/\d+/);
+  if(url.length===0){this.style.borderColor="";hint.style.color="";}
+  else if(!url.startsWith(PREFIX)){this.style.borderColor="var(--error)";hint.style.color="var(--error)";}
+  else if(hasStage&&hasId){this.style.borderColor="#1a8a5a";hint.style.color="";}
+  else{this.style.borderColor="var(--error)";hint.style.color="";}
   updateStageField(url);
   var idM=url.match(/\/id\/(\d+)/);
   if(idM){linkTaskId=idM[1];idEl.value=idM[1];idEl.style.borderColor="#1a8a5a";icon.textContent="\u2713";icon.style.color="var(--success)";icon.style.opacity="1";document.getElementById("taskIdWarn").style.display="none";}
@@ -1416,6 +1449,29 @@ document.getElementById("taskLink").addEventListener("input",function(){
   var dM=url.match(/\/do\/([^\/]+)\//);
   if(dM){var dp=dM[1].toUpperCase().endsWith("QA")?"QA":"FP";linkPassVal=dp;passDD.setValue(dp);var pi=document.getElementById("passIcon");pi.textContent="\u2713";pi.style.color="var(--success)";pi.style.opacity="1";document.getElementById("passWarn").style.display="none";}
   else{linkPassVal="";passDD.reset();document.getElementById("passWarn").style.display="none";var pi2=document.getElementById("passIcon");pi2.textContent="\u2014";pi2.style.color="";pi2.style.opacity=".4";}
+  // ── Real-time warnings ──
+  var hasArabic=/[؀-ۿ]/.test(url);
+  var hasStage=!!detectStage(url), idMatch2=url.match(/\/id\/(\d+)/);
+  var hasId=!!idMatch2, idVal=idMatch2?idMatch2[1]:"", idTooShort=hasId&&idVal.length<10;
+  var taskIdEl=document.getElementById("taskId");
+  document.getElementById("linkArabicWarn").style.display=hasArabic?"flex":"none";
+  document.getElementById("linkNoStageWarn").style.display=(!hasArabic&&url.length>10&&!hasStage)?"flex":"none";
+  document.getElementById("linkNoIdWarn").style.display=(!hasArabic&&url.length>10&&!hasId)?"flex":"none";
+  document.getElementById("linkShortIdWarn").style.display=(!hasArabic&&idTooShort)?"flex":"none";
+  document.getElementById("taskIdShortWarn").style.display=(!hasArabic&&idTooShort)?"flex":"none";
+  if(hasArabic){
+    this.style.borderColor="var(--error)"; hint.style.color="var(--error)";
+  } else if(idTooShort){
+    this.style.borderColor="var(--error)";
+    taskIdEl.style.borderColor="var(--error)";
+    taskIdEl.style.boxShadow="0 0 0 3px rgba(192,57,43,.1)";
+  } else if(url.length>0&&hasStage&&hasId){
+    taskIdEl.style.borderColor="#1a8a5a";
+    taskIdEl.style.boxShadow="";
+  } else {
+    taskIdEl.style.borderColor="";
+    taskIdEl.style.boxShadow="";
+  }
   updateProgress();
 });
 
@@ -1485,6 +1541,45 @@ document.getElementById("F").addEventListener("submit",function(e){
   var taskIdVal=document.getElementById("taskId").value.trim();
   if(!taskIdVal){me("taskId");err=true;}else{ce("taskId");}
   chkDD("pass","passBtn");
+
+  // ── Arabic check ──
+  if(/[؀-ۿ]/.test(lnk)){me("taskLink");toast("الـ Link مش بيقبل حروف عربية","err");return;}
+  // ── Stage + Task ID validation (both required in link) ──
+  var stageVal=document.getElementById("stageField").value.trim();
+  var taskIdInLink=!!document.getElementById("taskLink").value.trim().match(/\/id\/\d+/);
+  if(!stageVal && !taskIdInLink){
+    var sfEl=document.getElementById("stageField");
+    sfEl.style.borderColor="var(--error)";
+    sfEl.style.boxShadow="0 0 0 3px rgba(192,57,43,.1)";
+    me("taskLink");
+    toast("Task Link: اللينك لازم يحتوي على Stage و Task ID","err");
+    return;
+  } else if(!stageVal){
+    var sfEl=document.getElementById("stageField");
+    sfEl.style.borderColor="var(--error)";
+    sfEl.style.boxShadow="0 0 0 3px rgba(192,57,43,.1)";
+    me("taskLink");
+    toast("Task Link: اللينك لازم يحتوي على Stage صح","err");
+    return;
+  } else if(!taskIdInLink){
+    me("taskLink");
+    toast("Task Link: اللينك لازم يحتوي على Task ID","err");
+    return;
+  } else {
+    // check ID length >= 10
+    var idInLink=lnk.match(/\/id\/(\d+)/);
+    if(idInLink && idInLink[1].length < 10){
+      me("taskLink");
+      toast("الـ Task ID لازم يكون 10 أرقام على الأقل","err");
+      return;
+    }
+  } if(true) {
+    var sfEl2=document.getElementById("stageField");
+    sfEl2.style.borderColor="#1a8a5a";
+    sfEl2.style.boxShadow="";
+    ce("taskLink");
+  }
+
   if(obj===""){me("objCount");err=true;toast("Please enter number of objects","err");return;}
   if(err){toast("Please fill all required fields","err");return;}
   saveN(lab); saveYK(yk);
@@ -1499,7 +1594,7 @@ document.getElementById("F").addEventListener("submit",function(e){
     yubikeyEmail:yk, labelerName:lab, pcNo:document.getElementById("pcNo").value,
     modality:document.getElementById("modality").value, queueName:document.getElementById("qName").value,
     taskLink:lnk, taskId:taskIdVal, pass:document.getElementById("pass").value,
-    stage:document.getElementById("stageField").value, objectCount:obj
+    stage:stageVal, objectCount:obj
   };
   var btn=document.getElementById("subBtn"); btn.disabled=true;
   var dupEntry=checkDuplicateTaskId(payload.taskId);
@@ -1530,6 +1625,7 @@ function resetForm(){
   document.getElementById("taskId").style.borderColor="";
   document.getElementById("taskIdWarn").style.display="none";
   document.getElementById("taskIdNumWarn").style.display="none";
+  document.getElementById("taskIdShortWarn").style.display="none";
   document.getElementById("labNameWarn").style.display="none";
   document.getElementById("passWarn").style.display="none";
   var pIconR=document.getElementById("passIcon");
@@ -1539,6 +1635,8 @@ function resetForm(){
   document.getElementById("linkHint").style.color="";
   document.getElementById("taskLink").style.borderColor="";
   updateStageField("");
+  var sfReset=document.getElementById("stageField");
+  if(sfReset){sfReset.style.borderColor="";sfReset.style.boxShadow="";}
   var prevShift=document.getElementById("shift").value, prevUnit=document.getElementById("unit").value;
   shiftDD.reset();unitDD.reset();qtcShiftDD.reset();modalityDD.reset();queueDD.reset();passDD.reset();
   if(prevShift) shiftDD.setValue(prevShift);
