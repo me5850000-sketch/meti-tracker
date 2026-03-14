@@ -649,10 +649,8 @@ input[type=number] { -moz-appearance:textfield }
 .dup-explain { font-size:.82rem; color:#3a5068; direction:rtl; margin-top:8px; line-height:1.7; text-align:right; }
 .dup-divider { height:1px; background:#edf2f6; margin:0 -32px 20px; }
 .dup-btns { display:flex; flex-direction:column; gap:8px; }
-.dup-btn-cancel { width:100%; padding:13px; border-radius:8px; border:1.5px solid #f5c6c6; background:#fdf0ee; color:var(--error); font-weight:700; font-size:.95rem; cursor:pointer; font-family:'Plus Jakarta Sans',sans-serif; transition:all .15s; }
-.dup-btn-cancel:hover { background:#fae0dd; border-color:#e0a0a0; }
-.dup-btn-ok { width:fit-content; align-self:center; padding:6px 24px; border-radius:20px; border:none; background:transparent; color:var(--text-muted); font-weight:500; font-size:.78rem; cursor:pointer; font-family:'Inter',sans-serif; transition:all .15s; text-decoration:underline; text-underline-offset:3px; }
-.dup-btn-ok:hover { color:var(--error); }
+.dup-btn-cancel { width:100%; padding:13px; border-radius:8px; border:1.5px solid #c5d3ec; background:#f7f9fd; color:var(--text); font-weight:700; font-size:.95rem; cursor:pointer; font-family:'Plus Jakarta Sans',sans-serif; transition:all .15s; }
+.dup-btn-cancel:hover { background:var(--primary-xlight); border-color:var(--primary); color:var(--primary); }
 .sec-counter {
   display:flex; align-items:center; gap:10px;
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
@@ -748,10 +746,9 @@ input[type=number] { -moz-appearance:textfield }
     </div>
     <div class="instructions-btn-wrap">
       <span class="instructions-arabic-label">
-        لو متلغبط اقرا الأول
+        لو متلغبط اقرا وافهم الاول
         <span class="arrow-down-anim">👇</span>
       </span>
-      <!-- ✅ FIX: onclick opens base URL first, then scrolls to anchor after 1.5s -->
       <a href="#"
          class="instructions-btn-new"
          id="instructionsBtn"
@@ -1097,6 +1094,7 @@ input[type=number] { -moz-appearance:textfield }
   </div>
 </div>
 
+<!-- Duplicate Dialog — Ok button removed -->
 <div id="dupOverlay">
   <div class="dup-dialog">
     <div class="dup-icon">⚠️</div>
@@ -1108,12 +1106,14 @@ input[type=number] { -moz-appearance:textfield }
       </div>
       <div class="dup-submit-line" id="dupSubmitLine" dir="rtl"></div>
       <div class="dup-explain" dir="rtl">ده معناه إنك بعت نفس الـ Task مرة قبل كده، أو إن الـ Link اللي معاك اتعملله Copy من الـ Link القديم — اتأكد إن الـ Link بتاعك ده بتاع الـ Task الجديد فعلاً</div>
-      <div class="dup-question" dir="rtl">عاوز تبعت نفس الـ <span dir="ltr">Task ID</span> تاني؟</div>
+      <div class="dup-question" dir="rtl">ارجع وتأكد من الـ <span dir="ltr">Link</span> الأول</div>
     </div>
     <div class="dup-divider"></div>
     <div class="dup-btns">
-      <button class="dup-btn-cancel" id="dupCancel" type="button">Cancel</button>
-      <button class="dup-btn-ok" id="dupOk" type="button">Ok</button>
+      <button class="dup-btn-cancel" id="dupCancel" type="button" style="background:#fdf0ee;border:1.5px solid #f5c6c6;color:var(--error);">
+        <div style="font-size:.95rem;font-weight:800;color:var(--error);">Cancel : Report to QC</div>
+        <div style="font-size:.78rem;font-weight:600;color:#c0392b;margin-top:3px;direction:rtl;">بلّغ الـ QC بالغلط</div>
+      </button>
     </div>
   </div>
 </div>
@@ -1725,7 +1725,6 @@ document.getElementById("F").addEventListener("submit",function(e){
     document.getElementById("dupSubmitLine").innerHTML='انت بعت الـ <span dir="ltr">Task ID</span> ده مره بالفعل من <span class="dup-time-badge">&#9201; '+timeStr+'</span>';
     var overlay=document.getElementById("dupOverlay"); overlay.classList.add("show");
     document.getElementById("dupCancel").onclick=function(){overlay.classList.remove("show");btn.disabled=false;btn.textContent="\u2714\u00a0 Submit Task";};
-    document.getElementById("dupOk").onclick=function(){overlay.classList.remove("show");doSubmit(payload,btn);};
     return;
   }
   doSubmit(payload,btn);
