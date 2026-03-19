@@ -992,7 +992,7 @@ input[type=number] { -moz-appearance:textfield }
             <input type="text" id="taskLink" placeholder="https://labeling.robot.car/#..." required autocomplete="off">
             <div id="linkNoStageWarn" class="warn-box" dir="rtl" style="display:none">
               <span class="warn-icon">&#9888;</span>
-              <span>فين الـ <span dir="ltr">Stage</span> اللي في الـ <span dir="ltr">Link</span> (<span dir="ltr">SellIvandar / SellMsl / SellRelabeling</span>)</span>
+              <span>فين الـ <span dir="ltr">Stage</span> اللي في الـ <span dir="ltr">Link</span> (<span dir="ltr">SellIvandar / SellMsl/ SellMapping / SellRelabeling</span>)</span>
             </div>
             <div id="linkNoIdWarn" class="warn-box" dir="rtl" style="display:none">
               <span class="warn-icon">&#9888;</span>
@@ -1361,7 +1361,7 @@ function detectStage(url) {
   if(u.indexOf("SELLIVANDAR")>-1)    return "Lidar Stage";
   if(u.indexOf("SELLMSL")>-1)        return "Image Stage";
   if(u.indexOf("SELLRELABELING")>-1) return "Relabeling Stage";
-  if(u.indexOf("SELLMAPPING")>-1)    return "SELLMAPPING Stage";
+  if(u.indexOf("SELLMAPPING")>-1)    return "Sellmapping Stage";
   return "";
 }
 function updateStageField(url) {
