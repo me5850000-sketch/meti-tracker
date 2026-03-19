@@ -1361,6 +1361,7 @@ function detectStage(url) {
   if(u.indexOf("SELLIVANDAR")>-1)    return "Lidar Stage";
   if(u.indexOf("SELLMSL")>-1)        return "Image Stage";
   if(u.indexOf("SELLRELABELING")>-1) return "Relabeling Stage";
+  if(u.indexOf("SELLMAPPING")>-1)    return "SELLMAPPING Stage";
   return "";
 }
 function updateStageField(url) {
