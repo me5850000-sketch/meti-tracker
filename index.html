@@ -616,40 +616,17 @@ input[type=number] { -moz-appearance:textfield }
   min-width:18px; min-height:18px; text-align:center;
 }
 .storage-item-del:hover { color:var(--error) }
-#dupOverlay, #dbDupOverlay {
+#dbDupOverlay {
   display: none; position: fixed; inset: 0; z-index: 999999;
   align-items: center; justify-content: center;
   background: rgba(15,30,60,.18); backdrop-filter: blur(1px);
   padding: 16px;
 }
-#dupOverlay.show, #dbDupOverlay.show { display: flex; }
-.dup-dialog {
-  background: #fff; border-radius: 18px; padding: 28px 24px 24px;
-  width: 100%; max-width: 480px;
-  box-shadow: 0 2px 8px rgba(28,69,135,.08), 0 20px 60px rgba(28,69,135,.22), 0 48px 96px rgba(0,0,0,.18);
-  text-align: center;
-  animation: popIn .38s cubic-bezier(.34,1.56,.64,1) both;
-  max-height: 90vh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
+#dbDupOverlay.show { display: flex; }
 @keyframes popIn {
   from { opacity:0; transform:scale(.88) translateY(16px) }
   to { opacity:1; transform:scale(1) translateY(0) }
 }
-.dup-icon { width:46px; height:46px; background:#fff8ec; border:2px solid #fcd34d; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 14px; font-size:1.2rem; }
-.dup-title { font-family:'Plus Jakarta Sans',sans-serif; font-size:1rem; font-weight:800; color:#1a2733; margin-bottom:16px; letter-spacing:-.2px; }
-.dup-body { display:flex; flex-direction:column; align-items:center; gap:10px; margin-bottom:18px; }
-.dup-id-label { font-size:.72rem; color:#7a96a8; font-weight:600; letter-spacing:1px; text-transform:uppercase; }
-.dup-id-badge { display:inline-block; background:var(--primary-xlight); border:1.5px solid var(--border); color:var(--primary); font-weight:800; border-radius:8px; padding:4px 14px; font-size:1.1rem; letter-spacing:1px; font-family:'Plus Jakarta Sans',sans-serif; margin-top:4px; word-break:break-all; }
-.dup-submit-line { font-size:.85rem; color:#1a2733; font-weight:500; line-height:1.6; }
-.dup-time-badge { display:inline-flex; align-items:center; gap:4px; background:#fff8ec; border:1.5px solid #fcd34d; color:#b45309; font-weight:700; border-radius:20px; padding:2px 8px; font-size:.78rem; vertical-align:middle; }
-.dup-question { font-size:.85rem; color:#1a2733; font-weight:600; direction:rtl; margin-top:2px; }
-.dup-explain { font-size:.78rem; color:#3a5068; direction:rtl; margin-top:8px; line-height:1.7; text-align:right; }
-.dup-divider { height:1px; background:#edf2f6; margin:0 -16px 16px; }
-.dup-btns { display:flex; flex-direction:column; gap:8px; }
-.dup-btn-cancel { width:100%; padding:13px; border-radius:8px; border:1.5px solid #c5d3ec; background:#f7f9fd; color:var(--text); font-weight:700; font-size:.9rem; cursor:pointer; font-family:'Plus Jakarta Sans',sans-serif; transition:all .15s; -webkit-tap-highlight-color: transparent; }
-.dup-btn-cancel:hover { background:var(--primary-xlight); border-color:var(--primary); color:var(--primary); }
 .db-dup-dialog {
   background: #fff;
   border-radius: 18px;
@@ -666,8 +643,8 @@ input[type=number] { -moz-appearance:textfield }
 .db-dup-icon { width:50px; height:50px; background:var(--error-bg); border:2.5px solid rgba(192,57,43,.35); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; font-size:1.4rem; }
 .db-dup-title { font-family:'Plus Jakarta Sans',sans-serif; font-size:1rem; font-weight:800; color:var(--error); margin-bottom:6px; letter-spacing:-.2px; }
 .db-dup-subtitle { font-size:.78rem; color:var(--text-muted); margin-bottom:16px; line-height:1.5; }
-.db-dup-info-box { background:#fdf5f5; border:1.5px solid rgba(192,57,43,.2); border-radius:10px; padding:14px 16px; margin-bottom:14px; text-align:right; direction:rtl; }
-.db-dup-info-row { display:flex; align-items:flex-start; gap:8px; font-size:.85rem; color:var(--text); padding:5px 0; border-bottom:1px solid rgba(192,57,43,.1); line-height:1.5; }
+.db-dup-info-box { background:#fdf5f5; border:1.5px solid rgba(192,57,43,.2); border-radius:10px; padding:14px 16px; margin-bottom:14px; text-align:left; direction:ltr; }
+.db-dup-info-row { display:flex; align-items:center; justify-content:space-between; gap:12px; font-size:.85rem; color:var(--text); padding:6px 0; border-bottom:1px solid rgba(192,57,43,.1); line-height:1.5; }
 .db-dup-info-row:last-child { border-bottom:none; }
 .db-dup-info-label { font-weight:700; color:var(--error); min-width:60px; flex-shrink:0; font-size:.75rem; letter-spacing:.2px; }
 .db-dup-info-val { font-weight:500; color:var(--text); direction:ltr; text-align:left; word-break:break-all; }
@@ -773,8 +750,6 @@ input[type=number] { -moz-appearance:textfield }
   .sec-counter-label { font-size: .6rem; }
   .sec-counter-num { font-size: 1.6rem; min-width: 28px; }
   .sec-counter-btn { font-size: .6rem; padding: 3px 11px; }
-  .dup-dialog { padding: 48px 48px 36px; }
-  .dup-divider { margin: 0 -32px 20px; }
   .db-dup-dialog { padding: 40px 44px 32px; }
   .stage-wrap { width: auto; margin-top: 0; }
   #stageField { width: 215px; }
@@ -1185,29 +1160,7 @@ input[type=number] { -moz-appearance:textfield }
   </div>
 </div>
 
-<div id="dupOverlay">
-  <div class="dup-dialog">
-    <div class="dup-icon">⚠️</div>
-    <div class="dup-title">Task ID متكرر</div>
-    <div class="dup-body">
-      <div>
-        <div class="dup-id-label">Task ID</div>
-        <div class="dup-id-badge" id="dupIdBadge">—</div>
-      </div>
-      <div class="dup-submit-line" id="dupSubmitLine" dir="rtl"></div>
-      <div class="dup-explain" dir="rtl">ده معناه إنك بعت نفس الـ Task مرة قبل كده، أو إن الـ Link اللي معاك اتعملله Copy من الـ Link القديم — اتأكد إن الـ Link بتاعك ده بتاع الـ Task الجديد فعلاً</div>
-      <div class="dup-question" dir="rtl">ارجع وتأكد من الـ <span dir="ltr">Link</span> الأول</div>
-    </div>
-    <div class="dup-divider"></div>
-    <div class="dup-btns">
-      <button class="dup-btn-cancel" id="dupCancel" type="button" style="background:#fdf0ee;border:1.5px solid #f5c6c6;color:var(--error);">
-        <div style="font-size:.9rem;font-weight:800;color:var(--error);">Cancel : Report to QC</div>
-        <div style="font-size:.75rem;font-weight:600;color:#c0392b;margin-top:3px;direction:rtl;">بلّغ الـ QC بالغلط</div>
-      </button>
-    </div>
-  </div>
-</div>
-
+<!-- DB Duplicate Dialog ONLY — local dup dialog removed -->
 <div id="dbDupOverlay">
   <div class="db-dup-dialog">
     <div class="db-dup-icon">🚫</div>
@@ -1215,15 +1168,15 @@ input[type=number] { -moz-appearance:textfield }
     <div class="db-dup-subtitle" style="direction:rtl;">الـ System لقى نفس الـ Task موجود في الـ Data Base</div>
     <div class="db-dup-info-box">
       <div class="db-dup-info-row">
-        <span class="db-dup-info-label" style="direction:ltr;text-align:left;">Task ID</span>
+        <span class="db-dup-info-label" >Task ID</span>
         <span class="db-dup-info-val" id="dbDupTaskId">—</span>
       </div>
       <div class="db-dup-info-row">
-        <span class="db-dup-info-label">التاريخ</span>
+        <span class="db-dup-info-label" >Date</span>
         <span class="db-dup-info-val" id="dbDupDate">—</span>
       </div>
       <div class="db-dup-info-row">
-        <span class="db-dup-info-label">الوقت</span>
+        <span class="db-dup-info-label" >Time</span>
         <span class="db-dup-info-val" id="dbDupTime">—</span>
       </div>
     </div>
@@ -1254,11 +1207,12 @@ var NK_YK       = "meti_yk_history";
 var NK_PC_H     = "meti_pc_history";
 var NK_SHIFT    = "meti_shift_history";
 var NK_UNIT     = "meti_unit_history";
-var NK_TASK_IDS = "meti_task_ids_history";
 var NK_LAST_LAB = "meti_last_labeler";
 var NK_LAST_PC  = "meti_last_pc";
 var NK_QTC_SHIFT = "meti_qtc_shift_last";
-var TASK_WINDOW_MS = 24 * 60 * 60 * 1000;
+
+// ── NOTE: NK_TASK_IDS removed entirely. Duplicate detection is DB-only.
+// Duplicate check uses: yubikey_email + labeler_name + task_id against Supabase.
 
 function buildRow(b) {
   return {
@@ -1333,28 +1287,6 @@ function renderCounter() {
   document.getElementById("floatingCount").textContent = d.count;
 }
 setInterval(function() { getCounter(); renderCounter(); }, 60000);
-
-function getRecentTaskIds() {
-  try { return JSON.parse(localStorage.getItem(NK_TASK_IDS)) || []; } catch(e) { return []; }
-}
-function saveTaskIdToHistory(id) {
-  var list = getRecentTaskIds(), now = Date.now();
-  list = list.filter(function(x) { return (now - x.ts) < TASK_WINDOW_MS; });
-  list.push({ id: String(id), ts: now });
-  localStorage.setItem(NK_TASK_IDS, JSON.stringify(list));
-}
-function checkDuplicateTaskId(id) {
-  var list = getRecentTaskIds(), now = Date.now();
-  return list.find(function(x) { return x.id === String(id) && (now - x.ts) < TASK_WINDOW_MS; }) || null;
-}
-function formatTimeAgo(ts) {
-  var diff = Date.now() - ts;
-  var mins = Math.floor(diff/60000), hours = Math.floor(diff/3600000), days = Math.floor(diff/86400000);
-  if (mins < 1)   return "less than a minute ago";
-  if (mins < 60)  return mins  + " minute" + (mins  > 1 ? "s" : "") + " ago";
-  if (hours < 24) return hours + " hour"   + (hours > 1 ? "s" : "") + " ago";
-  return days + " day" + (days > 1 ? "s" : "") + " ago";
-}
 
 var QTC_DATA = {
   "Morning": [
@@ -1778,7 +1710,7 @@ function doSubmit(payload, btn) {
   var row = buildRow(payload);
 
   function onSuccess() {
-    saveTaskIdToHistory(payload.taskId); incrementCounter();
+    incrementCounter();
     var _sp=(payload.labelerName&&payload.labelerName.toLowerCase()==="radwa hassan")&&(payload.pcNo&&payload.pcNo.toString()==="12");
     toast(_sp?"🦉\u2713 Saved successfully🦉":"\u2714 Saved successfully!","ok");
     btn.disabled=false; btn.textContent="\u2714\u00a0 Submit Task"; resetForm();
@@ -1816,6 +1748,7 @@ function doSubmit(payload, btn) {
     });
   }
 
+  // DB duplicate check: yubikey + labeler_name + task_id
   var dupCheckUrl = SUPABASE_URL + "/rest/v1/meti_tasks"
     + "?task_id=eq."       + encodeURIComponent(payload.taskId)
     + "&yubikey_email=eq." + encodeURIComponent(payload.yubikeyEmail)
@@ -1912,16 +1845,7 @@ document.getElementById("F").addEventListener("submit",function(e){
   };
   var btn=document.getElementById("subBtn"); btn.disabled=true;
 
-  var dupEntry=checkDuplicateTaskId(payload.taskId);
-  if(dupEntry){
-    var timeStr=formatTimeAgo(dupEntry.ts);
-    document.getElementById("dupIdBadge").textContent=payload.taskId;
-    document.getElementById("dupSubmitLine").innerHTML='انت بعت الـ <span dir="ltr">Task ID</span> ده مره بالفعل من <span class="dup-time-badge">&#9201; '+timeStr+'</span>';
-    var overlay=document.getElementById("dupOverlay"); overlay.classList.add("show");
-    document.getElementById("dupCancel").onclick=function(){overlay.classList.remove("show");btn.disabled=false;btn.textContent="\u2714\u00a0 Submit Task";};
-    return;
-  }
-
+  // No local duplicate check — goes straight to DB check
   doSubmit(payload, btn);
 });
 
@@ -1935,12 +1859,22 @@ function resetForm(){
   document.getElementById("qtcPickerWrap").style.border="";
   document.getElementById("qtcPickerWrap").style.padding="";
   document.getElementById("qtcShiftMsg").style.display="block";
+
+  // Clear link and task ID completely — never restore from cache
   linkTaskId="";
+  document.getElementById("taskLink").value="";
+  document.getElementById("taskLink").style.borderColor="";
   document.getElementById("taskId").value="";
   document.getElementById("taskId").style.borderColor="";
+  document.getElementById("taskId").style.boxShadow="";
+
   document.getElementById("taskIdWarn").style.display="none";
   document.getElementById("taskIdNumWarn").style.display="none";
   document.getElementById("taskIdShortWarn").style.display="none";
+  document.getElementById("linkNoStageWarn").style.display="none";
+  document.getElementById("linkNoIdWarn").style.display="none";
+  document.getElementById("linkShortIdWarn").style.display="none";
+  document.getElementById("linkArabicWarn").style.display="none";
   document.getElementById("labNameWarn").style.display="none";
   document.getElementById("passWarn").style.display="none";
   var pIconR=document.getElementById("passIcon");
@@ -1948,7 +1882,6 @@ function resetForm(){
   document.getElementById("idIcon").textContent="\u2014";
   document.getElementById("idIcon").style.color="";
   document.getElementById("linkHint").style.color="";
-  document.getElementById("taskLink").style.borderColor="";
   updateStageField("");
   var sfReset=document.getElementById("stageField");
   if(sfReset){sfReset.style.borderColor="";sfReset.style.boxShadow="";}
@@ -1961,7 +1894,7 @@ function resetForm(){
   var lastLab=localStorage.getItem(NK_LAST_LAB), lastPC=localStorage.getItem(NK_LAST_PC);
   if(lastLab) document.getElementById("labName").value=lastLab;
   if(lastPC)  { document.getElementById("pcNo").value=lastPC; validatePC(lastPC); }
-  ["labName","yk","pcNo","taskLink","taskId","objCount"].forEach(function(id){
+  ["labName","yk","pcNo"].forEach(function(id){
     var el=document.getElementById(id);
     if(el){el.classList.remove("err-field");el.style.borderColor="";el.style.boxShadow="";}
   });
