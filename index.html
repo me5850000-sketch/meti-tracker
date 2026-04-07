@@ -1192,6 +1192,83 @@ input[type=number] { -moz-appearance:textfield }
 <div class="toast" id="toast"></div>
 
 <script>
+  // ===== WELCOME SCREEN =====
+(function(){
+  var NK_WNAME = "meti_welcome_name";
+  var colors = ["#1c4587","#2557a7","#f59e0b","#1a8a5a","#d97706","#4a7fd4","#fbbf24"];
+  function spawnConfetti(container) {
+    for (var i = 0; i < 28; i++) {
+      (function(i) {
+        setTimeout(function() {
+          var d = document.createElement("div");
+          Object.assign(d.style, {
+            position:"absolute", borderRadius: Math.random()>.5?"50%":"2px",
+            width: (5+Math.random()*7)+"px", height: (5+Math.random()*7)+"px",
+            background: colors[Math.floor(Math.random()*colors.length)],
+            left: Math.random()*100+"%", top:"0", opacity:"1",
+            animation: "metifall "+(1.2+Math.random()*.8)+"s linear forwards"
+          });
+          container.appendChild(d);
+          setTimeout(function(){ d.remove(); }, 2200);
+        }, i * 60);
+      })(i);
+    }
+  }
+  var style = document.createElement("style");
+  style.textContent = [
+    "@keyframes metifall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(500px) rotate(360deg);opacity:0} }",
+    "#metiWelcomeOverlay { position:fixed;inset:0;z-index:999999;background:rgba(14,28,60,.72);display:flex;align-items:center;justify-content:center;padding:16px;animation:mfadeIn .3s ease; }",
+    "@keyframes mfadeIn{from{opacity:0}to{opacity:1}}",
+    "#metiWelcomeCard { background:#fff;border-radius:20px;width:100%;max-width:400px;padding:36px 28px 28px;text-align:center;position:relative;overflow:hidden;animation:mslideUp .4s cubic-bezier(.34,1.4,.64,1) both;box-shadow:0 20px 60px rgba(14,28,60,.25); }",
+    "@keyframes mslideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}",
+    "#metiWelcomeInput { width:100%;border:1.5px solid #c5d3ec;border-radius:10px;padding:12px 14px;font-size:15px;color:#1a2733;background:#f7f9fd;outline:none;text-align:right;direction:rtl;font-family:Inter,sans-serif; }",
+    "#metiWelcomeInput:focus { border-color:#1c4587;box-shadow:0 0 0 3px rgba(28,69,135,.1);background:#fff; }",
+    "#metiWelcomeBtn { margin-top:14px;width:100%;padding:13px;background:linear-gradient(135deg,#1c4587,#2557a7);border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.3px;box-shadow:0 3px 14px rgba(28,69,135,.3);font-family:'Plus Jakarta Sans',sans-serif; }",
+    "#metiWelcomeBtn:disabled{opacity:.5;cursor:not-allowed}"
+  ].join("");
+  document.head.appendChild(style);
+  function getGreeting(){ var h=new Date().getHours(); return h>=5&&h<12?"صباح الخير":h>=12&&h<18?"مساء الخير":"مساء النور"; }
+  function getSub(){ var h=new Date().getHours(); return h>=5&&h<12?"يلا نبدأ الشيفت بنشاط! ☀️":h>=12&&h<18?"نص الطريق ووصلنا! 💪":"الليل بهواه — يلا نخلص! 🌙"; }
+  function buildOverlay() {
+    var ov = document.createElement("div"); ov.id="metiWelcomeOverlay";
+    var card = document.createElement("div"); card.id="metiWelcomeCard";
+    var cf = document.createElement("div"); cf.style.cssText="position:absolute;inset:0;pointer-events:none;overflow:hidden;";
+    card.appendChild(cf);
+    card.innerHTML += '<div style="width:64px;height:64px;background:linear-gradient(135deg,#1c4587,#2557a7);border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 4px 20px rgba(28,69,135,.25)"><span style="font-family:Plus Jakarta Sans,sans-serif;font-size:22px;font-weight:800;color:#fff;letter-spacing:-1px">METI</span></div>';
+    card.innerHTML += '<div id="mwGreet" style="font-size:22px;font-weight:700;color:#1a2733;margin-bottom:4px;direction:rtl">أهلاً، مين معانا النهارده؟ 👋</div>';
+    card.innerHTML += '<div id="mwSub" style="font-size:13px;color:#4a6375;margin-bottom:24px;direction:rtl">اكتب اسمك الأول عشان نرحب بيك!</div>';
+    card.innerHTML += '<label style="display:block;font-size:12px;font-weight:500;color:#4a6375;text-align:right;direction:rtl;margin-bottom:6px">اسمك بالإنجليزي</label>';
+    card.innerHTML += '<input id="metiWelcomeInput" placeholder="مثال: Ahmed, Sara, Mohamed..." autocomplete="off">';
+    card.innerHTML += '<button id="metiWelcomeBtn" type="button" disabled>يلا نبدأ! 🚀</button>';
+    ov.appendChild(card);
+    document.body.appendChild(ov);
+    var inp = document.getElementById("metiWelcomeInput");
+    var btn = document.getElementById("metiWelcomeBtn");
+    setTimeout(function(){ inp.focus(); }, 300);
+    inp.addEventListener("input", function(){ btn.disabled = this.value.trim().length < 2; });
+    inp.addEventListener("keydown", function(e){ if(e.key==="Enter" && this.value.trim().length>=2) btn.click(); });
+    btn.addEventListener("click", function(){
+      var raw = inp.value.trim();
+      var name = raw.charAt(0).toUpperCase() + raw.slice(1);
+      if(name.length<2) return;
+      localStorage.setItem(NK_WNAME, name);
+      document.getElementById("mwGreet").textContent = getGreeting()+" يا "+name+"! 🎉";
+      document.getElementById("mwSub").textContent = getSub();
+      inp.style.display="none";
+      inp.previousElementSibling.style.display="none";
+      btn.style.display="none";
+      spawnConfetti(cf);
+      setTimeout(function(){
+        ov.style.transition="opacity .4s ease";
+        ov.style.opacity="0";
+        setTimeout(function(){ ov.remove(); }, 420);
+      }, 1600);
+    });
+  }
+  var saved; try{ saved=localStorage.getItem(NK_WNAME); }catch(e){}
+  if(!saved || saved.trim().length < 2) buildOverlay();
+})();
+// ===== END WELCOME SCREEN =====
 var SUPABASE_URL  = "https://mlncwxzugxjulxxuhmsd.supabase.co";
 var SUPABASE_KEY  = "sb_publishable_RtZHLhzm4qLWYbIGIU54Eg_Schs3Nxy";
 var SUPABASE_ENDPOINT = SUPABASE_URL + "/rest/v1/meti_tasks";
