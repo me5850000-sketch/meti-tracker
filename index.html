@@ -703,6 +703,30 @@ input[type=number] { -moz-appearance:textfield }
 #floatingCounter .fc-count { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.1rem; font-weight: 800; color: #fff; line-height: 1; letter-spacing: -.5px; transition: transform .18s cubic-bezier(.34,1.56,.64,1), color .18s; }
 #floatingCounter .fc-count.bump { transform: scale(1.25); color: #6ee7b7; }
 
+/* ── Auto-fill badge on Modality & Queue labels ── */
+.autofill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: var(--success);
+  background: var(--success-bg);
+  border: 1px solid rgba(26,138,90,.3);
+  border-radius: 20px;
+  padding: 2px 7px;
+  margin-left: 6px;
+  vertical-align: middle;
+  opacity: 0;
+  transform: scale(.85);
+  transition: opacity .25s, transform .25s cubic-bezier(.34,1.56,.64,1);
+  pointer-events: none;
+}
+.autofill-badge.show { opacity: 1; transform: scale(1); }
+.autofill-badge::before { content: '⚡'; font-size: .65rem; }
+
 /* ===== RESPONSIVE BREAKPOINTS ===== */
 
 /* Tablet: 641px - 900px */
@@ -991,7 +1015,10 @@ input[type=number] { -moz-appearance:textfield }
           </div>
           <div class="g2">
             <div class="field">
-              <label>Modality <span class="req">*</span></label>
+              <label>
+                Modality <span class="req">*</span>
+                <span class="autofill-badge" id="modalityBadge">Auto</span>
+              </label>
               <div class="sdw">
                 <div class="sdb" id="modalityBtn" tabindex="0">
                   <input class="sd-input" id="modalityInput" placeholder="Select Modality..." autocomplete="off" data-lpignore="true">
@@ -1005,7 +1032,10 @@ input[type=number] { -moz-appearance:textfield }
               </div>
             </div>
             <div class="field">
-              <label>Queue Name <span class="req">*</span></label>
+              <label>
+                Queue Name <span class="req">*</span>
+                <span class="autofill-badge" id="queueBadge">Auto</span>
+              </label>
               <div class="sdw">
                 <div class="sdb" id="queueBtn" tabindex="0">
                   <span class="sd-display" id="queueDisplay"></span>
@@ -1160,7 +1190,7 @@ input[type=number] { -moz-appearance:textfield }
   </div>
 </div>
 
-<!-- DB Duplicate Dialog ONLY — local dup dialog removed -->
+<!-- DB Duplicate Dialog -->
 <div id="dbDupOverlay">
   <div class="db-dup-dialog">
     <div class="db-dup-icon">🚫</div>
@@ -1168,15 +1198,15 @@ input[type=number] { -moz-appearance:textfield }
     <div class="db-dup-subtitle" style="direction:rtl;">الـ System لقى نفس الـ Task موجود في الـ Data Base</div>
     <div class="db-dup-info-box">
       <div class="db-dup-info-row">
-        <span class="db-dup-info-label" >Task ID</span>
+        <span class="db-dup-info-label">Task ID</span>
         <span class="db-dup-info-val" id="dbDupTaskId">—</span>
       </div>
       <div class="db-dup-info-row">
-        <span class="db-dup-info-label" >Date</span>
+        <span class="db-dup-info-label">Date</span>
         <span class="db-dup-info-val" id="dbDupDate">—</span>
       </div>
       <div class="db-dup-info-row">
-        <span class="db-dup-info-label" >Time</span>
+        <span class="db-dup-info-label">Time</span>
         <span class="db-dup-info-val" id="dbDupTime">—</span>
       </div>
     </div>
@@ -1210,9 +1240,6 @@ var NK_UNIT     = "meti_unit_history";
 var NK_LAST_LAB = "meti_last_labeler";
 var NK_LAST_PC  = "meti_last_pc";
 var NK_QTC_SHIFT = "meti_qtc_shift_last";
-
-// ── NOTE: NK_TASK_IDS removed entirely. Duplicate detection is DB-only.
-// Duplicate check uses: yubikey_email + labeler_name + task_id against Supabase.
 
 function buildRow(b) {
   return {
@@ -1399,6 +1426,52 @@ function updateStageField(url) {
     el.style.boxShadow="";
     icon.textContent="\u2014";icon.style.color="";icon.style.opacity=".4";
   }
+}
+
+// ══════════════════════════════════════════════════════════════
+// AUTO-FILL: Modality detection based on Stage segment + Queue
+// ══════════════════════════════════════════════════════════════
+// Stage segment = the raw word in the URL like "SellMSL", "SellIvandar", etc.
+// Queue        = the queue name from /queue/... in the URL
+//
+// Lane Line rules:
+//   SellMSL      + sc3_full_scene_highway_mapless_filtered_3d_lanes  → Lane Line
+//   SellIvandar  + sc3_full_scene_highway_lanes_first_lidar_labeling  → Lane Line
+//   SellIvandar  + sc3_full_scene_highway_lidar_only_labeling          → Lane Line
+//   SellRelabeling + sc3_full_scene_highway_lidar_only_labeling        → Lane Line
+//   SellMapping  + (any queue)                                         → Lane Line
+//
+// Lidar rules:
+//   SellIvandar  + sc3_full_scene_highway_mapless_filtered_3d_lanes   → Lidar
+//   SellIvandar  + sc3_full_scene_lane_lidar_parallel_labeling         → Lidar
+//   SellRelabeling + sc3_full_scene_highway_lanes_first_lidar_labeling → Lidar
+//
+// Everything else → no auto-fill (manual)
+// ══════════════════════════════════════════════════════════════
+function detectModalityFromStageQueue(stageSegment, queueName) {
+  var s = (stageSegment || "").replace(/(?:QA|FP)$/i, "").toUpperCase();
+  var q = (queueName || "").toLowerCase();
+
+ // ── Lane Line ──
+if (s === "SELLMSL" && q === "sc3_full_scene_highway_mapless_filtered_3d_lanes") return "Lane Line";
+if (s.startsWith("SELLIVANDAR") && q === "sc3_full_scene_highway_lanes_first_lidar_labeling") return "Lane Line";
+if (s.startsWith("SELLRELABELING") && q === "sc3_full_scene_highway_lidar_only_labeling") return "Lane Line";
+if (s.startsWith("SELLMAPPING")) return "Lane Line";
+
+// ── Lidar ──
+if (s.startsWith("SELLIVANDAR") && q === "sc3_full_scene_highway_mapless_filtered_3d_lanes") return "Lidar";
+if (s.startsWith("SELLIVANDAR") && q === "sc3_full_scene_highway_lidar_only_labeling") return "Lidar";
+if (s.startsWith("SELLIVANDAR") && q === "sc3_full_scene_lane_lidar_parallel_labeling") return "Lidar";
+if (s.startsWith("SELLRELABELING") && q === "sc3_full_scene_highway_lanes_first_lidar_labeling") return "Lidar";
+  return ""; // manual — no auto-fill
+}
+
+// Show/hide the ⚡ Auto badge next to label
+function showAutofillBadge(id, show) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  if (show) { el.classList.add("show"); }
+  else      { el.classList.remove("show"); }
 }
 
 function tick() {
@@ -1623,23 +1696,66 @@ document.getElementById("qtcSearch").addEventListener("input",function(){
   });
 });
 
+// ══════════════════════════════════════════════════════════════
+// Task Link listener — with auto-fill for Queue + Modality
+// ══════════════════════════════════════════════════════════════
 document.getElementById("taskLink").addEventListener("input",function(){
   var url=this.value.trim(), PREFIX="https://labeling.robot.car/#";
-  var idMatch=url.match(/(https:\/\/labeling\.robot\.car\/#\/tasks\/do\/[^\/]+\/id\/\d+)/);
-  if(idMatch && url.length > idMatch[1].length){ this.value=idMatch[1]; url=idMatch[1]; }
+
+  // Trim trailing garbage after the expected URL pattern
+  var idMatch=url.match(/(https:\/\/labeling\.robot\.car\/#\/tasks\/do\/[^\/]+\/id\/\d+(\/queue\/[^\/\?#&]+)?)/);
+if(idMatch && url.length > idMatch[1].length){ this.value=idMatch[1]; url=idMatch[1]; }
+
   var hint=document.getElementById("linkHint"),idEl=document.getElementById("taskId"),icon=document.getElementById("idIcon");
   var hasStage=detectStage(url)!=="", hasId=!!url.match(/\/id\/\d+/);
   if(url.length===0){this.style.borderColor="";hint.style.color="";}
   else if(!url.startsWith(PREFIX)){this.style.borderColor="var(--error)";hint.style.color="var(--error)";}
   else if(hasStage&&hasId){this.style.borderColor="#1a8a5a";hint.style.color="";}
   else{this.style.borderColor="var(--error)";hint.style.color="";}
+
   updateStageField(url);
+
+  // Extract Task ID
   var idM=url.match(/\/id\/(\d+)/);
   if(idM){linkTaskId=idM[1];idEl.value=idM[1];idEl.style.borderColor="#1a8a5a";icon.textContent="\u2713";icon.style.color="var(--success)";icon.style.opacity="1";document.getElementById("taskIdWarn").style.display="none";}
   else{linkTaskId="";idEl.value="";idEl.style.borderColor="";icon.textContent="\u2014";icon.style.color="";icon.style.opacity=".4";document.getElementById("taskIdWarn").style.display="none";}
+
+  // Extract Pass (FP / QA)
   var dM=url.match(/\/do\/([^\/]+)\//);
   if(dM){var dp=dM[1].toUpperCase().endsWith("QA")?"QA":"FP";linkPassVal=dp;passDD.setValue(dp);var pi=document.getElementById("passIcon");pi.textContent="\u2713";pi.style.color="var(--success)";pi.style.opacity="1";document.getElementById("passWarn").style.display="none";}
   else{linkPassVal="";passDD.reset();document.getElementById("passWarn").style.display="none";var pi2=document.getElementById("passIcon");pi2.textContent="\u2014";pi2.style.color="";pi2.style.opacity=".4";}
+
+  // ── NEW: Auto-fill Queue Name + Modality from URL ──────────
+  var queueSegM = url.match(/\/queue\/([^\/\?#&]+)/i);
+  if (queueSegM) {
+    var extractedQ = queueSegM[1].toLowerCase().trim();
+
+    // 1) Set Queue Name dropdown
+    queueDD.setValue(extractedQ);
+    showAutofillBadge("queueBadge", true);
+
+    // 2) Get raw stage segment from URL (e.g. "SellMSL", "SellIvandar")
+    var doSegArr = url.match(/\/do\/([^\/]+)\//i);
+    var stageSegRaw = doSegArr ? doSegArr[1] : "";
+stageSegRaw = stageSegRaw.replace(/(?:QA|FP)$/i, "");
+    // 3) Detect + set Modality
+    var autoMod = detectModalityFromStageQueue(stageSegRaw, extractedQ);
+    if (autoMod) {
+      modalityDD.setValue(autoMod);
+      showAutofillBadge("modalityBadge", true);
+    } else {
+      // Queue found but no modality rule → reset modality so user picks manually
+      modalityDD.reset();
+      showAutofillBadge("modalityBadge", false);
+    }
+  } else {
+    // No /queue/ in URL → hide badges (don't reset if user already picked manually)
+    showAutofillBadge("queueBadge", false);
+    showAutofillBadge("modalityBadge", false);
+  }
+  // ── END auto-fill ───────────────────────────────────────────
+
+  // Validation warnings
   var hasArabic=/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/.test(url);
   var hasStage2=!!detectStage(url), idMatch2=url.match(/\/id\/(\d+)/);
   var hasId2=!!idMatch2, idVal=idMatch2?idMatch2[1]:"", idTooShort=hasId2&&idVal.length<10;
@@ -1748,7 +1864,6 @@ function doSubmit(payload, btn) {
     });
   }
 
-  // DB duplicate check: yubikey + labeler_name + task_id
   var dupCheckUrl = SUPABASE_URL + "/rest/v1/meti_tasks"
     + "?task_id=eq."       + encodeURIComponent(payload.taskId)
     + "&yubikey_email=eq." + encodeURIComponent(payload.yubikeyEmail)
@@ -1844,8 +1959,6 @@ document.getElementById("F").addEventListener("submit",function(e){
     stage:stageVal, objectCount:obj
   };
   var btn=document.getElementById("subBtn"); btn.disabled=true;
-
-  // No local duplicate check — goes straight to DB check
   doSubmit(payload, btn);
 });
 
@@ -1860,7 +1973,6 @@ function resetForm(){
   document.getElementById("qtcPickerWrap").style.padding="";
   document.getElementById("qtcShiftMsg").style.display="block";
 
-  // Clear link and task ID completely — never restore from cache
   linkTaskId="";
   document.getElementById("taskLink").value="";
   document.getElementById("taskLink").style.borderColor="";
@@ -1885,6 +1997,11 @@ function resetForm(){
   updateStageField("");
   var sfReset=document.getElementById("stageField");
   if(sfReset){sfReset.style.borderColor="";sfReset.style.boxShadow="";}
+
+  // Hide auto-fill badges on reset
+  showAutofillBadge("modalityBadge", false);
+  showAutofillBadge("queueBadge", false);
+
   var prevShift=document.getElementById("shift").value, prevUnit=document.getElementById("unit").value;
   shiftDD.reset();unitDD.reset();qtcShiftDD.reset();modalityDD.reset();queueDD.reset();passDD.reset();
   if(prevShift) shiftDD.setValue(prevShift);
