@@ -993,129 +993,132 @@ input[type=number] { -moz-appearance:textfield }
         </div>
 
         <div class="card-section">
-          <div class="section-header" style="justify-content:space-between;">
-            <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
-              <div class="section-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                  <polyline points="14 2 14 8 20 8"/>
-                  <line x1="16" y1="13" x2="8" y2="13"/>
-                  <line x1="16" y1="17" x2="8" y2="17"/>
-                </svg>
-              </div>
-              <span class="section-title">Task Details</span>
-            </div>
-            <div class="stage-wrap">
-              <span class="stage-label">Stage <span style="color:var(--error);font-size:.75rem;">*</span></span>
-              <div class="stage-box">
-                <input type="text" id="stageField" readonly placeholder="Auto-filled...">
-                <span id="stageIcon">&#8212;</span>
-              </div>
-            </div>
-          </div>
-          <div class="g2">
-            <div class="field">
-              <label>
-                Modality <span class="req">*</span>
-                <span class="autofill-badge" id="modalityBadge">Auto</span>
-              </label>
-              <div class="sdw">
-                <div class="sdb" id="modalityBtn" tabindex="0">
-                  <input class="sd-input" id="modalityInput" placeholder="Select Modality..." autocomplete="off" data-lpignore="true">
-                  <span class="sd-arrow"></span>
-                </div>
-                <ul class="sdl" id="modalityList">
-                  <li data-v="Lane Line"><span class="hl">Lane Line</span></li>
-                  <li data-v="Lidar"><span class="hl">Lidar</span></li>
-                </ul>
-                <input type="hidden" id="modality">
-              </div>
-            </div>
-            <div class="field">
-              <label>
-                Queue Name <span class="req">*</span>
-                <span class="autofill-badge" id="queueBadge">Auto</span>
-              </label>
-              <div class="sdw">
-                <div class="sdb" id="queueBtn" tabindex="0">
-                  <span class="sd-display" id="queueDisplay"></span>
-                  <input class="sd-input" id="queueInput" placeholder="Select Queue..." autocomplete="off" data-lpignore="true">
-                  <span class="sd-arrow"></span>
-                </div>
-                <ul class="sdl" id="queueList">
-                  <li data-v="sc3_full_scene_highway_mapless_filtered_3d_lanes">sc3_full_scene_highway_mapless_<span class="hl">filtered</span>_3d_lanes</li>
-                  <li data-v="sc3_full_scene_highway_lanes_first_lidar_labeling">sc3_full_scene_highway_lanes_<span class="hl">first_lidar</span>_labeling</li>
-                  <li data-v="sc3_full_scene_highway_lidar_only_labeling">sc3_full_scene_highway_<span class="hl">lidar_only</span>_labeling</li>
-                  <li data-v="sc3_full_scene_lane_lidar_parallel_labeling">sc3_full_scene_lane_lidar_<span class="hl">parallel</span>_labeling</li>
-                  <li data-v="gs_sc3_full_scene_mapless_3d_only"><span class="hl">gs</span>_sc3_full_scene_mapless_3d_only</li>
-                </ul>
-                <input type="hidden" id="qName">
-              </div>
-            </div>
-          </div>
-          <div class="full field">
-            <label>Task Link <span class="req">*</span>
-              <span class="sub" id="linkHint">Must start with: https://labeling.robot.car/#</span>
-            </label>
-            <input type="text" id="taskLink" placeholder="https://labeling.robot.car/#..." required autocomplete="off" inputmode="url">
-            <div id="linkNoStageWarn" class="warn-box" dir="rtl" style="display:none">
-              <span class="warn-icon">&#9888;</span>
-              <span>فين الـ <span dir="ltr">Stage</span> اللي في الـ <span dir="ltr">Link</span></span>
-            </div>
-            <div id="linkNoIdWarn" class="warn-box" dir="rtl" style="display:none">
-              <span class="warn-icon">&#9888;</span>
-              <span>فين الـ <span dir="ltr">Task ID</span> اللي في الـ <span dir="ltr">Link</span></span>
-            </div>
-            <div id="linkShortIdWarn" class="warn-box" dir="rtl" style="display:none">
-              <span class="warn-icon">&#9888;</span>
-              <span>الـ <span dir="ltr">Task ID</span> لازم يكون <span dir="ltr">10</span> أرقام على الأقل</span>
-            </div>
-            <div id="linkArabicWarn" class="warn-box" dir="rtl" style="display:none">
-              <span class="warn-icon">&#9888;</span>
-              <span>الـ <span dir="ltr">Link</span> مش بيقبل حروف عربية</span>
-            </div>
-          </div>
-          <div class="g2">
-            <div class="field">
-              <label>Task ID <span class="req">*</span></label>
-              <div class="task-id-wrap">
-                <input type="text" id="taskId" placeholder="Auto-filled" required inputmode="numeric">
-                <span id="idIcon">&#8212;</span>
-              </div>
-              <div id="taskIdNumWarn" class="warn-box" dir="rtl">
-                <span class="warn-icon">&#9888;</span>
-                <span>ارقام بس</span>
-              </div>
-              <div id="taskIdWarn" class="warn-box" dir="rtl">
-                <span class="warn-icon">&#9888;</span>
-                <span>خلي بالك الـ <span dir="ltr">Task ID</span> مختلف عن اللي في الـ <span dir="ltr">Link</span></span>
-              </div>
-              <div id="taskIdShortWarn" class="warn-box" dir="rtl" style="display:none">
-                <span class="warn-icon">&#9888;</span>
-                <span>الـ <span dir="ltr">Task ID</span> لازم يكون <span dir="ltr">10</span> أرقام على الأقل</span>
-              </div>
-            </div>
-            <div class="field">
-              <label>Pass <span class="req">*</span></label>
-              <div class="sdw" style="position:relative">
-                <div class="sdb" id="passBtn" tabindex="0">
-                  <input class="sd-input" id="passInput" placeholder="Auto-filled from link..." autocomplete="off" data-lpignore="true">
-                  <span class="sd-arrow"></span>
-                </div>
-                <ul class="sdl" id="passList">
-                  <li data-v="FP">FP</li>
-                  <li data-v="QA">QA</li>
-                </ul>
-                <input type="hidden" id="pass">
-                <span id="passIcon" style="position:absolute;right:50px;top:50%;transform:translateY(-50%);font-size:.8rem;opacity:.4;pointer-events:none;z-index:10;">&#8212;</span>
-              </div>
-              <div id="passWarn" class="warn-box" dir="rtl">
-                <span class="warn-icon">&#9888;</span>
-                <span id="passWarnText">خلي بالك الـ <span dir="ltr">Pass</span> مختلف عن اللي في الـ <span dir="ltr">Link</span></span>
-              </div>
-            </div>
-          </div>
+  <div class="section-header" style="justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+      <div class="section-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+      </div>
+      <span class="section-title">Task Details</span>
+    </div>
+    <div class="stage-wrap">
+      <span class="stage-label">Stage <span style="color:var(--error);font-size:.75rem;">*</span></span>
+      <div class="stage-box">
+        <input type="text" id="stageField" readonly placeholder="Auto-filled...">
+        <span id="stageIcon">&#8212;</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="full field">
+    <label>Task Link <span class="req">*</span>
+      <span class="sub" id="linkHint">Must start with: https://labeling.robot.car/#</span>
+    </label>
+    <input type="text" id="taskLink" placeholder="https://labeling.robot.car/#..." required autocomplete="off" inputmode="url">
+    <div id="linkNoStageWarn" class="warn-box" dir="rtl" style="display:none">
+      <span class="warn-icon">&#9888;</span>
+      <span>فين الـ <span dir="ltr">Stage</span> اللي في الـ <span dir="ltr">Link</span></span>
+    </div>
+    <div id="linkNoIdWarn" class="warn-box" dir="rtl" style="display:none">
+      <span class="warn-icon">&#9888;</span>
+      <span>فين الـ <span dir="ltr">Task ID</span> اللي في الـ <span dir="ltr">Link</span></span>
+    </div>
+    <div id="linkShortIdWarn" class="warn-box" dir="rtl" style="display:none">
+      <span class="warn-icon">&#9888;</span>
+      <span>الـ <span dir="ltr">Task ID</span> لازم يكون <span dir="ltr">10</span> أرقام على الأقل</span>
+    </div>
+    <div id="linkArabicWarn" class="warn-box" dir="rtl" style="display:none">
+      <span class="warn-icon">&#9888;</span>
+      <span>الـ <span dir="ltr">Link</span> مش بيقبل حروف عربية</span>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="field">
+      <label>
+        Modality <span class="req">*</span>
+        <span class="autofill-badge" id="modalityBadge">Auto</span>
+      </label>
+      <div class="sdw">
+        <div class="sdb" id="modalityBtn" tabindex="0">
+          <input class="sd-input" id="modalityInput" placeholder="Select Modality..." autocomplete="off" data-lpignore="true">
+          <span class="sd-arrow"></span>
         </div>
+        <ul class="sdl" id="modalityList">
+          <li data-v="Lane Line"><span class="hl">Lane Line</span></li>
+          <li data-v="Lidar"><span class="hl">Lidar</span></li>
+        </ul>
+        <input type="hidden" id="modality">
+      </div>
+    </div>
+    <div class="field">
+      <label>
+        Queue Name <span class="req">*</span>
+        <span class="autofill-badge" id="queueBadge">Auto</span>
+      </label>
+      <div class="sdw">
+        <div class="sdb" id="queueBtn" tabindex="0">
+          <span class="sd-display" id="queueDisplay"></span>
+          <input class="sd-input" id="queueInput" placeholder="Select Queue..." autocomplete="off" data-lpignore="true">
+          <span class="sd-arrow"></span>
+        </div>
+        <ul class="sdl" id="queueList">
+          <li data-v="sc3_full_scene_highway_mapless_filtered_3d_lanes">sc3_full_scene_highway_mapless_<span class="hl">filtered</span>_3d_lanes</li>
+          <li data-v="sc3_full_scene_highway_lanes_first_lidar_labeling">sc3_full_scene_highway_lanes_<span class="hl">first_lidar</span>_labeling</li>
+          <li data-v="sc3_full_scene_highway_lidar_only_labeling">sc3_full_scene_highway_<span class="hl">lidar_only</span>_labeling</li>
+          <li data-v="sc3_full_scene_lane_lidar_parallel_labeling">sc3_full_scene_lane_lidar_<span class="hl">parallel</span>_labeling</li>
+          <li data-v="gs_sc3_full_scene_mapless_3d_only"><span class="hl">gs</span>_sc3_full_scene_mapless_3d_only</li>
+        </ul>
+        <input type="hidden" id="qName">
+      </div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="field">
+      <label>Task ID <span class="req">*</span></label>
+      <div class="task-id-wrap">
+        <input type="text" id="taskId" placeholder="Auto-filled" required inputmode="numeric">
+        <span id="idIcon">&#8212;</span>
+      </div>
+      <div id="taskIdNumWarn" class="warn-box" dir="rtl">
+        <span class="warn-icon">&#9888;</span>
+        <span>ارقام بس</span>
+      </div>
+      <div id="taskIdWarn" class="warn-box" dir="rtl">
+        <span class="warn-icon">&#9888;</span>
+        <span>خلي بالك الـ <span dir="ltr">Task ID</span> مختلف عن اللي في الـ <span dir="ltr">Link</span></span>
+      </div>
+      <div id="taskIdShortWarn" class="warn-box" dir="rtl" style="display:none">
+        <span class="warn-icon">&#9888;</span>
+        <span>الـ <span dir="ltr">Task ID</span> لازم يكون <span dir="ltr">10</span> أرقام على الأقل</span>
+      </div>
+    </div>
+    <div class="field">
+      <label>Pass <span class="req">*</span></label>
+      <div class="sdw" style="position:relative">
+        <div class="sdb" id="passBtn" tabindex="0">
+          <input class="sd-input" id="passInput" placeholder="Auto-filled from link..." autocomplete="off" data-lpignore="true">
+          <span class="sd-arrow"></span>
+        </div>
+        <ul class="sdl" id="passList">
+          <li data-v="FP">FP</li>
+          <li data-v="QA">QA</li>
+        </ul>
+        <input type="hidden" id="pass">
+        <span id="passIcon" style="position:absolute;right:50px;top:50%;transform:translateY(-50%);font-size:.8rem;opacity:.4;pointer-events:none;z-index:10;">&#8212;</span>
+      </div>
+      <div id="passWarn" class="warn-box" dir="rtl">
+        <span class="warn-icon">&#9888;</span>
+        <span id="passWarnText">خلي بالك الـ <span dir="ltr">Pass</span> مختلف عن اللي في الـ <span dir="ltr">Link</span></span>
+      </div>
+    </div>
+  </div>
+</div>
 
         <div class="card-section">
           <div class="section-header">
@@ -1239,6 +1242,7 @@ var NK_SHIFT    = "meti_shift_history";
 var NK_UNIT     = "meti_unit_history";
 var NK_LAST_LAB = "meti_last_labeler";
 var NK_LAST_PC  = "meti_last_pc";
+var NK_LAST_YK  = "meti_last_yk";
 var NK_QTC_SHIFT = "meti_qtc_shift_last";
 
 function buildRow(b) {
@@ -1952,6 +1956,7 @@ document.getElementById("F").addEventListener("submit",function(e){
   saveUnitH(document.getElementById("unit").value);
   localStorage.setItem(NK_LAST_LAB, lab);
   localStorage.setItem(NK_LAST_PC, document.getElementById("pcNo").value);
+  localStorage.setItem(NK_LAST_YK, yk);
   var payload={
     timestamp:document.getElementById("ts").value, shift:document.getElementById("shift").value,
     unit:document.getElementById("unit").value, qtcName:document.getElementById("qtcName").value,
@@ -2013,6 +2018,8 @@ function resetForm(){
   var lastLab=localStorage.getItem(NK_LAST_LAB), lastPC=localStorage.getItem(NK_LAST_PC);
   if(lastLab) document.getElementById("labName").value=lastLab;
   if(lastPC)  { document.getElementById("pcNo").value=lastPC; validatePC(lastPC); }
+  var lastYK=localStorage.getItem(NK_LAST_YK);
+if(lastYK){ document.getElementById("yk").value=lastYK; validateYK(lastYK); }
   ["labName","yk","pcNo"].forEach(function(id){
     var el=document.getElementById(id);
     if(el){el.classList.remove("err-field");el.style.borderColor="";el.style.boxShadow="";}
@@ -2071,6 +2078,8 @@ renderCounter();
   if(lastQtcShift) setTimeout(function(){ qtcShiftDD.setValue(lastQtcShift); buildQTCGrid(lastQtcShift); }, 0);
   if(lastLab)      document.getElementById("labName").value = lastLab;
   if(lastPC)       { document.getElementById("pcNo").value = lastPC; validatePC(lastPC); }
+  var lastYK = localStorage.getItem(NK_LAST_YK);
+if(lastYK) { document.getElementById("yk").value = lastYK; validateYK(lastYK); }
 })();
 
 (function(){
