@@ -1381,6 +1381,7 @@ var QTC_DATA = {
 };
 
 var selectedQTC = null, linkTaskId = "", linkPassVal = "";
+var autoFilledQueue = false, autoFilledModality = false;
 
 function toast(msg, type) {
   var t = document.getElementById("toast");
@@ -1733,30 +1734,35 @@ if(idMatch && url.length > idMatch[1].length){ this.value=idMatch[1]; url=idMatc
 
   // ── NEW: Auto-fill Queue Name + Modality from URL ──────────
   var queueSegM = url.match(/\/queue\/([^\/\?#&]+)/i);
-  if (queueSegM) {
+ if (queueSegM) {
     var extractedQ = queueSegM[1].toLowerCase().trim();
 
     // 1) Set Queue Name dropdown
     queueDD.setValue(extractedQ);
     showAutofillBadge("queueBadge", true);
+    autoFilledQueue = true;
 
     // 2) Get raw stage segment from URL (e.g. "SellMSL", "SellIvandar")
     var doSegArr = url.match(/\/do\/([^\/]+)\//i);
     var stageSegRaw = doSegArr ? doSegArr[1] : "";
-stageSegRaw = stageSegRaw.replace(/(?:QA|FP)$/i, "");
+    stageSegRaw = stageSegRaw.replace(/(?:QA|FP)$/i, "");
     // 3) Detect + set Modality
     var autoMod = detectModalityFromStageQueue(stageSegRaw, extractedQ);
     if (autoMod) {
       modalityDD.setValue(autoMod);
       showAutofillBadge("modalityBadge", true);
+      autoFilledModality = true;
     } else {
       // Queue found but no modality rule → reset modality so user picks manually
       modalityDD.reset();
       showAutofillBadge("modalityBadge", false);
+      autoFilledModality = false;
     }
   } else {
-    // No /queue/ in URL → hide badges (don't reset if user already picked manually)
+    // No /queue/ in URL → clear if they were auto-filled
+    if (autoFilledQueue) { queueDD.reset(); autoFilledQueue = false; }
     showAutofillBadge("queueBadge", false);
+    if (autoFilledModality) { modalityDD.reset(); autoFilledModality = false; }
     showAutofillBadge("modalityBadge", false);
   }
   // ── END auto-fill ───────────────────────────────────────────
