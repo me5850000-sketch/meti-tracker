@@ -1132,7 +1132,7 @@ input[type=number] { -moz-appearance:textfield }
           </div>
           <div class="full field">
             <label>How Many Objects? <span class="req">*</span></label>
-            <input type="number" id="objCount" placeholder="Enter number of objects" min="0" max="9999" required inputmode="numeric" oninput="if(this.value.length>4)this.value=this.value.slice(0,4)">
+            <input type="text" id="objCount" placeholder="Enter number of objects" required inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'').slice(0,4)">
           </div>
         </div>
 
