@@ -936,7 +936,7 @@ input[type=number] { -moz-appearance:textfield }
             <div class="field">
               <label>PC No. <span class="req">*</span></label>
               <div class="acw">
-                <input type="text" id="pcNo" placeholder="e.g. 7, 30, QTC or SV" required autocomplete="off" data-lpignore="true" inputmode="text">
+                <input type="text" id="pcNo" placeholder="e.g. 7, 30, QTC ,SL or SV" required autocomplete="off" data-lpignore="true" inputmode="text">
                 <ul class="acl" id="pcAcList"></ul>
               </div>
             </div>
@@ -1920,7 +1920,7 @@ document.getElementById("F").addEventListener("submit",function(e){
   else if(/^qtc$/i.test(pcVal)){document.getElementById("pcNo").value="QTC";ce("pcNo");}
   else if(/^sv$/i.test(pcVal)){document.getElementById("pcNo").value="SV";ce("pcNo");}
   else if(/^\d+$/.test(pcVal)){var pcNum=parseInt(pcVal,10);if(pcNum<1||pcNum>100){me("pcNo");err=true;toast("PC No. must be between 1 and 100","err");return;}else{ce("pcNo");}}
-  else{me("pcNo");err=true;toast("PC No.: Enter a number (1-100), QTC or SV","err");return;}
+  else{me("pcNo");err=true;toast("PC No.: Enter a number (1-100), QTC, SL or SV","err");return;}
   if(!lab){me("labName");err=true;}
   else if(!/^[a-zA-Z\s]+$/.test(lab)){me("labName");err=true;toast("Labeler Name: English letters only","err");return;}
   else{ce("labName");}
