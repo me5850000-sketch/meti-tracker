@@ -1506,7 +1506,7 @@ document.querySelectorAll("input,select,textarea").forEach(function(el){
 
 document.getElementById("labName").addEventListener("input",function(){
   var pos=this.selectionStart;
-  this.value=this.value.replace(/\b([a-zA-Z])/g,function(c){return c.toUpperCase();});
+  this.value=this.value.split(' ').map(function(w){return w.charAt(0).toUpperCase()+w.slice(1).toLowerCase();}).join(' ');
   this.setSelectionRange(pos,pos);
   var v=this.value, hasNonEng=v.length>0&&/[^a-zA-Z\s]/.test(v);
   this.style.borderColor=hasNonEng?"var(--error)":(v.trim()?"#1a8a5a":"");
