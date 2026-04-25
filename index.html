@@ -1225,6 +1225,11 @@ input[type=number] { -moz-appearance:textfield }
 <div class="toast" id="toast"></div>
 
 <script>
+  if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+window.scrollTo(0, 0);
+
 var SUPABASE_URL  = "https://mlncwxzugxjulxxuhmsd.supabase.co";
 var SUPABASE_KEY  = "sb_publishable_RtZHLhzm4qLWYbIGIU54Eg_Schs3Nxy";
 var SUPABASE_ENDPOINT = SUPABASE_URL + "/rest/v1/meti_tasks";
