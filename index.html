@@ -936,7 +936,7 @@ input[type=number] { -moz-appearance:textfield }
             <div class="field">
               <label>PC No. <span class="req">*</span></label>
               <div class="acw">
-                <input type="text" id="pcNo" placeholder="e.g. 7, 30, QTC ,SL or SV" required autocomplete="off" data-lpignore="true" inputmode="text">
+                <input type="text" id="pcNo" placeholder="e.g. 7, 30, QTC, SL, SV or Buffer"equired autocomplete="off" data-lpignore="true" inputmode="text">
                 <ul class="acl" id="pcAcList"></ul>
               </div>
             </div>
@@ -1546,6 +1546,7 @@ function validatePC(v){
   if(/^qtc$/i.test(v)){pcIn.value="QTC";pcIn.style.borderColor="#1a8a5a";return;}
   if(/^sv$/i.test(v)){pcIn.value="SV";pcIn.style.borderColor="#1a8a5a";return;}
   if(/^sl$/i.test(v)){pcIn.value="SL";pcIn.style.borderColor="#1a8a5a";return;}
+  if(/^buffer$/i.test(v)){pcIn.value="Buffer";pcIn.style.borderColor="#1a8a5a";return;}
   if(/^\d+$/.test(v)){var num=parseInt(v,10);pcIn.style.borderColor=(num>=1&&num<=100)?"#1a8a5a":"var(--error)";}
   else{pcIn.style.borderColor="var(--error)";}
 }
