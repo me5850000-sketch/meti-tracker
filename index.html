@@ -1068,7 +1068,7 @@ input[type=number] { -moz-appearance:textfield }
         Queue Name <span class="req">*</span>
         <span class="autofill-badge" id="queueBadge">Auto</span>
       </label>
-      <div class="sdw">
+      <div class="sdw" id="queueFieldWrap">
         <div class="sdb" id="queueBtn" tabindex="0">
           <span class="sd-display" id="queueDisplay"></span>
           <input class="sd-input" id="queueInput" placeholder="Select Queue..." autocomplete="off" data-lpignore="true">
@@ -1248,6 +1248,16 @@ var SUPABASE_HEADERS  = {
   "Prefer":        "return=minimal"
 };
 
+// ============================================================
+// GAS_WEBAPP_URL — رابط الـ Web App بتاع Apps Script (اللي فيه doGet)
+// ده بيقرا أسماء الـ QTC وقائمة الـ Queue Name لايف من شيتات:
+// "Morning QTC" / "Night QTC" / "Over Night QTC" / "Queue List"
+// ⚠️ لازم تستبدل الرابط ده برابط الـ Deployment بتاعك
+// (من الشيت: Extensions → Apps Script → Deploy → New deployment → Web app → Execute as: Me → Who has access: Anyone)
+// لازم ينتهي بـ /exec
+// ============================================================
+var GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxa-Id35-ob1ZCgajX-NLKtz6xPLJVqBd20v7rXdlsoTmeP6nhfvl0of2U2j1RKo3A/exec";
+
 var NK          = "meti_labeler_names";
 var NK_YK       = "meti_yk_history";
 var NK_PC_H     = "meti_pc_history";
@@ -1332,76 +1342,13 @@ function renderCounter() {
 }
 setInterval(function() { getCounter(); renderCounter(); }, 60000);
 
-var QTC_DATA = {
-  "Morning": [
-    {name:"Abdelrahman Refaat (M)",role:"QT"},{name:"Hassan Mohamed (M)",role:"QT"},
-    {name:"Adel Ashraf (M)",role:"QT"},{name:"Yousef Abass (M)",role:"QT"},
-    {name:"Ahmed Taha (M)",role:"QT"},{name:"Bassant Sherif (M)",role:"QT"},
-    {name:"Radwa Hassan (M)",role:""},{name:"Mohamed Mahmoud (M)",role:""},
-    {name:"Mostafa Fayez (M)",role:""},{name:"Asmaa Atef (M)",role:""},
-    {name:"Bassant Ashraf (M)",role:""},{name:"Zeyad Mahmoud (M)",role:""},
-    {name:"Mazen Ehab (M)",role:""},{name:"Rabab Gamal (M)",role:""},
-    {name:"Amr Salah (M)",role:""},{name:"Nesma Mustafa (M)",role:""},
-    {name:"Hagar Fawzy (M)",role:""},{name:"Roqia Wael (M)",role:""},
-    {name:"Eman Gamal (M)",role:""},{name:"Kirollos Ibrahem (M)",role:""},
-    {name:"Rawan Elmahdy (M)",role:""},{name:"Shimaa Nasser (M)",role:""},
-    {name:"Aya Mamdouh (M)",role:""},{name:"Sara Atef (M)",role:""},
-    {name:"Nada Wagih (M)",role:""},{name:"Nadeen Mohey (M)",role:""},
-    {name:"Aya Yousry (M)",role:""},{name:"Rahma Sayed (M)",role:""},
-    {name:"Hossam Hassan (M)",role:""},{name:"Mira Samir (M)",role:""},
-    {name:"Hagar Atef (M)",role:""},{name:"Ahmed Adel (M)",role:""},
-    {name:"Asmaa Medhat (M)",role:""},{name:"Moataz Ahmed (M)",role:""},
-    {name:"Wafaa Fathy (M)",role:""},{name:"Omnia Mohamed (M)",role:""},
-    {name:"Eslam Ali (M)",role:""},{name:"Asmaa Khaled (M)",role:""},
-    {name:"Donia Elsaid (M)",role:""},{name:"Mayada Adel (M)",role:""},
-    {name:"Reem Samir (M)",role:""},{name:"Ashiry (M)",role:""},
-    {name:"Abdelmonsef (M)",role:"SV"},{name:"Yasmeen Nasser (M)",role:"SV"},
-    {name:"Mohamed Khaled (M)",role:"SV"},{name:"Mohamed Abdel Azim (M)",role:"SV"}
-  ],
-  "Night": [
-    {name:"Hazem Nader (N)",role:"QT"},{name:"Mohamed Sayed (N)",role:"QT"},
-    {name:"Tony Emad (N)",role:"QT"},{name:"Omar Alaa (N)",role:""},
-    {name:"Marwan Mohamed (N)",role:"QT"},{name:"Ahmed Nagy (N)",role:"QT"},
-    {name:"Abdelrahman Adel (N)",role:"QT"},{name:"Ibrahim Mohamed Ibrahim (N)",role:""},
-    {name:"Hussein Ali (N)",role:""},{name:"Hesham Hassan (N)",role:""},
-    {name:"Mahmoud Khaled (N)",role:""},{name:"Ali Suliman (N)",role:""},
-    {name:"Mostafa Helal (N)",role:""},{name:"Osama Ashraf (N)",role:""},
-    {name:"Mahmoud Adel (N)",role:""},{name:"Abdelrahman Omar (N)",role:""},
-    {name:"Abdelrahman Tarek Abdo (N)",role:""},{name:"Amr Alaa (N)",role:""},
-    {name:"Mark Ashraf (N)",role:""},{name:"Mohamed Waleed Kotp (N)",role:""},
-    {name:"Ahmed Ashraf (N)",role:""},{name:"Awad Wagdy (N)",role:""},
-    {name:"Yousef Ramdan (N)",role:""},{name:"Takey Eldin Mohamed (N)",role:""},
-    {name:"Abdelrahman Ahmed (N)",role:""},{name:"Mahmoud Nabil (N)",role:""},
-    {name:"Mazen Mohamed (N)",role:""},
-    {name:"Youssef Saeed Mohamed (N)",role:""},{name:"Al Baraa Mahmoud (N)",role:""},
-    {name:"Wessam Abd El Salam (N)",role:""},{name:"Mohamed Ali (N)",role:""},
-    {name:"Mohamed Medhat (N)",role:""},{name:"Bakry Mohamed (N)",role:""},
-    {name:"Mohamed Salem (N)",role:"SSV"},{name:"Yousef Ahmed Eliwa (N)",role:"SV"},
-    {name:"Amr Essam (N)",role:"SV"},{name:"Shehab Ayman (N)",role:"SV"},{name:"Eslam Salah (N)",role:"SV"}
-  ],
-  "Over Night": [
-    {name:"Omar Sharawy (ON)",role:"QT"},{name:"Mohamed Ibrahim (ON)",role:"QT"},
-    {name:"Hesham Nasser (ON)",role:"QT"},{name:"Mohamed Emam (ON)",role:"QT"},
-    {name:"Seif Waled (ON)",role:"QT"},{name:"El Noby (ON)",role:""},
-    {name:"Bahi Hussien (ON)",role:""},{name:"Abd El Rahman Ibrahiem (ON)",role:""},
-    {name:"Ahmed Nagia (ON)",role:""},{name:"Abdalla Barbary (ON)",role:""},
-    {name:"Mohamed Zakaria (ON)",role:""},{name:"Samer Neseim (ON)",role:""},
-    {name:"Eyad Mohamed (ON)",role:""},{name:"Mahmoud Khaled Hussien (ON)",role:""},
-    {name:"Mohamed Nasr (ON)",role:""},{name:"Shreif Hossam (ON)",role:""},
-    {name:"Mohamed Sobhy (ON)",role:""},{name:"Youssef Reda (ON)",role:""},
-    {name:"Karim Gaber (ON)",role:""},{name:"Yousef Fathy (ON)",role:""},
-    {name:"Yousef Saad (ON)",role:""},{name:"Ahmed Samir Mohamed (ON)",role:""},
-    {name:"Mostafa Mahmoud Mohamed (ON)",role:""},{name:"Mahmoud Ahmed Salama (ON)",role:""},
-    {name:"Medhat Mohamed Fathy (ON)",role:""},{name:"Karim Mohamed (ON)",role:""},
-    {name:"Amr Wael Sayed (ON)",role:""},{name:"Mohamed Hafez (ON)",role:""},
-    {name:"Mohamed Fathy (ON)",role:""},{name:"Hassan Ayman Hassan (ON)",role:""},
-    {name:"Ahmed Taha (ON)",role:""},{name:"Eslam Ashraf (ON)",role:""},
-    {name:"Amr Hany (ON)",role:""},
-    {name:"Ahmed Sobhy (ON)",role:""},{name:"Hossam Taha (ON)",role:""},
-    {name:"Shehab Alaa (ON)",role:""},{name:"Yousef Saber (ON)",role:""},
-    {name:"Eslam Khaled (ON)",role:"SV"},{name:"Mahmoud Mohamed Mousa (ON)",role:"SV"},{name:"ATITO (ON)",role:"SV"}
-  ]
-};
+// ============================================================
+// QTC_DATA — دلوقتي بتتقرا لايف من شيتات "Morning QTC" / "Night QTC" /
+// "Over Night QTC" عن طريق GAS_WEBAPP_URL (شوف loadQTCData تحت).
+// الأوبجكت هنا بيفضل فاضي لحد ما البيانات توصل من الشيت؛ لو الفورم
+// فتح والنت بطيء أو الرابط لسه متظبطش، هيفضل فاضي وهيبان تحذير بسيط.
+// ============================================================
+var QTC_DATA = {};
 
 var selectedQTC = null, linkTaskId = "", linkPassVal = "";
 var autoFilledQueue = false, autoFilledModality = false;
@@ -1696,13 +1643,20 @@ ykIn.addEventListener("keydown",function(e){
   else if(e.key==="Escape"){ykAcL.classList.remove("open");ykActive=-1;}
 });
 
+var qtcDataLoaded = false;
 function buildQTCGrid(shift){
   var grid=document.getElementById("qtcGrid"),disp=document.getElementById("qtcSelectedDisplay"),
       wrap=document.getElementById("qtcPickerWrap"),msg=document.getElementById("qtcShiftMsg"),
       hid=document.getElementById("qtcName");
   selectedQTC=null;hid.value="";disp.innerHTML="";grid.innerHTML="";
   var list=QTC_DATA[shift];
-  if(!list){wrap.style.display="none";msg.style.display="block";return;}
+  if(!list){
+    wrap.style.display="none";msg.style.display="block";
+    msg.innerHTML = qtcDataLoaded
+      ? "&#9432; Please select a QTC Shift first to view available names."
+      : "&#9432; بيتم تحميل الأسماء... Loading names...";
+    return;
+  }
   msg.style.display="none";wrap.style.display="block";
   list.forEach(function(p){
     var card=document.createElement("div");card.className="qtc-card";
@@ -1726,6 +1680,145 @@ document.getElementById("qtcSearch").addEventListener("input",function(){
     var name=card.querySelector(".qtc-name").textContent.toLowerCase();
     card.style.display=(q===""||name.indexOf(q)>-1)?"":"none";
   });
+});
+
+// ══════════════════════════════════════════════════════════════
+// LIVE DATA — القراءة من شيتات Morning/Night/Over Night QTC + Queue List
+// عن طريق الـ Apps Script Web App (GAS_WEBAPP_URL)
+// أي تعديل (إضافة/حذف اسم أو Queue) في الشيتات هيبان في الفورم من
+// غير ما حد يلمس الكود خالص.
+// ══════════════════════════════════════════════════════════════
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, function(c){
+    return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c];
+  });
+}
+
+// بيلف الجزء اللي محتاج يتلون (highlight) جوه اسم الـ Queue بـ <span class="hl">
+function buildQueueLiHTML(name, highlight){
+  var safeName = escapeHtml(name);
+  if(!highlight) return safeName;
+  var idx = name.toLowerCase().indexOf(highlight.toLowerCase());
+  if(idx < 0) return safeName;
+  var before = escapeHtml(name.slice(0, idx));
+  var mid    = escapeHtml(name.slice(idx, idx + highlight.length));
+  var after  = escapeHtml(name.slice(idx + highlight.length));
+  return before + '<span class="hl">' + mid + '</span>' + after;
+}
+
+// بيعيد بناء حقل Queue Name بالكامل ببيانات جديدة، وبيعمل reset لكل
+// الـ event listeners بتاعته عشان ميحصلش تكرار (duplicate binding)
+function renderQueueList(items){
+  var wrap = document.getElementById("queueFieldWrap");
+  if(!wrap || !items) return;
+
+  var prevValue = document.getElementById("qName") ? document.getElementById("qName").value : "";
+
+  var liHtml = items.length
+    ? items.map(function(it){
+        return '<li data-v="' + escapeHtml(it.name) + '">' + buildQueueLiHTML(it.name, it.highlight) + '</li>';
+      }).join("")
+    : '<li class="sdl-empty" style="opacity:.6;pointer-events:none;">No queues available</li>';
+
+  wrap.innerHTML =
+    '<div class="sdb" id="queueBtn" tabindex="0">' +
+      '<span class="sd-display" id="queueDisplay"></span>' +
+      '<input class="sd-input" id="queueInput" placeholder="Select Queue..." autocomplete="off" data-lpignore="true">' +
+      '<span class="sd-arrow"></span>' +
+    '</div>' +
+    '<ul class="sdl" id="queueList">' + liHtml + '</ul>' +
+    '<input type="hidden" id="qName">';
+
+  queueDD = makeSearchableDropdown({btnId:"queueBtn", inputId:"queueInput", listId:"queueList", hiddenId:"qName", displayId:"queueDisplay"});
+  if(prevValue) queueDD.setValue(prevValue);
+}
+
+// ══════════════════════════════════════════════════════════════
+// FAST LOAD — بدل نداءين منفصلين لـ Apps Script (queue + qtc)، بقى
+// نداء واحد بس (action=all) وده بيقلل زمن الانتظار تقريبًا للنص.
+// كمان بنحفظ آخر بيانات نزلت في localStorage، وأول ما الفورم يفتح
+// بنعرضها فورًا (من غير أي "Loading names...") وفي نفس الوقت بنجيب
+// النسخة الجديدة من الشيت في الخلفية وبنحدث الشاشة لو فيه فرق.
+// النتيجة: التحضير بيبان فورًا من أول فتح تاني للفورم، وأي تعديل
+// في شيت الـ QTC أو الـ Queue List بيوصل خلال ثواني قليلة تلقائيًا.
+// ══════════════════════════════════════════════════════════════
+var NK_FORM_DATA_CACHE = "meti_form_data_cache_v1";
+
+function applyFormData(data){
+  if(!data || typeof data !== "object") return;
+  if(data.qtc && typeof data.qtc === "object"){
+    QTC_DATA = data.qtc;
+    qtcDataLoaded = true;
+    var currentShift = document.getElementById("qtcShiftSel") ? document.getElementById("qtcShiftSel").value : "";
+    if(currentShift) buildQTCGrid(currentShift);
+  }
+  if(Array.isArray(data.queue)){
+    renderQueueList(data.queue);
+  }
+}
+
+function loadAllFormData(){
+  // 1) اعرض فورًا آخر نسخة محفوظة (لو موجودة) عشان الفورم يبان جاهز على طول
+  try {
+    var cachedRaw = localStorage.getItem(NK_FORM_DATA_CACHE);
+    if(cachedRaw){
+      applyFormData(JSON.parse(cachedRaw));
+    }
+  } catch(e) { /* تجاهل أي خطأ في الكاش */ }
+
+  if(!GAS_WEBAPP_URL || GAS_WEBAPP_URL.indexOf("AKfycb...") > -1) return; // لسه مفيش رابط متظبط
+
+  // 2) في نفس الوقت، هات النسخة الأحدث من الشيت وحدث الشاشة والكاش
+  fetch(GAS_WEBAPP_URL + "?action=all", { cache: "no-store" })
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      applyFormData(data);
+      try { localStorage.setItem(NK_FORM_DATA_CACHE, JSON.stringify(data)); } catch(e) {}
+    })
+    .catch(function(){ /* لو فشل، هيفضل شغال بالكاش أو بالقائمة الافتراضية جوه الـ HTML */ });
+}
+
+loadAllFormData();
+
+// ══════════════════════════════════════════════════════════════
+// SCROLL RESTORE — عشان أي Reload للصفحة ميرميش المستخدم لفوق،
+// بنحفظ مكان الـ Scroll أول بأول وبنرجعه تلقائيًا بعد التحميل
+// ══════════════════════════════════════════════════════════════
+if("scrollRestoration" in history) history.scrollRestoration = "manual";
+
+var NK_SCROLL_POS = "meti_scroll_pos_v1";
+
+(function(){
+  var saveTimer = null;
+  function saveScroll(){
+    try { sessionStorage.setItem(NK_SCROLL_POS, String(window.scrollY)); } catch(e) {}
+  }
+  window.addEventListener("scroll", function(){
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveScroll, 150);
+  }, { passive: true });
+  window.addEventListener("beforeunload", saveScroll);
+
+  function restoreScroll(){
+    var y = 0;
+    try { y = parseInt(sessionStorage.getItem(NK_SCROLL_POS), 10) || 0; } catch(e) {}
+    if(y > 0) window.scrollTo(0, y);
+  }
+  // بنحاول نرجع المكان أكتر من مرة عشان لو المحتوى (Queue/QTC) اتحمل
+  // بعدين وغيّر طول الصفحة، الـ Scroll يفضل صح
+  restoreScroll();
+  setTimeout(restoreScroll, 100);
+  setTimeout(restoreScroll, 400);
+  window.addEventListener("load", restoreScroll);
+})();
+
+// كل 20 ثانية، هات آخر نسخة من الشيت تلقائيًا من غير ما المستخدم يعمل Refresh
+// (لو التاب فاتح من قبل التعديل، هيتحدث لوحده)
+setInterval(loadAllFormData, 20000);
+
+// كمان لما المستخدم يرجع للتاب بعد ما يكون سايبها (تبديل تاب/نافذة)، حدّث فورًا
+document.addEventListener("visibilitychange", function(){
+  if(document.visibilityState === "visible") loadAllFormData();
 });
 
 // ══════════════════════════════════════════════════════════════
