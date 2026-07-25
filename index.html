@@ -1644,10 +1644,12 @@ ykIn.addEventListener("keydown",function(e){
 });
 
 var qtcDataLoaded = false;
-function buildQTCGrid(shift){
+function buildQTCGrid(shift, preserveName){
   var grid=document.getElementById("qtcGrid"),disp=document.getElementById("qtcSelectedDisplay"),
       wrap=document.getElementById("qtcPickerWrap"),msg=document.getElementById("qtcShiftMsg"),
       hid=document.getElementById("qtcName");
+  // لو مبعتش اسم نحافظ عليه، حافظ على اللي متختار حاليًا (لو أي) بدل ما يتمسح
+  var keepName = (preserveName !== undefined) ? preserveName : selectedQTC;
   selectedQTC=null;hid.value="";disp.innerHTML="";grid.innerHTML="";
   var list=QTC_DATA[shift];
   if(!list){
@@ -1658,19 +1660,24 @@ function buildQTCGrid(shift){
     return;
   }
   msg.style.display="none";wrap.style.display="block";
+
+  function selectCard(card,p){
+    grid.querySelectorAll(".qtc-card.selected").forEach(function(c){c.classList.remove("selected");c.querySelector(".qtc-check").textContent="";});
+    card.classList.add("selected");card.querySelector(".qtc-check").textContent="\u2713";
+    selectedQTC=p.name;hid.value=selectedQTC;disp.innerHTML="";
+    var tag=document.createElement("div");tag.className="qtc-tag";
+    tag.innerHTML=selectedQTC+'<button type="button" title="Clear">\u2715</button>';
+    tag.querySelector("button").addEventListener("click",function(){selectedQTC=null;hid.value="";disp.innerHTML="";card.classList.remove("selected");card.querySelector(".qtc-check").textContent="";});
+    disp.appendChild(tag);
+  }
+
   list.forEach(function(p){
     var card=document.createElement("div");card.className="qtc-card";
     card.innerHTML='<div class="qtc-check"></div><div><div class="qtc-name">'+p.name+'</div>'+(p.role?'<div class="qtc-role">'+p.role+'</div>':'')+'</div>';
-    card.addEventListener("click",function(){
-      grid.querySelectorAll(".qtc-card.selected").forEach(function(c){c.classList.remove("selected");c.querySelector(".qtc-check").textContent="";});
-      card.classList.add("selected");card.querySelector(".qtc-check").textContent="\u2713";
-      selectedQTC=p.name;hid.value=selectedQTC;disp.innerHTML="";
-      var tag=document.createElement("div");tag.className="qtc-tag";
-      tag.innerHTML=selectedQTC+'<button type="button" title="Clear">\u2715</button>';
-      tag.querySelector("button").addEventListener("click",function(){selectedQTC=null;hid.value="";disp.innerHTML="";card.classList.remove("selected");card.querySelector(".qtc-check").textContent="";});
-      disp.appendChild(tag);
-    });
+    card.addEventListener("click",function(){ selectCard(card,p); });
     grid.appendChild(card);
+    // رجّع نفس الاختيار القديم لو الاسم لسه موجود في القايمة الجديدة
+    if(keepName && p.name === keepName){ selectCard(card,p); }
   });
 }
 document.getElementById("qtcShiftMsg").style.display="block";
@@ -1747,10 +1754,15 @@ var NK_FORM_DATA_CACHE = "meti_form_data_cache_v1";
 function applyFormData(data){
   if(!data || typeof data !== "object") return;
   if(data.qtc && typeof data.qtc === "object"){
+    var newQtcStr = JSON.stringify(data.qtc);
+    var qtcChanged = newQtcStr !== JSON.stringify(QTC_DATA);
     QTC_DATA = data.qtc;
     qtcDataLoaded = true;
     var currentShift = document.getElementById("qtcShiftSel") ? document.getElementById("qtcShiftSel").value : "";
-    if(currentShift) buildQTCGrid(currentShift);
+    // كنا بنعمل rebuild للكروت في كل مرة (كل 20 ثانية + كل رجوع للتاب)
+    // وده كان بيمسح اختيار المستخدم ويعمل قفزة سكرول.
+    // دلوقتي: rebuild بس لو البيانات فعلاً اتغيرت، ونحافظ على الاسم المختار.
+    if(currentShift && qtcChanged) buildQTCGrid(currentShift, selectedQTC);
   }
   if(Array.isArray(data.queue)){
     renderQueueList(data.queue);
