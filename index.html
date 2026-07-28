@@ -949,15 +949,25 @@ input[type=number] { -moz-appearance:textfield }
               </div>
             </div>
           </div>
-          <div class="full field">
-            <label>Labeler Name <span class="req">*</span></label>
-            <div class="acw">
-              <input type="text" id="labName" placeholder="Start typing a name..." required autocomplete="off" data-lpignore="true" inputmode="text">
-              <ul class="acl" id="acList"></ul>
+          <div class="g2">
+            <div class="field">
+              <label>Labeler Name <span class="req">*</span></label>
+              <div class="acw">
+                <input type="text" id="labName" placeholder="Start typing a name..." required autocomplete="off" data-lpignore="true" inputmode="text">
+                <ul class="acl" id="acList"></ul>
+              </div>
+              <div id="labNameWarn" class="warn-box">
+                <span class="warn-icon">&#9888;</span>
+                <span>اسمك باللغه الانجلزيه</span>
+              </div>
             </div>
-            <div id="labNameWarn" class="warn-box">
-              <span class="warn-icon">&#9888;</span>
-              <span>اسمك باللغه الانجلزيه</span>
+            <div class="field">
+              <label>National ID <span class="req">*</span></label>
+              <input type="text" id="natId" placeholder="e.g. 30001011234567" required autocomplete="off" data-lpignore="true" inputmode="numeric" maxlength="14">
+              <div id="natIdWarn" class="warn-box">
+                <span class="warn-icon">&#9888;</span>
+                <span>الرقم القومي لازم يكون 14 رقم بالظبط</span>
+              </div>
             </div>
           </div>
           <div class="g2">
@@ -1266,6 +1276,7 @@ var NK_UNIT     = "meti_unit_history";
 var NK_LAST_LAB = "meti_last_labeler";
 var NK_LAST_PC  = "meti_last_pc";
 var NK_LAST_YK  = "meti_last_yk";
+var NK_LAST_NATID = "meti_last_natid";
 var NK_QTC_SHIFT = "meti_qtc_shift_last";
 
 function buildRow(b) {
@@ -1276,6 +1287,7 @@ function buildRow(b) {
     qtc_name:      b.qtcName      || "",
     yubikey_email: b.yubikeyEmail || "",
     labeler_name:  b.labelerName  || "",
+    national_id:   b.nationalId   || "",
     pc_no:         b.pcNo         || "",
     modality:      b.modality     || "",
     queue_name:    b.queueName    || "",
@@ -1460,7 +1472,7 @@ function tick() {
 tick(); setInterval(tick,1000);
 
 function updateProgress() {
-  var fields=["shift","unit","pcNo","labName","yk","modality","taskLink","taskId","pass","qtcName","objCount","stageField"];
+  var fields=["shift","unit","pcNo","labName","natId","yk","modality","taskLink","taskId","pass","qtcName","objCount","stageField"];
   var filled=fields.filter(function(id){var el=document.getElementById(id);return el&&el.value&&el.value.trim();}).length;
   document.getElementById("progressBar").style.width=Math.round(filled/fields.length*100)+"%";
 }
@@ -1476,6 +1488,14 @@ document.getElementById("labName").addEventListener("input",function(){
   this.style.borderColor=hasNonEng?"var(--error)":(v.trim()?"#1a8a5a":"");
   this.style.boxShadow=hasNonEng?"0 0 0 3px rgba(192,57,43,.1)":"";
   document.getElementById("labNameWarn").style.display=hasNonEng?"flex":"none";
+});
+
+document.getElementById("natId").addEventListener("input",function(){
+  this.value=this.value.replace(/\D/g,"").slice(0,14);
+  var v=this.value, bad=v.length>0&&v.length!==14;
+  this.style.borderColor=bad?"var(--error)":(v.length===14?"#1a8a5a":"");
+  this.style.boxShadow=bad?"0 0 0 3px rgba(192,57,43,.1)":"";
+  document.getElementById("natIdWarn").style.display=bad?"flex":"none";
 });
 
 document.getElementById("taskId").addEventListener("input",function(){
@@ -2043,6 +2063,7 @@ document.getElementById("F").addEventListener("submit",function(e){
     else{document.getElementById(btnId).style.borderColor="";document.getElementById(btnId).style.boxShadow="";}
   }
   var lab=document.getElementById("labName").value.trim(),lnk=document.getElementById("taskLink").value.trim(),yk=document.getElementById("yk").value.trim(),obj=document.getElementById("objCount").value;
+  var natId=document.getElementById("natId").value.trim();
   chkDD("shift","shiftBtn"); chkDD("unit","unitBtn");
   var pcVal=document.getElementById("pcNo").value.trim();
   if(!pcVal){me("pcNo");err=true;}
@@ -2055,6 +2076,9 @@ else if(/^buffer$/i.test(pcVal)){document.getElementById("pcNo").value="Buffer";
   if(!lab){me("labName");err=true;}
   else if(!/^[a-zA-Z\s]+$/.test(lab)){me("labName");err=true;toast("Labeler Name: English letters only","err");return;}
   else{ce("labName");}
+  if(!natId){me("natId");err=true;}
+  else if(!/^\d{14}$/.test(natId)){me("natId");err=true;toast("National ID: لازم يكون 14 رقم بالظبط","err");return;}
+  else{ce("natId");}
   chkDD("qtcShiftSel","qtcShiftBtn");
   if(!document.getElementById("qtcName").value){var w=document.getElementById("qtcPickerWrap");w.style.border="1.5px solid var(--error)";w.style.borderRadius="8px";w.style.padding="8px";err=true;}
   else{var w2=document.getElementById("qtcPickerWrap");w2.style.border="";w2.style.padding="";}
@@ -2095,10 +2119,11 @@ else if(/^buffer$/i.test(pcVal)){document.getElementById("pcNo").value="Buffer";
   localStorage.setItem(NK_LAST_LAB, lab);
   localStorage.setItem(NK_LAST_PC, document.getElementById("pcNo").value);
   localStorage.setItem(NK_LAST_YK, yk);
+  localStorage.setItem(NK_LAST_NATID, natId);
   var payload={
     timestamp:document.getElementById("ts").value, shift:document.getElementById("shift").value,
     unit:document.getElementById("unit").value, qtcName:document.getElementById("qtcName").value,
-    yubikeyEmail:yk, labelerName:lab, pcNo:document.getElementById("pcNo").value,
+    yubikeyEmail:yk, labelerName:lab, nationalId:natId, pcNo:document.getElementById("pcNo").value,
     modality:document.getElementById("modality").value, queueName:document.getElementById("qName").value,
     taskLink:lnk, taskId:taskIdVal, pass:document.getElementById("pass").value,
     stage:stageVal, objectCount:obj
@@ -2133,6 +2158,7 @@ function resetForm(){
   document.getElementById("linkShortIdWarn").style.display="none";
   document.getElementById("linkArabicWarn").style.display="none";
   document.getElementById("labNameWarn").style.display="none";
+  document.getElementById("natIdWarn").style.display="none";
   document.getElementById("passWarn").style.display="none";
   var pIconR=document.getElementById("passIcon");
   if(pIconR){pIconR.textContent="\u2014";pIconR.style.color="";pIconR.style.opacity=".4";}
@@ -2158,7 +2184,9 @@ function resetForm(){
   if(lastPC)  { document.getElementById("pcNo").value=lastPC; validatePC(lastPC); }
   var lastYK=localStorage.getItem(NK_LAST_YK);
 if(lastYK){ document.getElementById("yk").value=lastYK; validateYK(lastYK); }
-  ["labName","yk","pcNo"].forEach(function(id){
+  var lastNatId=localStorage.getItem(NK_LAST_NATID);
+  if(lastNatId) document.getElementById("natId").value=lastNatId;
+  ["labName","yk","pcNo","natId"].forEach(function(id){
     var el=document.getElementById(id);
     if(el){el.classList.remove("err-field");el.style.borderColor="";el.style.boxShadow="";}
   });
@@ -2218,6 +2246,8 @@ renderCounter();
   if(lastPC)       { document.getElementById("pcNo").value = lastPC; validatePC(lastPC); }
   var lastYK = localStorage.getItem(NK_LAST_YK);
 if(lastYK) { document.getElementById("yk").value = lastYK; validateYK(lastYK); }
+  var lastNatId = localStorage.getItem(NK_LAST_NATID);
+  if(lastNatId) document.getElementById("natId").value = lastNatId;
 })();
 
 (function(){
